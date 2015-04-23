@@ -1,5 +1,8 @@
 #!/usr/bin/env python
 
+__version__ = '1.0'
+__authors__ = ['Guillaume Philippon <guillaume.philippon@lal.in2p3.fr>']
+
 from itopapi import ItopapiRack
 import argparse
 
@@ -21,6 +24,7 @@ racks.password = options.password
 racks.username = options.username
 
 response = racks.list_command()
+print response
 print '#' * 80
 print 'List Available operations'
 for operation in response['operations']:
