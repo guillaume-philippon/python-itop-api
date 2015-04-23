@@ -20,15 +20,15 @@ class ItopapiPrototype(object):
     """
     Standard interface with iTop
     """
-    def __init__(self):
-        self.hostname = None
-        self.api_suffix = '/webservices/rest.php'
-        self.version = '1.0'
-        self.username = None
-        self.password = None
+    def __init__(self, config):
+        self.hostname = config['hostname']
+        self.api_suffix = config['api_suffix']
+        self.version = config['version']
+        self.username = config['username']
+        self.password = config['password']
         self.itop = {}
-        self.protocol = 'https'
-        self.base_suffix = ''
+        self.protocol = config['protocol']
+        self.base_suffix = config['base_uri']
 
     def _uri_(self):
         """
@@ -44,7 +44,7 @@ class ItopapiPrototype(object):
         """
         Build a URLEncoded JSON file
         :param json_data:
-        :return:
+        :return: urlib
         """
         return urllib.urlencode({
             'version': self.version,
@@ -53,7 +53,12 @@ class ItopapiPrototype(object):
             'json_data': json_data
         })
 
+    # TODO: list_command must be a @staticmethod
     def list_command(self):
+        """
+        List all operations available by REST API
+        :return: dict
+        """
         json_data = json.dumps({
             'operation': 'list_operations'
         })
@@ -62,6 +67,10 @@ class ItopapiPrototype(object):
         return json.loads(urllib2.urlopen(uri, params).read())
 
     def list_objects(self):
+        """
+        List all objects from child class
+        :return: dict
+        """
         json_data = json.dumps({
             'operation': 'core/get',
             'class': self.itop['name'],
