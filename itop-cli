@@ -118,7 +118,7 @@ def main():
         print 'List all {0}'.format(itop_class)
         try:
             for information in data['objects']:
-                data['objects'][information]['fields']['friendlyname']
+                print data['objects'][information]['fields']['friendlyname']
         except:
             pass
 
