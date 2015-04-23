@@ -117,7 +117,7 @@ def main():
         print '#'*25
         print 'List all {0}'.format(itop_class)
         try:
-            for information in data:
+            for information in data['objects']:
                 obj['objects'][information]['fields']['friendlyname']
         except:
             pass
