@@ -39,7 +39,7 @@ class ItopapiPrototype(object):
         json_data = json.dumps({
             'operation': 'core/get',
             'class': self.itop_name,
-            'key': 'SELECT Rack',
+            'key': 'SELECT {0}'.format(self.itop_name),
         })
         uri = 'https://{0}{1}'.format(self.hostname, self.api_suffix)
         params = self._params_(json_data)
