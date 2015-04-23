@@ -22,11 +22,12 @@ def main():
     # Load CLI args #
     #################
     parse = argparse.ArgumentParser(description="python CLI for iTop REST api")
-    parse.add_argument('--hostname', dest='hostname', help='URI of rest API of itop')
+    parse.add_argument('--hostname', dest='hostname', help='hostname of iTop server')
     parse.add_argument('--username', dest='username', help='Username')
     parse.add_argument('--password', dest='password', help='Password')
     parse.add_argument('--config', dest='config_file', help='Configuration file',
                        default='./itop-cli.cfg')
+    parse.add_argument('--list', dest='classes', nargs='*', help='Display information about classes')
     options = parse.parse_args()
 
     #################
@@ -104,40 +105,22 @@ def main():
         'api_suffix': api_suffix
     }
 
-    #############
-    # Rack list #
-    #############
-    racks = ItopapiRack(config)
-    response = racks.list_command()
-    print response
-    print '#' * 80
-    print 'List Available operations'
-    for operation in response['operations']:
-        print 'Action: {0}'.format(operation['verb'])
-    print '#' * 80
-
-    itop_racks = racks.list_objects()
-    print 'List Racks'
-    try:
-        for rack in itop_racks['objects']:
-            print itop_racks['objects'][rack]['fields']['friendlyname']
-        print '#' * 80
-    except:
-        pass
-
-    ###############
-    # Server list #
-    ###############
-    servers = ItopapiServer(config)
-    itop_servers = servers.list_objects()
-    print 'List Servers'
-
-    try:
-        for server in itop_servers['objects']:
-            print itop_servers['objects'][server]['fields']['friendlyname']
-        print '#' * 80
-    except:
-        pass
+    for itop_class in options.classes:
+        if itop_class == "rack":
+            obj = ItopapiRack(config)
+        elif itop_class == "server":
+            obj == ItopapiServer(config)
+        else:
+            print "Class not found"
+            exit(1)
+        data = obj.list_objects()
+        print '#'*25
+        print 'List all {0}'.format(itop_class)
+        try:
+            for information in data:
+                obj['objects'][information]['fields']['friendlyname']
+        except:
+            pass
 
 if __name__ == "__main__":
     main()
