@@ -1,0 +1,30 @@
+#!/usr/bin/env python
+
+from itopapi import ItopapiRack
+import argparse
+
+parse = argparse.ArgumentParser(description="python CLI for iTop REST api")
+parse.add_argument('--hostname', dest='hostname', help='URI of rest API of itop')
+# if you use https://itop.domain.com hostname is itop.domain.com
+# if you use https://itop.domain.com/itop hostname is itop.domain.com/itop
+parse.add_argument('--username', dest='username', help='Username')
+parse.add_argument('--password', dest='password', help='Password')
+options = parse.parse_args()
+
+racks = ItopapiRack()
+racks.hostname = options.hostname
+racks.password = options.password
+racks.username = options.username
+
+response = racks.list_command()
+print '#' * 80
+print 'List Available operations'
+for operation in response['operations']:
+    print 'Action: {0}'.format(operation['verb'])
+print '#' * 80
+
+itop_racks = racks.list_objects()
+print 'List Racks'
+for rack in itop_racks['objects']:
+    print itop_racks['objects'][rack]['fields']['friendlyname']
+print '#' * 80
