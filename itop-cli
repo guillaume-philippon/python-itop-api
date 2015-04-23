@@ -10,8 +10,8 @@ parse.add_argument('--password', dest='password', help='Password')
 options = parse.parse_args()
 
 racks = ItopapiRack()
-# Protocole ( http / https)
-racks.protocole = 'https'
+# Protocol ( http / https)
+racks.protocol = 'https'
 # hostname of server
 racks.hostname = options.hostname
 # suffix to add to access to http instance (https://itop.domain.com/itop per example)
