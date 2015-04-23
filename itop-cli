@@ -109,7 +109,7 @@ def main():
         if itop_class == "rack":
             obj = ItopapiRack(config)
         elif itop_class == "server":
-            obj == ItopapiServer(config)
+            obj = ItopapiServer(config)
         else:
             print "Class not found"
             exit(1)
