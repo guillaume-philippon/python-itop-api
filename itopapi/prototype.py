@@ -12,12 +12,12 @@ class ItopapiUnimplementedMethod(Exception):
 
 class ItopapiPrototype(object):
     def __init__(self):
-        self.hostname = None;
-        self.api_suffix = '/webservices/rest.php';
-        self.version = '1.0';
-        self.username = None;
-        self.password = None;
-        self.itop_name = None;
+        self.hostname = None
+        self.api_suffix = '/webservices/rest.php'
+        self.version = '1.0'
+        self.username = None
+        self.password = None
+        self.itop_name = None
         self.protocole = 'https'
         self.base_suffix = '/itop'
 
