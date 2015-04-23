@@ -5,14 +5,18 @@ import argparse
 
 parse = argparse.ArgumentParser(description="python CLI for iTop REST api")
 parse.add_argument('--hostname', dest='hostname', help='URI of rest API of itop')
-# if you use https://itop.domain.com hostname is itop.domain.com
-# if you use https://itop.domain.com/itop hostname is itop.domain.com/itop
 parse.add_argument('--username', dest='username', help='Username')
 parse.add_argument('--password', dest='password', help='Password')
 options = parse.parse_args()
 
 racks = ItopapiRack()
+# Protocole ( http / https)
+racks.protocole = 'https'
+# hostname of server
 racks.hostname = options.hostname
+# suffix to add to access to http instance (https://itop.domain.com/itop per example)
+racks.base_suffix = '/itop'
+# username & password
 racks.password = options.password
 racks.username = options.username
 
