@@ -1,3 +1,5 @@
+# -*- coding: utf8 -*-fr
+
 """
 Import all class needed
 """

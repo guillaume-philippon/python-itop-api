@@ -1,3 +1,5 @@
+# -*- coding: utf8 -*-fr
+
 """
 ItopapiRack is a abstraction of Rack representation on iTop
 """

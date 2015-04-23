@@ -1,3 +1,5 @@
+# -*- coding: utf8 -*-fr
+
 """
 Prototype is a empty class which define all needed method
 """
