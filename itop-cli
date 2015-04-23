@@ -3,7 +3,7 @@
 __version__ = '1.0'
 __authors__ = ['Guillaume Philippon <guillaume.philippon@lal.in2p3.fr>']
 
-from itopapi import ItopapiRack
+from itopapi import ItopapiRack, ItopapiServer
 import argparse
 
 parse = argparse.ArgumentParser(description="python CLI for iTop REST api")
@@ -33,6 +33,26 @@ print '#' * 80
 
 itop_racks = racks.list_objects()
 print 'List Racks'
-for rack in itop_racks['objects']:
-    print itop_racks['objects'][rack]['fields']['friendlyname']
-print '#' * 80
+try:
+    for rack in itop_racks['objects']:
+        print itop_racks['objects'][rack]['fields']['friendlyname']
+    print '#' * 80
+except:
+    pass
+
+servers = ItopapiServer()
+servers.protocol = 'https'
+servers.hostname = options.hostname
+servers.base_suffix = '/itop'
+servers.password = options.password
+servers.username = options.username
+
+itop_servers = servers.list_objects()
+print 'List Servers'
+
+try:
+    for server in itop_servers['objects']:
+        print itop_servers['objects'][server]['fields']['friendlyname']
+    print '#' * 80
+except:
+    pass
