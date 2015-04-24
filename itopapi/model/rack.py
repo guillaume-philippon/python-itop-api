@@ -4,7 +4,7 @@
 ItopapiRack is a abstraction of Rack representation on iTop
 """
 
-from itopapi.prototype import ItopapiPrototype
+from itopapi.model.prototype import ItopapiPrototype
 
 __version__ = '1.0'
 __authors__ = ['Guillaume Philippon <guillaume.philippon@lal.in2p3.fr>']

@@ -4,7 +4,7 @@
 ItopapiServers is a abstraction of Rack representation on iTop
 """
 
-from itopapi.prototype import ItopapiPrototype
+from itopapi.model.prototype import ItopapiPrototype
 
 __version__ = '1.0'
 __authors__ = ['Guillaume Philippon <guillaume.philippon@lal.in2p3.fr>']
@@ -20,3 +20,10 @@ class ItopapiServer(ItopapiPrototype):
         """
         super(ItopapiServer, self).__init__(config)
         self.itop['name'] = 'Server'
+
+    def load_from_json_quattor(self, json_quattor):
+        """
+        Create a ItopapiServer description based on quattor s JSON output
+        :param json_quattor: json
+        """
+        pass
