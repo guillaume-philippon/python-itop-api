@@ -9,8 +9,10 @@ __version__ = '1.0'
 __authors__ = ['Guillaume Philippon <guillaume.philippon@lal.in2p3.fr>']
 
 from itopapi import ItopapiRack, ItopapiServer
+from itopapi.view import QuattorJson
 import argparse
 import ConfigParser
+import json
 
 
 def main():
@@ -27,7 +29,10 @@ def main():
     parse.add_argument('--password', dest='password', help='Password')
     parse.add_argument('--config', dest='config_file', help='Configuration file',
                        default='./itop-cli.cfg')
-    parse.add_argument('--list', dest='classes', nargs='*', help='Display information about classes')
+    parse.add_argument('--list', dest='classes', nargs='*', help='Display information about'
+                                                                 ' classes')
+    parse.add_argument('--quattor-profile', dest='quattor_profile', help='JSON representation of'
+                                                                         ' quattor profile')
     options = parse.parse_args()
 
     #################
@@ -40,6 +45,7 @@ def main():
     base_uri = '/'
     api_version = '1.0'
     api_suffix = '/webservices/rest.php'
+    quattor_profile = None
 
     ##########################################
     # Value overwrited by configuration file #
@@ -84,6 +90,8 @@ def main():
         username = options.username
     if options.password is not None:
         password = options.password
+    if options.quattor_profile is not None:
+        quattor_profile = options.quattor_profile
 
     ####################
     # Some value check #
@@ -105,22 +113,37 @@ def main():
         'api_suffix': api_suffix
     }
 
-    for itop_class in options.classes:
-        if itop_class == "rack":
-            obj = ItopapiRack(config)
-        elif itop_class == "server":
-            obj = ItopapiServer(config)
-        else:
-            print "Class not found"
-            exit(1)
-        data = obj.list_objects()
-        print '#'*25
-        print 'List all {0}'.format(itop_class)
-        try:
-            for information in data['objects']:
-                print data['objects'][information]['fields']['friendlyname']
-        except:
-            pass
+    #####################################
+    # Retrieve quattor profile if asked #
+    #####################################
+    if quattor_profile is not None:
+        quattor = QuattorJson(quattor_profile)
+        print '*****\n' \
+              'Hostname : {0}\n' \
+              'IP : {1}\n' \
+              'Cores : {2}\n' \
+              'RAM : {3}\n' \
+              '*****'.format(quattor.hostname, quattor.ip, quattor.cpu, quattor.ram)
+
+    if options.classes is not None:
+        for itop_class in options.classes:
+            obj = None
+            if itop_class == "rack":
+                obj = ItopapiRack(config)
+            elif itop_class == "server":
+                obj = ItopapiServer(config)
+            else:
+                print "Class not found"
+                exit(1)
+            data = obj.list_objects()
+            print '#'*25
+            print 'List all {0}'.format(itop_class)
+            print json.dumps(data)
+            try:
+                for information in data['objects']:
+                    print data['objects'][information]['fields']['friendlyname']
+            except:
+                pass
 
 if __name__ == "__main__":
     main()
