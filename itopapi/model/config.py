@@ -13,7 +13,6 @@ class Config(object):
     static variables
     """
     hostname = None
-    version = None
     username = None
     password = None
     protocol = 'https'

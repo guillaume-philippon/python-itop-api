@@ -43,7 +43,7 @@ class ItopapiPrototype(object):
         :return: urlib
         """
         return urllib.urlencode({
-            'version': Config.version,
+            'version': Config.api_version,
             'auth_user': Config.username,
             'auth_pwd': Config.password,
             'json_data': json_data
