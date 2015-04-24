@@ -81,3 +81,21 @@ class ItopapiPrototype(object):
         uri = self._uri_()
         params = self._params_(json_data)
         return json.loads(urllib2.urlopen(uri, params).read())
+
+    def search_object(self, name):
+        """
+        Return the object by is name
+        :param name: string
+        :return: dict
+        """
+        json_data = json.dumps({
+            'operation': 'core/get',
+            'class': self.itop['name'],
+            'key': 'SELECT Servers' % name,
+        })
+        uri = self._uri_()
+        params = self._params_(json_data)
+        return json.loads(urllib2.urlopen(uri, params).read())
+
+    def dict(self):
+        raise ItopapiUnimplementedMethod()

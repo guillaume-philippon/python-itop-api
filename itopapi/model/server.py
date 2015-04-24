@@ -20,10 +20,5 @@ class ItopapiServer(ItopapiPrototype):
         """
         super(ItopapiServer, self).__init__(config)
         self.itop['name'] = 'Server'
-
-    def load_from_json_quattor(self, json_quattor):
-        """
-        Create a ItopapiServer description based on quattor s JSON output
-        :param json_quattor: json
-        """
-        pass
+        data = self.search_object('grid01.lal.in2p3.fr')
+        print data
