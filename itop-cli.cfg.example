@@ -6,6 +6,6 @@ hostname: itop.example.com
 username: demouser
 password: demopass
 protocol: https
-base_uri: /
+base_suffix: /
 api_version: 1.0
 api_suffix: /webservices/rest.php

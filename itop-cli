@@ -8,7 +8,7 @@ itop-cli is a basic CLI interface for iTop REST interface
 __version__ = '1.0'
 __authors__ = ['Guillaume Philippon <guillaume.philippon@lal.in2p3.fr>']
 
-from itopapi import ItopapiRack, ItopapiServer
+from itopapi.model import ItopapiRack, ItopapiServer, Config
 from itopapi.view import QuattorJson
 import argparse
 import ConfigParser
@@ -35,89 +35,64 @@ def main():
                                                                          ' quattor profile')
     options = parse.parse_args()
 
-    #################
-    # Default Value #
-    #################
-    hostname = None
-    username = None
-    password = None
-    protocol = 'https'
-    base_uri = '/'
-    api_version = '1.0'
-    api_suffix = '/webservices/rest.php'
-    quattor_profile = None
-
-    ##########################################
-    # Value overwrited by configuration file #
-    ##########################################
+    ###########################################
+    # Value overwritten by configuration file #
+    ###########################################
     config_parser = ConfigParser.ConfigParser()
     config_parser.read(options.config_file)
     try:
-        hostname = config_parser.get('main', 'hostname')
+        Config.hostname = config_parser.get('main', 'hostname')
     except ConfigParser.NoOptionError:
         pass
     try:
-        username = config_parser.get('main', 'username')
+        Config.username = config_parser.get('main', 'username')
     except ConfigParser.NoOptionError:
         pass
     try:
-        password = config_parser.get('main', 'password')
+        Config.password = config_parser.get('main', 'password')
     except ConfigParser.NoOptionError:
         pass
     try:
-        protocol = config_parser.get('main', 'protocol')
+        Config.protocol = config_parser.get('main', 'protocol')
     except ConfigParser.NoOptionError:
         pass
     try:
-        base_uri = config_parser.get('main', 'base_uri')
+        Config.base_suffix = config_parser.get('main', 'base_suffix')
     except ConfigParser.NoOptionError:
         pass
     try:
-        api_version = config_parser.get('main', 'api_version')
+        Config.api_version = config_parser.get('main', 'api_version')
     except ConfigParser.NoOptionError:
         pass
     try:
-        api_suffix = config_parser.get('main', 'api_suffix')
+        Config.api_suffix = config_parser.get('main', 'api_suffix')
     except ConfigParser.NoOptionError:
         pass
 
-    ###############################
-    # Value overwrite by CLI args #
-    ###############################
+    #################################
+    # Value overwritten by CLI args #
+    #################################
     if options.hostname is not None:
-        hostname = options.hostname
+        Config.hostname = options.hostname
     if options.username is not None:
-        username = options.username
+        Config.username = options.username
     if options.password is not None:
-        password = options.password
+        Config.password = options.password
     if options.quattor_profile is not None:
-        quattor_profile = options.quattor_profile
+        Config.quattor_profile = options.quattor_profile
 
     ####################
     # Some value check #
     ####################
-    if hostname is None or username is None or password is None:
+    if Config.hostname is None or Config.username is None or Config.password is None:
         print "Hostname/Username/Password missing"
         exit(1)
-
-    ############################
-    # Create config dictionary #
-    ############################
-    config = {
-        'hostname': hostname,
-        'username': username,
-        'password': password,
-        'protocol': protocol,
-        'base_uri': base_uri,
-        'version': api_version,
-        'api_suffix': api_suffix
-    }
 
     #####################################
     # Retrieve quattor profile if asked #
     #####################################
-    if quattor_profile is not None:
-        quattor = QuattorJson(quattor_profile)
+    if Config.quattor_profile is not None:
+        quattor = QuattorJson(Config.quattor_profile)
         print '*****\n' \
               'Hostname : {0}\n' \
               'IP : {1}\n' \
@@ -129,16 +104,15 @@ def main():
         for itop_class in options.classes:
             obj = None
             if itop_class == "rack":
-                obj = ItopapiRack(config)
+                obj = ItopapiRack()
             elif itop_class == "server":
-                obj = ItopapiServer(config)
+                obj = ItopapiServer()
             else:
                 print "Class not found"
                 exit(1)
             data = obj.list_objects()
             print '#'*25
-            print 'List all {0}'.format(itop_class)
-            print json.dumps(data)
+            print 'List all {0}(s)'.format(itop_class)
             try:
                 for information in data['objects']:
                     print data['objects'][information]['fields']['friendlyname']
