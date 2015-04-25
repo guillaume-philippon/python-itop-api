@@ -1,7 +1,7 @@
 # -*- coding: utf8 -*-fr
 
 from itopapi.view import QuattorView, ConsoleView
-from itopapi.model import ItopapiServer, ItopapiRack
+from itopapi.model import ItopapiServer, ItopapiRack, ItopapiOSFamily
 
 
 class UnknowItopClass(Exception):
@@ -22,16 +22,20 @@ class ItopapiController(object):
         self.data['ip'] = self.input_view.ip
         self.data['cpu'] = self.input_view.cpu
         self.data['ram'] = self.input_view.ram
+        self.data['organization'] = ""
+        self.data['serial'] = self.input_view.serial
 
     def load_from_model(self, itop_class):
         if itop_class == 'rack':
             self.model = ItopapiRack(self.config)
         elif itop_class == 'server':
             self.model = ItopapiServer(self.config)
+        elif itop_class == 'osfamily':
+            self.model = ItopapiOSFamily(self.config)
         else:
             raise UnknowItopClass()
         if self.model is not None:
-            print self.model
+            self.model.load('grid01.lal.in2p3.fr')
             self.data = self.model.dict()
 
     def display(self):

@@ -8,12 +8,9 @@ itop-cli is a basic CLI interface for iTop REST interface
 __version__ = '1.0'
 __authors__ = ['Guillaume Philippon <guillaume.philippon@lal.in2p3.fr>']
 
-from itopapi import ItopapiRack, ItopapiServer
-from itopapi.view import QuattorView
 from itopapi.controller import ItopapiController
 import argparse
 import ConfigParser
-import json
 
 
 def main():
@@ -34,7 +31,7 @@ def main():
     parse.add_argument('--config', dest='config_file',
                        help='Configuration file',
                        default='./itop-cli.cfg')
-    parse.add_argument('--list', dest='classes', nargs='*',
+    parse.add_argument('--classes', dest='classes', nargs='*',
                        help='Display information about classes')
     parse.add_argument('--quattor-profile', dest='quattor_profile',
                        help='JSON representation of quattor profile')
@@ -53,6 +50,7 @@ def main():
     api_version = '1.0'
     api_suffix = '/webservices/rest.php'
     quattor_profile = None
+    organization = None
 
     ##########################################
     # Value overwrited by configuration file #
@@ -99,6 +97,8 @@ def main():
         password = options.password
     if options.quattor_profile is not None:
         quattor_profile = options.quattor_profile
+    if options.organization is not None:
+        organization = options.organization
 
     ####################
     # Some value check #
@@ -117,7 +117,8 @@ def main():
         'protocol': protocol,
         'base_uri': base_uri,
         'version': api_version,
-        'api_suffix': api_suffix
+        'api_suffix': api_suffix,
+        'organization': organization
     }
 
     #####################################
@@ -133,26 +134,6 @@ def main():
             class_controller = ItopapiController(config)
             class_controller.load_from_model(itop_class)
             class_controller.display()
-
-    # if options.classes is not None:
-    #     for itop_class in options.classes:
-    #         obj = None
-    #         if itop_class == "rack":
-    #             obj = ItopapiRack(config)
-    #         elif itop_class == "server":
-    #             obj = ItopapiServer(config)
-    #         else:
-    #             print "Class not found"
-    #             exit(1)
-    #         data = obj.list_objects()
-    #         print '#'*25
-    #         print 'List all {0}'.format(itop_class)
-    #         print json.dumps(data)
-    #         try:
-    #             for information in data['objects']:
-    #                 print data['objects'][information]['fields']['friendlyname']
-    #         except:
-    #             pass
 
 if __name__ == "__main__":
     main()
