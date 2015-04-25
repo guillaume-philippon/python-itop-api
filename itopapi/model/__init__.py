@@ -9,4 +9,3 @@ __authors__ = ['Guillaume Philippon <guillaume.philippon@lal.in2p3.fr>']
 
 from itopapi.model.rack import ItopapiRack
 from itopapi.model.server import ItopapiServer
-from itopapi.model.config import Config

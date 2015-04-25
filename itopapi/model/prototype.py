@@ -6,7 +6,7 @@ Prototype is an empty class which defines all required methods for child classes
 import urllib2
 import urllib
 import json
-from itopapi.model.config import Config
+from itopapi.config import Config
 
 __version__ = '1.0'
 __authors__ = ['Guillaume Philippon <guillaume.philippon@lal.in2p3.fr>']
