@@ -33,7 +33,7 @@ class ItopapiPrototype(object):
         """
         return '{0}://{1}{2}{3}'.format(ItopapiConfig.protocol,
                                         ItopapiConfig.hostname,
-                                        ItopapiConfig.base_suffix,
+                                        ItopapiConfig.base_uri,
                                         ItopapiConfig.api_suffix)
 
     def _params_(self, json_data):
@@ -73,7 +73,6 @@ class ItopapiPrototype(object):
             'key': 'SELECT {0}'.format(self.itop['name']),
         })
         uri = self._uri_()
-
         params = self._params_(json_data)
         return json.loads(urllib2.urlopen(uri, params).read())
 

@@ -14,9 +14,9 @@ class ItopapiOSFamily(ItopapiPrototype):
     """
     ItopapiRack is a object that represent a Rack from iTop
     """
-    def __init__(self, config):
+    def __init__(self):
         """
         Add itop['name'] to use generic ItopapiPrototype method
         """
-        super(ItopapiOSFamily, self).__init__(config)
+        super(ItopapiOSFamily, self).__init__()
         self.itop['name'] = 'OSFamily'

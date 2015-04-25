@@ -9,8 +9,7 @@ class UnknowItopClass(Exception):
 
 
 class ItopapiController(object):
-    def __init__(self, config):
-        self.config = config
+    def __init__(self):
         self.input_view = None
         self.output_view = ConsoleView()
         self.model = None
@@ -27,11 +26,11 @@ class ItopapiController(object):
 
     def load_from_model(self, itop_class):
         if itop_class == 'rack':
-            self.model = ItopapiRack(self.config)
+            self.model = ItopapiRack()
         elif itop_class == 'server':
-            self.model = ItopapiServer(self.config)
+            self.model = ItopapiServer()
         elif itop_class == 'osfamily':
-            self.model = ItopapiOSFamily(self.config)
+            self.model = ItopapiOSFamily()
         else:
             raise UnknowItopClass()
         if self.model is not None:
