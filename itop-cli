@@ -8,9 +8,11 @@ itop-cli is a basic CLI interface for iTop REST interface
 __version__ = '1.0'
 __authors__ = ['Guillaume Philippon <guillaume.philippon@lal.in2p3.fr>']
 
+from itopapi.itopapiconfig import ItopapiConfig
 from itopapi.controller import ItopapiController
 import argparse
 import ConfigParser
+import json
 
 
 def main():
@@ -22,39 +24,20 @@ def main():
     # Load CLI args #
     #################
     parse = argparse.ArgumentParser(description="python CLI for iTop REST api")
-    parse.add_argument('--hostname', dest='hostname',
-                       help='hostname of iTop server')
-    parse.add_argument('--username', dest='username',
-                       help='Username')
-    parse.add_argument('--password', dest='password',
-                       help='Password')
-    parse.add_argument('--config', dest='config_file',
-                       help='Configuration file',
+    parse.add_argument('--hostname', dest='hostname', help='hostname of iTop server')
+    parse.add_argument('--username', dest='username', help='Username')
+    parse.add_argument('--password', dest='password', help='Password')
+    parse.add_argument('--config', dest='config_file', help='Configuration file',
                        default='./itop-cli.cfg')
-    parse.add_argument('--classes', dest='classes', nargs='*',
-                       help='Display information about classes')
-    parse.add_argument('--quattor-profile', dest='quattor_profile',
-                       help='JSON representation of quattor profile')
-    parse.add_argument('--organization-name', dest='organization',
-                       help='iTop organization name Used when put information into iTop')
+    parse.add_argument('--list', dest='classes', nargs='*', help='Display information about'
+                                                                 ' classes')
+    parse.add_argument('--quattor-profile', dest='quattor_profile', help='JSON representation of'
+                                                                         ' quattor profile')
     options = parse.parse_args()
 
-    #################
-    # Default Value #
-    #################
-    hostname = None
-    username = None
-    password = None
-    protocol = 'https'
-    base_uri = '/'
-    api_version = '1.0'
-    api_suffix = '/webservices/rest.php'
-    quattor_profile = None
-    organization = None
-
-    ##########################################
-    # Value overwrited by configuration file #
-    ##########################################
+    ###########################################
+    # Value overwritten by configuration file #
+    ###########################################
     config_parser = ConfigParser.ConfigParser()
     config_parser.read(options.config_file)
     try:
@@ -96,9 +79,9 @@ def main():
     if options.password is not None:
         password = options.password
     if options.quattor_profile is not None:
-        quattor_profile = options.quattor_profile
+        ItopapiConfig.quattor_profile = options.quattor_profile
     if options.organization is not None:
-        organization = options.organization
+        ItopapiConfig.organization = options.organization
 
     ####################
     # Some value check #
@@ -107,31 +90,17 @@ def main():
         print "Hostname/Username/Password missing"
         exit(1)
 
-    ############################
-    # Create config dictionary #
-    ############################
-    config = {
-        'hostname': hostname,
-        'username': username,
-        'password': password,
-        'protocol': protocol,
-        'base_uri': base_uri,
-        'version': api_version,
-        'api_suffix': api_suffix,
-        'organization': organization
-    }
-
     #####################################
     # Retrieve quattor profile if asked #
     #####################################
-    if quattor_profile is not None:
-        quattor_controller = ItopapiController(config)
-        quattor_controller.load_from_quattor(quattor_profile)
+    if ItopapiConfig.quattor_profile is not None:
+        quattor_controller = ItopapiController()
+        quattor_controller.load_from_quattor(ItopapiConfig.quattor_profile)
         quattor_controller.display()
 
     if options.classes is not None:
         for itop_class in options.classes:
-            class_controller = ItopapiController(config)
+            class_controller = ItopapiController()
             class_controller.load_from_model(itop_class)
             class_controller.display()
 

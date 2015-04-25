@@ -14,11 +14,11 @@ class ItopapiServer(ItopapiPrototype):
     """
     ItopapiServers is a object that represent a Servers from iTop
     """
-    def __init__(self, config):
+    def __init__(self):
         """
         Add itop['name'] to use generic ItopapiPrototype method
         """
-        super(ItopapiServer, self).__init__(config)
+        super(ItopapiServer, self).__init__()
         self.itop['name'] = 'Server'
         self.hostname_ = None
         self.organization_name = None

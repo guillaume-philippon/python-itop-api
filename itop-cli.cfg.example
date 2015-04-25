@@ -1,0 +1,11 @@
+# This is an example configuration file. copy or rename it to 'itop-cli.cfg' and edit the values.
+# At least hostname, username and password will have to be changed.
+# Make sure to leave 'form' as an allowed login type within Itop's configuration.
+[main]
+hostname: itop.example.com
+username: demouser
+password: demopass
+protocol: https
+base_suffix: /
+api_version: 1.0
+api_suffix: /webservices/rest.php

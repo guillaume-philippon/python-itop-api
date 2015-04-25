@@ -14,9 +14,9 @@ class ItopapiRack(ItopapiPrototype):
     """
     ItopapiRack is a object that represent a Rack from iTop
     """
-    def __init__(self, config):
+    def __init__(self):
         """
         Add itop['name'] to use generic ItopapiPrototype method
         """
-        super(ItopapiRack, self).__init__(config)
+        super(ItopapiRack, self).__init__()
         self.itop['name'] = 'Rack'

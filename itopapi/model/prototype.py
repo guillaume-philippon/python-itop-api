@@ -1,11 +1,12 @@
 # -*- coding: utf8 -*-fr
 
 """
-Prototype is a empty class which define all needed method
+Prototype is an empty class which defines all required methods for child classes
 """
 import urllib2
 import urllib
 import json
+from itopapi.itopapiconfig import ItopapiConfig
 
 __version__ = '1.0'
 __authors__ = ['Guillaume Philippon <guillaume.philippon@lal.in2p3.fr>']
@@ -20,27 +21,20 @@ class ItopapiUnimplementedMethod(Exception):
 
 class ItopapiPrototype(object):
     """
-    Standard interface with iTop
+    Standard interface with iTop is in ItopapiConfig
     """
-    def __init__(self, config):
-        self.hostname = config['hostname']
-        self.api_suffix = config['api_suffix']
-        self.version = config['version']
-        self.username = config['username']
-        self.password = config['password']
+    def __init__(self):
         self.itop = {}
-        self.protocol = config['protocol']
-        self.base_suffix = config['base_uri']
 
     def _uri_(self):
         """
         Build a URI to access to rest interface of iTop
         :return: string
         """
-        return '{0}://{1}{2}{3}'.format(self.protocol,
-                                        self.hostname,
-                                        self.base_suffix,
-                                        self.api_suffix)
+        return '{0}://{1}{2}{3}'.format(ItopapiConfig.protocol,
+                                        ItopapiConfig.hostname,
+                                        ItopapiConfig.base_suffix,
+                                        ItopapiConfig.api_suffix)
 
     def _params_(self, json_data):
         """
@@ -49,9 +43,9 @@ class ItopapiPrototype(object):
         :return: urlib
         """
         return urllib.urlencode({
-            'version': self.version,
-            'auth_user': self.username,
-            'auth_pwd': self.password,
+            'version': ItopapiConfig.api_version,
+            'auth_user': ItopapiConfig.username,
+            'auth_pwd': ItopapiConfig.password,
             'json_data': json_data
         })
 
@@ -79,6 +73,7 @@ class ItopapiPrototype(object):
             'key': 'SELECT {0}'.format(self.itop['name']),
         })
         uri = self._uri_()
+
         params = self._params_(json_data)
         return json.loads(urllib2.urlopen(uri, params).read())
 
