@@ -14,7 +14,7 @@ __authors__ = ['Guillaume Philippon <guillaume.philippon@lal.in2p3.fr>']
 
 class ItopapiUnimplementedMethod(Exception):
     """
-    Exeception raised when a method is not implemented on child class but cannot be generic
+    Exception raised when a method is not implemented on child class but cannot be generic
     """
     pass
 
@@ -76,3 +76,27 @@ class ItopapiPrototype(object):
 
         params = self._params_(json_data)
         return json.loads(urllib2.urlopen(uri, params).read())
+
+    def search_object(self, name):
+        """
+        Return the object by is name
+        :param name: string
+        :return: dict
+        """
+        json_data = json.dumps({
+            'operation': 'core/get',
+            'class': self.itop['name'],
+            'key': {
+                'name': name
+            },
+        })
+        uri = self._uri_()
+        params = self._params_(json_data)
+        return json.loads(urllib2.urlopen(uri, params).read())
+
+    def dict(self):
+        raise ItopapiUnimplementedMethod()
+
+    def load(self):
+        raise ItopapiUnimplementedMethod()
+

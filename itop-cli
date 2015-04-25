@@ -8,9 +8,8 @@ itop-cli is a basic CLI interface for iTop REST interface
 __version__ = '1.0'
 __authors__ = ['Guillaume Philippon <guillaume.philippon@lal.in2p3.fr>']
 
-from itopapi.model import ItopapiRack, ItopapiServer
-from itopapi.view import QuattorJson
 from itopapi.itopapiconfig import ItopapiConfig
+from itopapi.controller import ItopapiController
 import argparse
 import ConfigParser
 import json
@@ -42,50 +41,52 @@ def main():
     config_parser = ConfigParser.ConfigParser()
     config_parser.read(options.config_file)
     try:
-        ItopapiConfig.hostname = config_parser.get('main', 'hostname')
+        hostname = config_parser.get('main', 'hostname')
     except ConfigParser.NoOptionError:
         pass
     try:
-        ItopapiConfig.username = config_parser.get('main', 'username')
+        username = config_parser.get('main', 'username')
     except ConfigParser.NoOptionError:
         pass
     try:
-        ItopapiConfig.password = config_parser.get('main', 'password')
+        password = config_parser.get('main', 'password')
     except ConfigParser.NoOptionError:
         pass
     try:
-        ItopapiConfig.protocol = config_parser.get('main', 'protocol')
+        protocol = config_parser.get('main', 'protocol')
     except ConfigParser.NoOptionError:
         pass
     try:
-        ItopapiConfig.base_suffix = config_parser.get('main', 'base_suffix')
+        base_uri = config_parser.get('main', 'base_uri')
     except ConfigParser.NoOptionError:
         pass
     try:
-        ItopapiConfig.api_version = config_parser.get('main', 'api_version')
+        api_version = config_parser.get('main', 'api_version')
     except ConfigParser.NoOptionError:
         pass
     try:
-        ItopapiConfig.api_suffix = config_parser.get('main', 'api_suffix')
+        api_suffix = config_parser.get('main', 'api_suffix')
     except ConfigParser.NoOptionError:
         pass
 
-    #################################
-    # Value overwritten by CLI args #
-    #################################
+    ###############################
+    # Value overwrite by CLI args #
+    ###############################
     if options.hostname is not None:
-        ItopapiConfig.hostname = options.hostname
+        hostname = options.hostname
     if options.username is not None:
-        ItopapiConfig.username = options.username
+        username = options.username
     if options.password is not None:
-        ItopapiConfig.password = options.password
+        password = options.password
     if options.quattor_profile is not None:
         ItopapiConfig.quattor_profile = options.quattor_profile
+    if options.organization is not None:
+        ItopapiConfig.organization = options.organization
 
     ####################
     # Some value check #
     ####################
-    if ItopapiConfig.hostname is None or ItopapiConfig.username is None or ItopapiConfig.password is None:
+    if hostname is None or username is None or password is None:
         print "Hostname/Username/Password missing"
         exit(1)
 
@@ -93,32 +94,15 @@ def main():
     # Retrieve quattor profile if asked #
     #####################################
     if ItopapiConfig.quattor_profile is not None:
-        quattor = QuattorJson(ItopapiConfig.quattor_profile)
-        print '*****\n' \
-              'Hostname : {0}\n' \
-              'IP : {1}\n' \
-              'Cores : {2}\n' \
-              'RAM : {3}\n' \
-              '*****'.format(quattor.hostname, quattor.ip, quattor.cpu, quattor.ram)
+        quattor_controller = ItopapiController()
+        quattor_controller.load_from_quattor(ItopapiConfig.quattor_profile)
+        quattor_controller.display()
 
     if options.classes is not None:
         for itop_class in options.classes:
-            obj = None
-            if itop_class == "rack":
-                obj = ItopapiRack()
-            elif itop_class == "server":
-                obj = ItopapiServer()
-            else:
-                print "Class not found"
-                exit(1)
-            data = obj.list_objects()
-            print '#'*25
-            print 'List all {0}(s)'.format(itop_class)
-            try:
-                for information in data['objects']:
-                    print data['objects'][information]['fields']['friendlyname']
-            except:
-                pass
+            class_controller = ItopapiController()
+            class_controller.load_from_model(itop_class)
+            class_controller.display()
 
 if __name__ == "__main__":
     main()
