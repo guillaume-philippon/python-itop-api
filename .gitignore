@@ -1,3 +1,6 @@
 .idea
 *.pyc
 itop-cli.cfg
+MANIFEST
+dist
+Makefile
