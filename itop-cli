@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf8 -*-fr
-#pylint: skip-file
+# pylint: disable=invalid-name
 """
 itop-cli is a basic CLI interface for iTop REST interface
 """
@@ -10,84 +10,17 @@ __authors__ = ['Guillaume Philippon <guillaume.philippon@lal.in2p3.fr>']
 
 from itopapi.itopapiconfig import ItopapiConfig
 from itopapi.controller import ItopapiController
-import argparse
-import ConfigParser
-import json
+from itopcli.itopcliconfig import load_configuration_cli
 
 
 def main():
     """
     Main function
     """
-
-    #################
-    # Load CLI args #
-    #################
-    parse = argparse.ArgumentParser(description="python CLI for iTop REST api")
-    parse.add_argument('--hostname', dest='hostname',
-                       help='hostname of iTop server')
-    parse.add_argument('--username', dest='username',
-                       help='Username')
-    parse.add_argument('--password', dest='password',
-                       help='Password')
-    parse.add_argument('--config', dest='config_file',
-                       help='Configuration file',
-                       default='./itop-cli.cfg')
-    parse.add_argument('--classes', dest='classes', nargs='*',
-                       help='Display information about classes')
-    parse.add_argument('--quattor-profile', dest='quattor_profile',
-                       help='JSON representation of quattor profile')
-    parse.add_argument('--organization', dest='organization',
-                       help='Used to specify organization when importing quattor profile')
-    options = parse.parse_args()
-
-    ###########################################
-    # Value overwritten by configuration file #
-    ###########################################
-    config_parser = ConfigParser.ConfigParser()
-    config_parser.read(options.config_file)
-    try:
-        ItopapiConfig.hostname = config_parser.get('main', 'hostname')
-    except ConfigParser.NoOptionError:
-        pass
-    try:
-        ItopapiConfig.username = config_parser.get('main', 'username')
-    except ConfigParser.NoOptionError:
-        pass
-    try:
-        ItopapiConfig.password = config_parser.get('main', 'password')
-    except ConfigParser.NoOptionError:
-        pass
-    try:
-        ItopapiConfig.protocol = config_parser.get('main', 'protocol')
-    except ConfigParser.NoOptionError:
-        pass
-    try:
-        ItopapiConfig.base_uri = config_parser.get('main', 'base_uri')
-    except ConfigParser.NoOptionError:
-        pass
-    try:
-        ItopapiConfig.api_version = config_parser.get('main', 'api_version')
-    except ConfigParser.NoOptionError:
-        pass
-    try:
-        ItopapiConfig.api_suffix = config_parser.get('main', 'api_suffix')
-    except ConfigParser.NoOptionError:
-        pass
-
-    ###############################
-    # Value overwrite by CLI args #
-    ###############################
-    if options.hostname is not None:
-        ItopapiConfig.hostname = options.hostname
-    if options.username is not None:
-        ItopapiConfig.username = options.username
-    if options.password is not None:
-        ItopapiConfig.password = options.password
-    if options.quattor_profile is not None:
-        ItopapiConfig.quattor_profile = options.quattor_profile
-    if options.organization is not None:
-        ItopapiConfig.organization = options.organization
+    ######################
+    # Load configuration #
+    ######################
+    config = load_configuration_cli()
 
     ####################
     # Some value check #
@@ -106,8 +39,11 @@ def main():
         quattor_controller.load_from_quattor(ItopapiConfig.quattor_profile)
         quattor_controller.display()
 
-    if options.classes is not None:
-        for itop_class in options.classes:
+    #########################
+    # Display classes asked #
+    #########################
+    if config['classes'] is not None:
+        for itop_class in config['classes']:
             class_controller = ItopapiController()
             class_controller.load_from_model(itop_class)
             class_controller.display()
