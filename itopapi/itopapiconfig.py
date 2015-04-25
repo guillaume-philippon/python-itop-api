@@ -1,14 +1,14 @@
 # -*- coding: utf8 -*-fr
 
 """
-Config holds the configuration for the whole project
+ItopapiConfig holds the configuration for the whole project
 """
 
 __version__ = '1.0'
 __authors__ = ['Julien Nauroy <julien.nauroy@u-psud.fr>']
 
 
-class Config(object):
+class ItopapiConfig(object):
     """
     static variables
     """

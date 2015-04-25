@@ -6,7 +6,7 @@ Prototype is an empty class which defines all required methods for child classes
 import urllib2
 import urllib
 import json
-from itopapi.config import Config
+from itopapi.itopapiconfig import ItopapiConfig
 
 __version__ = '1.0'
 __authors__ = ['Guillaume Philippon <guillaume.philippon@lal.in2p3.fr>']
@@ -21,7 +21,7 @@ class ItopapiUnimplementedMethod(Exception):
 
 class ItopapiPrototype(object):
     """
-    Standard interface with iTop is in Config
+    Standard interface with iTop is in ItopapiConfig
     """
     def __init__(self):
         self.itop = {}
@@ -31,10 +31,10 @@ class ItopapiPrototype(object):
         Build a URI to access to rest interface of iTop
         :return: string
         """
-        return '{0}://{1}{2}{3}'.format(Config.protocol,
-                                        Config.hostname,
-                                        Config.base_suffix,
-                                        Config.api_suffix)
+        return '{0}://{1}{2}{3}'.format(ItopapiConfig.protocol,
+                                        ItopapiConfig.hostname,
+                                        ItopapiConfig.base_suffix,
+                                        ItopapiConfig.api_suffix)
 
     def _params_(self, json_data):
         """
@@ -43,9 +43,9 @@ class ItopapiPrototype(object):
         :return: urlib
         """
         return urllib.urlencode({
-            'version': Config.api_version,
-            'auth_user': Config.username,
-            'auth_pwd': Config.password,
+            'version': ItopapiConfig.api_version,
+            'auth_user': ItopapiConfig.username,
+            'auth_pwd': ItopapiConfig.password,
             'json_data': json_data
         })
 
