@@ -10,6 +10,14 @@ import ConfigParser
 import argparse
 
 
+class ItopcliConfig(object):
+    """
+    ItopcliConfig represent configuration for itop-cli
+    """
+    file = None
+    classes = []
+
+
 def load_configuration_file(config_file):
     """
     Load configuration from file
@@ -81,23 +89,23 @@ def load_configuration_cli():
 
     options = parser.parse_args()
 
-    config = {}
-
     ##########################
     # Load CLI configuration #
     ##########################
-    config['file'] = options.config_file
-    config['classes'] = options.classes
+    ItopcliConfig.file = options.config_file
+    ItopcliConfig.classes = options.classes
 
     ###########################
     # Load iTop configuration #
     ###########################
     # From configuration file first
-    load_configuration_file(config['file'])
+    load_configuration_file(ItopcliConfig.file)
     # Else overwrite it with arguments
-    ItopapiConfig.hostname = options.hostname
-    ItopapiConfig.username = options.username
-    ItopapiConfig.password = options.password
-    ItopapiConfig.quattor_profile = options.quattor_profile
-
-    return config
+    if options.hostname is not None:
+        ItopapiConfig.hostname = options.hostname
+    if options.username is not None:
+        ItopapiConfig.username = options.username
+    if options.password is not None:
+        ItopapiConfig.password = options.password
+    if options.quattor_profile is not None:
+        ItopapiConfig.quattor_profile = options.quattor_profile

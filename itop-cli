@@ -10,7 +10,7 @@ __authors__ = ['Guillaume Philippon <guillaume.philippon@lal.in2p3.fr>']
 
 from itopapi.itopapiconfig import ItopapiConfig
 from itopapi.controller import ItopapiController
-from itopcli.itopcliconfig import load_configuration_cli
+from itopcli.itopcliconfig import load_configuration_cli, ItopcliConfig
 
 
 def main():
@@ -20,7 +20,7 @@ def main():
     ######################
     # Load configuration #
     ######################
-    config = load_configuration_cli()
+    load_configuration_cli()
 
     ####################
     # Some value check #
@@ -42,8 +42,8 @@ def main():
     #########################
     # Display classes asked #
     #########################
-    if config['classes'] is not None:
-        for itop_class in config['classes']:
+    if ItopcliConfig.classes is not None:
+        for itop_class in ItopcliConfig.classes:
             class_controller = ItopapiController()
             class_controller.load_from_model(itop_class)
             class_controller.display()
