@@ -10,7 +10,7 @@ __authors__ = ['Guillaume Philippon <guillaume.philippon@lal.in2p3.fr>']
 
 from itopapi.model import ItopapiRack, ItopapiServer
 from itopapi.view import QuattorJson
-from itopapi.config import Config
+from itopapi.itopapiconfig import ItopapiConfig
 import argparse
 import ConfigParser
 import json
@@ -42,31 +42,31 @@ def main():
     config_parser = ConfigParser.ConfigParser()
     config_parser.read(options.config_file)
     try:
-        Config.hostname = config_parser.get('main', 'hostname')
+        ItopapiConfig.hostname = config_parser.get('main', 'hostname')
     except ConfigParser.NoOptionError:
         pass
     try:
-        Config.username = config_parser.get('main', 'username')
+        ItopapiConfig.username = config_parser.get('main', 'username')
     except ConfigParser.NoOptionError:
         pass
     try:
-        Config.password = config_parser.get('main', 'password')
+        ItopapiConfig.password = config_parser.get('main', 'password')
     except ConfigParser.NoOptionError:
         pass
     try:
-        Config.protocol = config_parser.get('main', 'protocol')
+        ItopapiConfig.protocol = config_parser.get('main', 'protocol')
     except ConfigParser.NoOptionError:
         pass
     try:
-        Config.base_suffix = config_parser.get('main', 'base_suffix')
+        ItopapiConfig.base_suffix = config_parser.get('main', 'base_suffix')
     except ConfigParser.NoOptionError:
         pass
     try:
-        Config.api_version = config_parser.get('main', 'api_version')
+        ItopapiConfig.api_version = config_parser.get('main', 'api_version')
     except ConfigParser.NoOptionError:
         pass
     try:
-        Config.api_suffix = config_parser.get('main', 'api_suffix')
+        ItopapiConfig.api_suffix = config_parser.get('main', 'api_suffix')
     except ConfigParser.NoOptionError:
         pass
 
@@ -74,26 +74,26 @@ def main():
     # Value overwritten by CLI args #
     #################################
     if options.hostname is not None:
-        Config.hostname = options.hostname
+        ItopapiConfig.hostname = options.hostname
     if options.username is not None:
-        Config.username = options.username
+        ItopapiConfig.username = options.username
     if options.password is not None:
-        Config.password = options.password
+        ItopapiConfig.password = options.password
     if options.quattor_profile is not None:
-        Config.quattor_profile = options.quattor_profile
+        ItopapiConfig.quattor_profile = options.quattor_profile
 
     ####################
     # Some value check #
     ####################
-    if Config.hostname is None or Config.username is None or Config.password is None:
+    if ItopapiConfig.hostname is None or ItopapiConfig.username is None or ItopapiConfig.password is None:
         print "Hostname/Username/Password missing"
         exit(1)
 
     #####################################
     # Retrieve quattor profile if asked #
     #####################################
-    if Config.quattor_profile is not None:
-        quattor = QuattorJson(Config.quattor_profile)
+    if ItopapiConfig.quattor_profile is not None:
+        quattor = QuattorJson(ItopapiConfig.quattor_profile)
         print '*****\n' \
               'Hostname : {0}\n' \
               'IP : {1}\n' \
