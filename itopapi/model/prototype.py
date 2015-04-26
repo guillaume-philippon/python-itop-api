@@ -6,6 +6,7 @@ Prototype is an empty class which defines all required methods for child classes
 import urllib2
 import urllib
 import json
+from itopapi.model import *
 from itopapi.itopapiconfig import ItopapiConfig
 
 __version__ = '1.0'
@@ -25,8 +26,13 @@ class ItopapiPrototype(object):
     """
     def __init__(self):
         self.itop = {}
+        """Should be the same asself.itop['name']"""
+        self.finalclass = None
+        """Every instance of prototype has an id, unique within the whole application"""
+        self.id = None
 
-    def _uri_(self):
+    @staticmethod
+    def _uri_():
         """
         Build a URI to access to rest interface of iTop
         :return: string
@@ -36,7 +42,8 @@ class ItopapiPrototype(object):
                                         ItopapiConfig.base_suffix,
                                         ItopapiConfig.api_suffix)
 
-    def _params_(self, json_data):
+    @staticmethod
+    def _params_(json_data):
         """
         Build a URLEncoded JSON file
         :param json_data:
@@ -49,8 +56,8 @@ class ItopapiPrototype(object):
             'json_data': json_data
         })
 
-    # TODO: list_command must be a @staticmethod
-    def list_command(self):
+    @staticmethod
+    def list_command():
         """
         List all operations available by REST API
         :return: dict
@@ -58,21 +65,54 @@ class ItopapiPrototype(object):
         json_data = json.dumps({
             'operation': 'list_operations'
         })
-        uri = self._uri_()
-        params = self._params_(json_data)
+        uri = ItopapiPrototype._uri_()
+        params = ItopapiPrototype._params_(json_data)
         return json.loads(urllib2.urlopen(uri, params).read())
 
-    def list_objects(self):
+    def __str__(self):
+        """ Formats java-style """
+        return "{0}{{id={1},name={2}}}".format(self.__class__.__name__, self.id, self.name)
+
+    @staticmethod
+    def list_objects(itop_class):
         """
-        List all objects from child class
+        List all objects for a given class
         :return: dict
+        """
+        return ItopapiPrototype.find(itop_class, 'SELECT {0}'.format(itop_class.itop['name']))
+
+    @staticmethod
+    def find(itop_class, key):
+        """
+        Find a list of objects given its id or some criteria passed as a dictionary
+        :param itop_class:
+        :param key:
+        :return: array or None if there is no object
         """
         json_data = json.dumps({
             'operation': 'core/get',
-            'class': self.itop['name'],
-            'key': 'SELECT {0}'.format(self.itop['name']),
+            'class': itop_class.itop['name'],
+            'key': key,
         })
-        uri = self._uri_()
+        uri = ItopapiPrototype._uri_()
 
-        params = self._params_(json_data)
-        return json.loads(urllib2.urlopen(uri, params).read())
+        params = ItopapiPrototype._params_(json_data)
+        data = json.loads(urllib2.urlopen(uri, params).read())
+
+        """ If there's no object to process, return immediately """
+        if data['objects'] is None:
+            return None
+
+        objects = []
+        for information in data['objects']:
+            obj = itop_class()
+            obj.id = data['objects'][information]['key']
+            """ update all the object's fields with the following line """
+            obj.__dict__.update(data['objects'][information]['fields'])
+            objects.append(obj)
+
+        """ Return None, as a commodity, if there's 0 result """
+        if len(objects) == 0:
+            return None
+        else:
+            return objects

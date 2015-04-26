@@ -14,9 +14,22 @@ class ItopapiRack(ItopapiPrototype):
     """
     ItopapiRack is a object that represent a Rack from iTop
     """
+
+    """ Configuration specific to itop """
+    itop = {'name': 'Rack'}
+
+    @staticmethod
+    def find(key):
+        """ Retrieve one or more instance of Rack with the given key or criteria """
+        return ItopapiPrototype.find(ItopapiRack, key)
+
+    @staticmethod
+    def list_objects():
+        """ Retrieve all instance of Rack """
+        return ItopapiPrototype.list_objects(ItopapiRack)
+
     def __init__(self):
         """
         Add itop['name'] to use generic ItopapiPrototype method
         """
         super(ItopapiRack, self).__init__()
-        self.itop['name'] = 'Rack'

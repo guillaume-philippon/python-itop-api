@@ -32,6 +32,8 @@ def main():
                        default='./itop-cli.cfg')
     parse.add_argument('--list', dest='classes', nargs='*', help='Display information about'
                                                                  ' classes')
+    parse.add_argument('--get', dest='getInstance', nargs=2, help='Find and display information about'
+                                                                 ' a given class instance given its name and ID')
     parse.add_argument('--quattor-profile', dest='quattor_profile', help='JSON representation of'
                                                                          ' quattor profile')
     options = parse.parse_args()
@@ -100,25 +102,41 @@ def main():
               'Cores : {2}\n' \
               'RAM : {3}\n' \
               '*****'.format(quattor.hostname, quattor.ip, quattor.cpu, quattor.ram)
-
-    if options.classes is not None:
-        for itop_class in options.classes:
-            obj = None
-            if itop_class == "rack":
-                obj = ItopapiRack()
-            elif itop_class == "server":
-                obj = ItopapiServer()
+    elif options.getInstance is not None:
+            c = _getItopClass(options.getInstance[0])
+            obj = c.find(options.getInstance[1])
+            if obj is not None:
+                print obj[0]
             else:
-                print "Class not found"
-                exit(1)
-            data = obj.list_objects()
+                 print "No {0} found with this id".format(options.getInstance[0])
+
+    elif options.classes is not None:
+        for itop_class in options.classes:
+            c = _getItopClass(itop_class)
+            instances = c.list_objects()
+
             print '#'*25
             print 'List all {0}(s)'.format(itop_class)
             try:
-                for information in data['objects']:
-                    print data['objects'][information]['fields']['friendlyname']
+                for instance in instances:
+                    print instance
             except:
                 pass
+
+
+def _getItopClass(itop_class):
+    """
+    Associate the string passed as an argument to the corresponding Itop class
+    Maybe move it to ItopapiPrototype someday
+    """
+    if itop_class == "rack":
+        return ItopapiRack
+    elif itop_class == "server":
+        return ItopapiServer
+    else:
+        print "Class not found"
+        exit(1)
+
 
 if __name__ == "__main__":
     main()
