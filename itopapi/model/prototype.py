@@ -117,12 +117,25 @@ class ItopapiPrototype(object):
         else:
             return objects
 
+    def save(self):
+        """
+        Updates the current instance if it already exists in itop's database (i.e. the id is set)
+        or creates a new one
+        :return:
+        """
+        operation = 'core/create'
+        if self.id is not None:
+            operation = 'core/update'
+        # TODO the main problem will be automatically sorting keys that would have to be saved
+        # or not. As an example, org_id should be saved, org_id_friendlyname should not
+        raise ItopapiUnimplementedMethod()
+
     def delete(self):
         """
         Deletes the current instance if it exists in itop's database (i.e. the id is set)
         :return:
         """
-        if(self.id is not None):
+        if self.id is not None:
             json_data = json.dumps({
                 'operation': 'core/delete',
                 'comment': 'Deleting object from python-itop-api',
