@@ -4,6 +4,7 @@
 setup script to install python-itop-api
 """
 from distutils.core import setup
+from setuptools import find_packages
 
 setup(name='python-itop-api',
       version='1.0',
@@ -13,4 +14,4 @@ setup(name='python-itop-api',
       url='https://github.com/guillaume-philippon/python-itop-api',
       license='FreeBSD License',
       scripts=["itop-cli"],
-      packages=['itopapi', 'itopcli', 'itopapi.controller', 'itopapi.model', 'itopapi.view'])
+      packages=find_packages())
