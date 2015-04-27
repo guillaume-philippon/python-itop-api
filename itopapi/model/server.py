@@ -4,7 +4,7 @@
 ItopapiServers is a abstraction of Rack representation on iTop
 """
 
-from itopapi.model.prototype import ItopapiPrototype
+from itopapi.model.prototype import ItopapiPrototype, ItopapiUnimplementedMethod
 from itopapi.model.rack import ItopapiRack
 
 __version__ = '1.0'
@@ -181,4 +181,94 @@ class ItopapiServer(ItopapiPrototype):
         """
         if self.rack_id is not None:
             return ItopapiRack.find(self.rack_id)
+        return None
+
+    def findOrganization(self):
+        """
+        Retrieve the ItopapiOrganization corresponding to this server
+        """
+        if self.org_id is not None:
+            # TODO define ItopapiOrganization return ItopapiOrganization.find(self.org_id)
+            raise ItopapiUnimplementedMethod()
+        return None
+
+    def findLocation(self):
+        """
+        Retrieve the ItopapiLocation corresponding to this server
+        """
+        if self.location_id is not None:
+            # TODO define ItopapiLocation return ItopapiLocation.find(self.location_id)
+            raise ItopapiUnimplementedMethod()
+        return None
+
+    def findEnclosure(self):
+        """
+        Retrieve the ItopapiEnclosure corresponding to this server
+        """
+        if self.enclosure_id is not None:
+            # TODO define ItopapiEnclosure return ItopapiEnclosure.find(self.enclosure_id)
+            raise ItopapiUnimplementedMethod()
+        return None
+
+    def findBrand(self):
+        """
+        Retrieve the ItopapiBrand corresponding to this server
+        """
+        if self.brand_id is not None:
+            # TODO define ItopapiBrand return ItopapiBrand.find(self.brand_id)
+            raise ItopapiUnimplementedMethod()
+        return None
+
+    def findModel(self):
+        """
+        Retrieve the ItopapiModel corresponding to this server
+        """
+        if self.model_id is not None:
+            # TODO define ItopapiModel return ItopapiModel.find(self.model_id)
+            raise ItopapiUnimplementedMethod()
+        return None
+
+    def findOSFamily(self):
+        """
+        Retrieve the ItopapiOSFamily corresponding to this server
+        """
+        if self.osfamily_id is not None:
+            # TODO define ItopapiOSFamily return ItopapiOSFamily.find(self.osfamily_id)
+            raise ItopapiUnimplementedMethod()
+        return None
+
+    def findOSVersion(self):
+        """
+        Retrieve the ItopapiOSVersion corresponding to this server
+        """
+        if self.osversion_id is not None:
+            # TODO define ItopapiOSVersion return ItopapiOSVersion.find(self.osversion_id)
+            raise ItopapiUnimplementedMethod()
+        return None
+
+    def findOSLicence(self):
+        """
+        Retrieve the ItopapiOSLicence corresponding to this server
+        """
+        if self.oslicence_id is not None:
+            # TODO define ItopapiOSLicence return ItopapiOSLicence.find(self.oslicence_id)
+            raise ItopapiUnimplementedMethod()
+        return None
+
+    def findPowerA(self):
+        """
+        Retrieve the ItopapiPowerA corresponding to this server
+        """
+        if self.powerA_id is not None:
+            # TODO define ItopapiPowerA return ItopapiOPowerA.find(self.powerA_id)
+            raise ItopapiUnimplementedMethod()
+        return None
+
+    def findPowerB(self):
+        """
+        Retrieve the ItopapiPowerB corresponding to this server
+        """
+        if self.powerB_id is not None:
+            # TODO define ItopapiPowerB return ItopapiOPowerB.find(self.powerB_id)
+            raise ItopapiUnimplementedMethod()
         return None
