@@ -25,7 +25,7 @@ class ItopapiRack(ItopapiPrototype):
 
     @staticmethod
     def find_by_name(name):
-        ItopapiPrototype.find_by_name(ItopapiRack, name)
+        return ItopapiPrototype.find_by_name(ItopapiRack, name)
 
     @staticmethod
     def find_all():

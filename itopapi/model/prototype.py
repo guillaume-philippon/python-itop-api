@@ -125,7 +125,7 @@ class ItopapiPrototype(object):
 
     @staticmethod
     def find_by_name(itop_class, name):
-        ItopapiPrototype.find(itop_class, {'name': name})
+        return ItopapiPrototype.find(itop_class, {'name': name})
 
     def save(self):
         """
