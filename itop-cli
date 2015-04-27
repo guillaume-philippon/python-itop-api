@@ -9,7 +9,7 @@ __version__ = '1.0'
 __authors__ = ['Guillaume Philippon <guillaume.philippon@lal.in2p3.fr>']
 
 from itopapi import ItopapiController, ItopapiConfig
-from itopcli import load_configuration_cli, ItopcliConfig
+from itopcli import load_configuration_cli, ItopcliConfig, NeedMoreArgs
 
 
 def main():
@@ -20,7 +20,11 @@ def main():
     ######################
     # Load configuration #
     ######################
-    load_configuration_cli()
+    try:
+        load_configuration_cli()
+    except NeedMoreArgs as e:
+        print "Error: {}".format(e.message)
+        exit(1)
 
     ####################
     # Some value check #
@@ -28,7 +32,7 @@ def main():
     if ItopapiConfig.hostname is None \
             or ItopapiConfig.username is None\
             or ItopapiConfig.password is None:
-        print "Hostname/Username/Password missing"
+        print "Error: Hostname/Username/Password missing"
         exit(1)
 
     #####################################
@@ -45,17 +49,18 @@ def main():
     if ItopcliConfig.classes is not None:
         for itop_class in ItopcliConfig.classes:
             class_controller = ItopapiController()
-            class_controller.load_all(itop_class)
-            class_controller.display()
-
-    if ItopcliConfig.find_instance is not None:
-        class_controller = ItopapiController()
-        class_controller.load_one(ItopcliConfig.find_instance[0], ItopcliConfig.find_instance[1])
-        class_controller.display()
+            if ItopcliConfig.find_instance is None:
+                class_controller.load_all(itop_class)
+                class_controller.display()
+            else:
+                for find in ItopcliConfig.find_instance:
+                    class_controller.load_one(itop_class, find)
+                    class_controller.display()
 
     if ItopcliConfig.delete_instance is not None:
         class_controller = ItopapiController()
-        class_controller.delete_one(ItopcliConfig.delete_instance[0], ItopcliConfig.delete_instance[1])
+        class_controller.delete_one(ItopcliConfig.delete_instance[0],
+                                    ItopcliConfig.delete_instance[1])
         class_controller.display()
 
 if __name__ == "__main__":

@@ -6,8 +6,11 @@ Module used to load configuration from different type of backend
  load_configuration_cli : arguments configuration
 """
 from itopapi.itopapiconfig import ItopapiConfig
-import ConfigParser
 import argparse
+
+
+class NeedMoreArgs(Exception):
+    pass
 
 
 class ItopcliConfig(object):
@@ -45,14 +48,13 @@ def load_configuration_cli():
     cli_group.add_argument('--config', dest='config_file', default='./itop-cli.cfg',
                            help='configuration file CLI must use'
                                 ' (default = %(default)s)')
-    cli_group.add_argument('--classes', dest='classes', nargs='*',
+    cli_group.add_argument('--classes', dest='classes', nargs='*', metavar='itop-class',
                            help='iTop classes to use')
-    cli_group.add_argument('--find', dest='find_instance', nargs=2,
-                           help='Find and display information about'
-                                ' a given class instance given its name and ID')
-    cli_group.add_argument('--delete', dest='delete_instance', nargs=2,
-                           help='Delete an instance given its class name'
-                                ' and instance ID')
+    cli_group.add_argument('--find', dest='find_instance', nargs='+', metavar='name',
+                           help='Find and display information about a given class instance given'
+                                'its name or ID')
+    cli_group.add_argument('--delete', dest='delete_instance', nargs=2, metavar='instance',
+                           help='Delete an instance given its class name and instance ID')
     cli_group.add_argument('--organization', dest='organization',
                            help='iTop organization to use')
     cli_group.add_argument('--quattor-profile', dest='quattor_profile',
@@ -65,7 +67,10 @@ def load_configuration_cli():
     ##########################
     ItopcliConfig.file = options.config_file
     ItopcliConfig.classes = options.classes
-    ItopcliConfig.find_instance = options.find_instance
+    if ItopcliConfig.classes is not None:
+        ItopcliConfig.find_instance = options.find_instance
+    else:
+        raise NeedMoreArgs('--find option need --classes')
     ItopcliConfig.delete_instance = options.delete_instance
 
     ###########################

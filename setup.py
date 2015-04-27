@@ -13,4 +13,4 @@ setup(name='python-itop-api',
       url='https://github.com/guillaume-philippon/python-itop-api',
       license='FreeBSD License',
       scripts=["itop-cli"],
-      packages=['itopapi', 'itopcli'])
+      packages=['itopapi', 'itopcli', 'itopapi.controller', 'itopapi.model', 'itopapi.view'])
