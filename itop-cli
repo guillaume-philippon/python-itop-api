@@ -88,7 +88,7 @@ def main():
             if obj is not None:
                 print obj[0].delete()
             else:
-                print "No {0} found with this id".format(options.getInstance[0])
+                print "No {0} found with this id".format(options.deleteInstance[0])
 
     elif options.classes is not None:
         for itop_class in options.classes:
