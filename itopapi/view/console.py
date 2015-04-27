@@ -8,6 +8,7 @@ class ConsoleView(object):
     def display(self, data):
         if isinstance(data, list):
             for item in data:
-                print item
-        else:
-            print data
+                if item is not None:
+                    print item
+        # else:
+        #     print data
