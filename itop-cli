@@ -30,7 +30,7 @@ def main():
                        default='./itop-cli.cfg')
     parse.add_argument('--list', dest='classes', nargs='*', help='Display information about'
                                                                  ' classes')
-    parse.add_argument('--get', dest='getInstance', nargs=2, help='Find and display information about'
+    parse.add_argument('--find', dest='findInstance', nargs=2, help='Find and display information about'
                                                                  ' a given class instance given its name and ID')
     parse.add_argument('--delete', dest='deleteInstance', nargs=2, help='Delete an instance given its class name'
                                                                  ' and instance ID')
@@ -74,13 +74,13 @@ def main():
               'RAM : {3}\n' \
               '*****'.format(quattor.hostname, quattor.ip, quattor.cpu, quattor.ram)
 
-    elif options.getInstance is not None:
-            c = _getItopClass(options.getInstance[0])
-            obj = c.find(options.getInstance[1])
+    elif options.findInstance is not None:
+            c = _getItopClass(options.findInstance[0])
+            obj = c.find(options.findInstance[1])
             if obj is not None:
                 print obj[0]
             else:
-                 print "No {0} found with this id".format(options.getInstance[0])
+                 print "No {0} found with this id".format(options.findInstance[0])
 
     elif options.deleteInstance is not None:
             c = _getItopClass(options.deleteInstance[0])
