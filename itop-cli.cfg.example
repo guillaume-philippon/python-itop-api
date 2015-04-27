@@ -6,7 +6,7 @@ hostname: itop.example.com
 username: demouser
 password: demopass
 protocol: https
-base_suffix: /
+base_uri: /
 api_version: 1.0
 api_suffix: /webservices/rest.php
 # If you set this value to true, the api will only pretend deleting objects.
