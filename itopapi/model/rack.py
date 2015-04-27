@@ -110,3 +110,4 @@ class ItopapiRack(ItopapiPrototype):
         # TODO WTF is this doing here?!?
         self.applicationsolution_list = None
         self.softwares_list = None
+        self.logicalvolumes_list = None
