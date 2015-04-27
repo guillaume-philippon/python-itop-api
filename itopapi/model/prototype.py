@@ -116,3 +116,23 @@ class ItopapiPrototype(object):
             return None
         else:
             return objects
+
+    def delete(self):
+        """
+        Deletes the current instance if it exists in itop's database (i.e. the id is set)
+        :return:
+        """
+        if(self.id is not None):
+            json_data = json.dumps({
+                'operation': 'core/delete',
+                'comment': 'Deleting object from python-itop-api',
+                'class': self.__class__.itop['name'],
+                'key': self.id,
+                'simulate': ItopapiConfig.simulate_deletes
+            })
+            uri = ItopapiPrototype._uri_()
+            params = ItopapiPrototype._params_(json_data)
+            result = json.loads(urllib2.urlopen(uri, params).read())
+            # Reset the id to None to reflect that the instance doesn't exist anymore in the database
+            self.id = None
+            return result

@@ -24,7 +24,8 @@ class ItopapiConfig(object):
     quattor_profile = None
     simulate_deletes = False
 
-    def read_config(self, config_file):
+    @staticmethod
+    def read_config(config_file):
         """
         Read the configuration file given the file name given as an argument
         and update the configuration accordingly
@@ -64,6 +65,6 @@ class ItopapiConfig(object):
         try:
             simulate_deletes = config_parser.get('main', 'simulate_deletes')
             if simulate_deletes.lower() == "true":
-                ItopapiConfig.simulate_deletes = simulate_deletes
+                ItopapiConfig.simulate_deletes = True
         except ConfigParser.NoOptionError:
             pass
