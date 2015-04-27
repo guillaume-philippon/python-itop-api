@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf8 -*-fr
-#pylint: skip-file
+# pylint: disable=invalid-name
 """
 itop-cli is a basic CLI interface for iTop REST interface
 """
@@ -8,10 +8,8 @@ itop-cli is a basic CLI interface for iTop REST interface
 __version__ = '1.0'
 __authors__ = ['Guillaume Philippon <guillaume.philippon@lal.in2p3.fr>']
 
-from itopapi.model import ItopapiRack, ItopapiServer
-from itopapi.view import QuattorJson
-from itopapi.itopapiconfig import ItopapiConfig
-import argparse
+from itopapi import ItopapiController, ItopapiConfig
+from itopcli import load_configuration_cli, ItopcliConfig
 
 
 def main():
@@ -19,46 +17,17 @@ def main():
     Main function
     """
 
-    #################
-    # Load CLI args #
-    #################
-    parse = argparse.ArgumentParser(description="python CLI for iTop REST api")
-    parse.add_argument('--hostname', dest='hostname', help='hostname of iTop server')
-    parse.add_argument('--username', dest='username', help='Username')
-    parse.add_argument('--password', dest='password', help='Password')
-    parse.add_argument('--config', dest='config_file', help='Configuration file',
-                       default='./itop-cli.cfg')
-    parse.add_argument('--list', dest='classes', nargs='*', help='Display information about'
-                                                                 ' classes')
-    parse.add_argument('--find', dest='findInstance', nargs=2, help='Find and display information about'
-                                                                 ' a given class instance given its name and ID')
-    parse.add_argument('--delete', dest='deleteInstance', nargs=2, help='Delete an instance given its class name'
-                                                                 ' and instance ID')
-    parse.add_argument('--quattor-profile', dest='quattor_profile', help='JSON representation of'
-                                                                         ' quattor profile')
-    options = parse.parse_args()
-
-    ############################################
-    # Values overwritten by configuration file #
-    ############################################
-    ItopapiConfig.read_config(options.config_file)
-
-    #################################
-    # Value overwritten by CLI args #
-    #################################
-    if options.hostname is not None:
-        ItopapiConfig.hostname = options.hostname
-    if options.username is not None:
-        ItopapiConfig.username = options.username
-    if options.password is not None:
-        ItopapiConfig.password = options.password
-    if options.quattor_profile is not None:
-        ItopapiConfig.quattor_profile = options.quattor_profile
+    ######################
+    # Load configuration #
+    ######################
+    load_configuration_cli()
 
     ####################
     # Some value check #
     ####################
-    if ItopapiConfig.hostname is None or ItopapiConfig.username is None or ItopapiConfig.password is None:
+    if ItopapiConfig.hostname is None \
+            or ItopapiConfig.username is None\
+            or ItopapiConfig.password is None:
         print "Hostname/Username/Password missing"
         exit(1)
 
@@ -66,57 +35,28 @@ def main():
     # Retrieve quattor profile if asked #
     #####################################
     if ItopapiConfig.quattor_profile is not None:
-        quattor = QuattorJson(ItopapiConfig.quattor_profile)
-        print '*****\n' \
-              'Hostname : {0}\n' \
-              'IP : {1}\n' \
-              'Cores : {2}\n' \
-              'RAM : {3}\n' \
-              '*****'.format(quattor.hostname, quattor.ip, quattor.cpu, quattor.ram)
+        quattor_controller = ItopapiController()
+        quattor_controller.load_from_quattor(ItopapiConfig.quattor_profile)
+        quattor_controller.display()
 
-    elif options.findInstance is not None:
-            c = _getItopClass(options.findInstance[0])
-            obj = c.find(options.findInstance[1])
-            if obj is not None:
-                print obj[0]
-            else:
-                 print "No {0} found with this id".format(options.findInstance[0])
+    #########################
+    # Display classes asked #
+    #########################
+    if ItopcliConfig.classes is not None:
+        for itop_class in ItopcliConfig.classes:
+            class_controller = ItopapiController()
+            class_controller.load_all(itop_class)
+            class_controller.display()
 
-    elif options.deleteInstance is not None:
-            c = _getItopClass(options.deleteInstance[0])
-            obj = c.find(options.deleteInstance[1])
-            if obj is not None:
-                print obj[0].delete()
-            else:
-                print "No {0} found with this id".format(options.deleteInstance[0])
+    if ItopcliConfig.find_instance is not None:
+        class_controller = ItopapiController()
+        class_controller.load_one(ItopcliConfig.find_instance[0], ItopcliConfig.find_instance[1])
+        class_controller.display()
 
-    elif options.classes is not None:
-        for itop_class in options.classes:
-            c = _getItopClass(itop_class)
-            instances = c.list_objects()
-
-            print '#'*25
-            print 'List all {0}(s)'.format(itop_class)
-            try:
-                for instance in instances:
-                    print instance
-            except:
-                pass
-
-
-def _getItopClass(itop_class):
-    """
-    Associate the string passed as an argument to the corresponding Itop class
-    Maybe move it to ItopapiPrototype someday
-    """
-    if itop_class == "rack":
-        return ItopapiRack
-    elif itop_class == "server":
-        return ItopapiServer
-    else:
-        print "Class not found"
-        exit(1)
-
+    if ItopcliConfig.delete_instance is not None:
+        class_controller = ItopapiController()
+        class_controller.delete_one(ItopcliConfig.delete_instance[0], ItopcliConfig.delete_instance[1])
+        class_controller.display()
 
 if __name__ == "__main__":
     main()

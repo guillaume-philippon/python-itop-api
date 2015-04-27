@@ -24,9 +24,13 @@ class ItopapiRack(ItopapiPrototype):
         return ItopapiPrototype.find(ItopapiRack, key)
 
     @staticmethod
-    def list_objects():
+    def find_by_name(name):
+        ItopapiPrototype.find_by_name(ItopapiRack, name)
+
+    @staticmethod
+    def find_all():
         """ Retrieve all instance of Rack """
-        return ItopapiPrototype.list_objects(ItopapiRack)
+        return ItopapiPrototype.find_all(ItopapiRack)
 
     def __init__(self):
         super(ItopapiRack, self).__init__()

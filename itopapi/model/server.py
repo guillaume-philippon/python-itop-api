@@ -25,9 +25,13 @@ class ItopapiServer(ItopapiPrototype):
         return ItopapiPrototype.find(ItopapiServer, key)
 
     @staticmethod
-    def list_objects():
+    def find_by_name(name):
+        ItopapiPrototype.find_by_name(ItopapiServer, name)
+
+    @staticmethod
+    def find_all():
         """ Retrieve all instance of Server """
-        return ItopapiPrototype.list_objects(ItopapiServer)
+        return ItopapiPrototype.find_all(ItopapiServer)
 
     def __init__(self):
         super(ItopapiServer, self).__init__()
@@ -200,7 +204,7 @@ class ItopapiServer(ItopapiPrototype):
         """
         pass
 
-    def findRack(self):
+    def find_rack(self):
         """
         Retrieve the ItopapiRack corresponding to this server
         """
@@ -208,7 +212,7 @@ class ItopapiServer(ItopapiPrototype):
             return ItopapiRack.find(self.rack_id)
         return None
 
-    def findOrganization(self):
+    def find_organization(self):
         """
         Retrieve the ItopapiOrganization corresponding to this server
         """
@@ -217,7 +221,7 @@ class ItopapiServer(ItopapiPrototype):
             raise ItopapiUnimplementedMethod()
         return None
 
-    def findLocation(self):
+    def find_location(self):
         """
         Retrieve the ItopapiLocation corresponding to this server
         """
@@ -226,7 +230,7 @@ class ItopapiServer(ItopapiPrototype):
             raise ItopapiUnimplementedMethod()
         return None
 
-    def findEnclosure(self):
+    def find_enclosure(self):
         """
         Retrieve the ItopapiEnclosure corresponding to this server
         """
@@ -235,7 +239,7 @@ class ItopapiServer(ItopapiPrototype):
             raise ItopapiUnimplementedMethod()
         return None
 
-    def findBrand(self):
+    def find_brand(self):
         """
         Retrieve the ItopapiBrand corresponding to this server
         """
@@ -244,7 +248,7 @@ class ItopapiServer(ItopapiPrototype):
             raise ItopapiUnimplementedMethod()
         return None
 
-    def findModel(self):
+    def find_model(self):
         """
         Retrieve the ItopapiModel corresponding to this server
         """
@@ -253,7 +257,7 @@ class ItopapiServer(ItopapiPrototype):
             raise ItopapiUnimplementedMethod()
         return None
 
-    def findOSFamily(self):
+    def find_os_family(self):
         """
         Retrieve the ItopapiOSFamily corresponding to this server
         """
@@ -262,7 +266,7 @@ class ItopapiServer(ItopapiPrototype):
             raise ItopapiUnimplementedMethod()
         return None
 
-    def findOSVersion(self):
+    def find_os_version(self):
         """
         Retrieve the ItopapiOSVersion corresponding to this server
         """
@@ -271,7 +275,7 @@ class ItopapiServer(ItopapiPrototype):
             raise ItopapiUnimplementedMethod()
         return None
 
-    def findOSLicence(self):
+    def find_os_licence(self):
         """
         Retrieve the ItopapiOSLicence corresponding to this server
         """
@@ -280,7 +284,7 @@ class ItopapiServer(ItopapiPrototype):
             raise ItopapiUnimplementedMethod()
         return None
 
-    def findPowerA(self):
+    def find_power_a(self):
         """
         Retrieve the ItopapiPowerA corresponding to this server
         """
@@ -289,7 +293,7 @@ class ItopapiServer(ItopapiPrototype):
             raise ItopapiUnimplementedMethod()
         return None
 
-    def findPowerB(self):
+    def find_power_b(self):
         """
         Retrieve the ItopapiPowerB corresponding to this server
         """

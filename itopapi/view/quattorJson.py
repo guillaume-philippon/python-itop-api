@@ -6,7 +6,7 @@ quattorJson will manage all interaction with JSON representation of quattor prof
 import urllib2
 import json
 
-class QuattorJson(object):
+class QuattorView(object):
     """
     QuattorJson is a class that allow interaction with JSON
     """
@@ -29,4 +29,8 @@ class QuattorJson(object):
 
         # General information about hardware
         self.ram = self.data['hardware']['ram'][0]['size']
-        self.cpu = len(self.data['hardware']['cpu']) * int(self.data['hardware']['cpu'][0]['cores'])
+        cores = 0
+        for cpu in self.data['hardware']['cpu']:
+            cores += int(cpu['cores'])
+        self.cpu = cores
+        self.serial = self.data['hardware']['serialnumber']

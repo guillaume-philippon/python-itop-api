@@ -15,7 +15,7 @@ __authors__ = ['Guillaume Philippon <guillaume.philippon@lal.in2p3.fr>']
 
 class ItopapiUnimplementedMethod(Exception):
     """
-    Exeception raised when a method is not implemented on child class but cannot be generic
+    Exception raised when a method is not implemented on child class but cannot be generic
     """
     pass
 
@@ -44,7 +44,7 @@ class ItopapiPrototype(object):
         """
         return '{0}://{1}{2}{3}'.format(ItopapiConfig.protocol,
                                         ItopapiConfig.hostname,
-                                        ItopapiConfig.base_suffix,
+                                        ItopapiConfig.base_uri,
                                         ItopapiConfig.api_suffix)
 
     @staticmethod
@@ -62,7 +62,7 @@ class ItopapiPrototype(object):
         })
 
     @staticmethod
-    def list_command():
+    def list_commands():
         """
         List all operations available by REST API
         :return: dict
@@ -79,7 +79,7 @@ class ItopapiPrototype(object):
         return "{0}{{id={1},name={2}}}".format(self.__class__.__name__, self.id, self.name)
 
     @staticmethod
-    def list_objects(itop_class):
+    def find_all(itop_class):
         """
         List all objects for a given class
         :return: dict
@@ -99,6 +99,7 @@ class ItopapiPrototype(object):
             'class': itop_class.itop['name'],
             'key': key,
         })
+
         uri = ItopapiPrototype._uri_()
 
         params = ItopapiPrototype._params_(json_data)
@@ -121,6 +122,10 @@ class ItopapiPrototype(object):
             return None
         else:
             return objects
+
+    @staticmethod
+    def find_by_name(itop_class, name):
+        ItopapiPrototype.find(itop_class, {'name': name})
 
     def save(self):
         """
