@@ -26,7 +26,7 @@ class ItopapiServer(ItopapiPrototype):
 
     @staticmethod
     def find_by_name(name):
-        ItopapiPrototype.find_by_name(ItopapiServer, name)
+        return ItopapiPrototype.find_by_name(ItopapiServer, name)
 
     @staticmethod
     def find_all():
