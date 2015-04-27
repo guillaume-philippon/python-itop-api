@@ -25,11 +25,16 @@ class ItopapiPrototype(object):
     Standard interface with iTop is in ItopapiConfig
     """
     def __init__(self):
-        self.itop = {}
-        """Should be the same asself.itop['name']"""
-        self.finalclass = None
-        """Every instance of prototype has an id, unique within the whole application"""
         self.id = None
+        """Every instance should have an unique ID"""
+        self.name = None
+        """Every instance has a common name"""
+        self.friendlyname = None
+        """Every instance has a friendlyname"""
+        self.finalclass = None
+        """Should be the same asself.itop['name']. Each instance has one"""
+        self.id = None
+        """Unique id of the instance within the whole application"""
 
     @staticmethod
     def _uri_():

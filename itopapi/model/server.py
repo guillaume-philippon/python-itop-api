@@ -30,48 +30,43 @@ class ItopapiServer(ItopapiPrototype):
         return ItopapiPrototype.list_objects(ItopapiServer)
 
     def __init__(self):
-        """
-        Add itop['name'] to use generic ItopapiPrototype method
-        """
         super(ItopapiServer, self).__init__()
 
-        """##############################"""
-        """Properties/General Information"""
-        """Server's common name"""
-        self.name = None
-        """Server's common name (bis?)"""
-        self.friendlyname = None
-        """Server's organization id. Call findOrganization to get the full information or just use org_id_friendlyname and organization_name"""
+        ##################################
+        # Properties/General Information #
+        ##################################
         self.org_id = None
-        """Server's organization id's friendly name. Not sure the difference with organization_name"""
+        """Server's organization id. Call findOrganization to get the full information or just use org_id_friendlyname and organization_name"""
         self.org_id_friendlyname = None
-        """Server's organization name"""
+        """Server's organization id's friendly name. Not sure the difference with organization_name"""
         self.organization_name = None
-        """Server's status. Values within [implementation, obsolete, production, stock]"""
+        """Server's organization name"""
         self.status = None
-        """Server's business criticity. Values within [high, medium, low]"""
+        """Server's status. Values within [implementation, obsolete, production, stock]"""
         self.business_criticity = None
-        """Server's location id. Call findLocation to get the full information or just use location_id_friendlyname and location_name"""
+        """Server's business criticity. Values within [high, medium, low]"""
         self.location_id = None
-        """Server's location id's friendly name. Not sure the difference with location_name"""
+        """Server's location id. Call findLocation to get the full information or just use location_id_friendlyname and location_name"""
         self.location_id_friendlyname = None
-        """Server's location name"""
+        """Server's location id's friendly name. Not sure the difference with location_name"""
         self.location_name = None
-        """Server's rack id. Call findRack to get the full information or just use rack_id_friendlyname and rack_name"""
+        """Server's location name"""
         self.rack_id = None
-        """Server's rack id's friendly name. Not sure the difference with rack_name"""
+        """Server's rack id. Call findRack to get the full information or just use rack_id_friendlyname and rack_name"""
         self.rack_id_friendlyname = None
-        """Server's rack name"""
+        """Server's rack id's friendly name. Not sure the difference with rack_name"""
         self.rack_name = None
-        """Server's enclosure (chassis) id. Call findEnclosure to get the full information or just use enclosure_id_friendlyname and enclosure_name"""
+        """Server's rack name"""
         self.enclosure_id = None
-        """Server's enclosure id's friendly name. Not sure the difference with enclosure_name"""
+        """Server's enclosure (chassis) id. Call findEnclosure to get the full information or just use enclosure_id_friendlyname and enclosure_name"""
         self.enclosure_id_friendlyname = None
-        """Server's enclosure name"""
+        """Server's enclosure id's friendly name. Not sure the difference with enclosure_name"""
         self.enclosure_name = None
+        """Server's enclosure name"""
 
-        """##############################"""
-        """  Properties/More Information """
+        ##################################
+        #  Properties/More Information   #
+        ##################################
         self.brand_id = None
         self.brand_id_friendlyname = None
         self.brand_name = None
@@ -102,14 +97,19 @@ class ItopapiServer(ItopapiPrototype):
         """Server's asset number"""
         self.asset_number = None
 
-        """##############################"""
-        """        Properties/Date       """
+        ##################################
+        #        Properties/Date         #
+        ##################################
         self.move2production = None
+        """Server's move to production date"""
         self.purchase_date = None
+        """Server's purchase date"""
         self.end_of_warranty = None
+        """Server's end of warranty date"""
 
-        """##############################"""
-        """ Properties/Other information """
+        ##################################
+        #  Properties/Other Information  #
+        ##################################
         self.powerA_id = None
         self.powerA_id_finalclass_recall = None
         self.powerA_id_friendlyname = None
@@ -119,54 +119,79 @@ class ItopapiServer(ItopapiPrototype):
         self.powerB_id_friendlyname = None
         self.powerB_name = None
         self.description = None
+        """Server's description, as a free text"""
 
-        """##############################"""
-        """           Softwares          """
+        ##################################
+        #           Softwares            #
+        ##################################
         self.softwares_list = {}
+        """Server's softwares list"""
 
-        """##############################"""
-        """           Contacts           """
+        ##################################
+        #            Contacts            #
+        ##################################
         self.contacts_list = {}
+        """Server's contacts list"""
 
-        """##############################"""
-        """           Documents          """
+        ##################################
+        #           Documents            #
+        ##################################
         self.documents_list = {}
+        """Server's documents list"""
 
-        """##############################"""
-        """            Tickets           """
+        ##################################
+        #            Tickets             #
+        ##################################
         self.tickets_list = {}
+        """Server's tickets list"""
 
-        """##############################"""
-        """     Application solutions    """
+        ##################################
+        #     Application solutions      #
+        ##################################
         self.applicationsolution_list = {}
+        """Server's application solutions list"""
 
-        """##############################"""
-        """      Network interfaces      """
+        ##################################
+        #       Network interfaces       #
+        ##################################
         self.physicalinterface_list = {}
+        """Server's network interfaces list"""
 
-        """##############################"""
-        """           FC ports           """
+        ##################################
+        #            FC ports            #
+        ##################################
         self.fiberinterfacelist_list = {}
+        """Server's FC ports list"""
 
-        """##############################"""
-        """       network devices        """
+        ##################################
+        #        Network devices         #
+        ##################################
         self.networkdevice_list = {}
+        """Server's network devices list"""
 
-        """##############################"""
-        """             SANs             """
+        ##################################
+        #              SANs              #
+        ##################################
         self.san_list = {}
+        """Server's SANs list"""
 
-        """##############################"""
-        """        Logical volumes       """
+        ##################################
+        #        Logical volumes         #
+        ##################################
         self.logicalvolumes_list = {}
+        """Server's logical volumes list"""
 
-        """##############################"""
-        """      Provider contracts      """
+        ##################################
+        #       Provider contracts       #
+        ##################################
         self.providercontracts_list = {}
+        """Server's provider contracts list"""
 
-        """##############################"""
-        """           Services           """
+        ##################################
+        #            Services            #
+        ##################################
         self.services_list = {}
+        """Server's services list"""
 
     def load_from_json_quattor(self, json_quattor):
         """
