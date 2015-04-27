@@ -4,7 +4,7 @@ from itopapi.view import QuattorView, ConsoleView
 from itopapi.model import ItopapiServer, ItopapiRack, ItopapiOSFamily
 
 
-class UnknowItopClass(Exception):
+class UnknownItopClass(Exception):
     pass
 
 
@@ -24,18 +24,38 @@ class ItopapiController(object):
         self.data['organization'] = ""
         self.data['serial'] = self.input_view.serial
 
-    def load_from_model(self, itop_class):
-        if itop_class == 'rack':
-            self.model = ItopapiRack()
-        elif itop_class == 'server':
-            self.model = ItopapiServer()
-        elif itop_class == 'osfamily':
-            self.model = ItopapiOSFamily()
-        else:
-            raise UnknowItopClass()
+    def load_all(self, itop_class):
+        self.model = ItopapiController._get_itop_class(itop_class)
         if self.model is not None:
-            self.model.load('grid01.lal.in2p3.fr')
-            self.data = self.model.dict()
+            self.data = self.model.find_all()
+
+    def load_one(self, itop_class, id):
+        self.model = ItopapiController._get_itop_class(itop_class)
+        if self.model is not None:
+            if id.isdigit():
+                self.data = self.model.find(id)
+            else:
+                self.data = self.model.find_by_name(id)
+
+    def delete_one(self, itop_class, id):
+        self.model = ItopapiController._get_itop_class(itop_class)
+        if self.model is not None:
+            self.data = self.model.delete(id)
 
     def display(self):
         self.output_view.display(self.data)
+
+    @staticmethod
+    def _get_itop_class(itop_class):
+        """
+        Associate the string passed as an argument to the corresponding Itop class
+        Maybe move it to ItopapiPrototype someday
+        """
+        if itop_class == "rack":
+            return ItopapiRack
+        elif itop_class == "server":
+            return ItopapiServer
+        elif itop_class == "osfamily":
+            return ItopapiOSFamily
+        else:
+            raise UnknownItopClass()

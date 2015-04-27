@@ -16,6 +16,7 @@ def main():
     """
     Main function
     """
+
     ######################
     # Load configuration #
     ######################
@@ -44,8 +45,18 @@ def main():
     if ItopcliConfig.classes is not None:
         for itop_class in ItopcliConfig.classes:
             class_controller = ItopapiController()
-            class_controller.load_from_model(itop_class)
+            class_controller.load_all(itop_class)
             class_controller.display()
+
+    if ItopcliConfig.find_instance is not None:
+        class_controller = ItopapiController()
+        class_controller.load_one(ItopcliConfig.find_instance[0], ItopcliConfig.find_instance[1])
+        class_controller.display()
+
+    if ItopcliConfig.delete_instance is not None:
+        class_controller = ItopapiController()
+        class_controller.delete_one(ItopcliConfig.delete_instance[0], ItopcliConfig.delete_instance[1])
+        class_controller.display()
 
 if __name__ == "__main__":
     main()

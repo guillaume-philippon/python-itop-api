@@ -16,43 +16,8 @@ class ItopcliConfig(object):
     """
     file = None
     classes = []
-
-
-def load_configuration_file(config_file):
-    """
-    Load configuration from file
-    :param config_file: name of configuration file
-    """
-    config_parser = ConfigParser.ConfigParser()
-    config_parser.read(config_file)
-    try:
-        ItopapiConfig.hostname = config_parser.get('main', 'hostname')
-    except ConfigParser.NoOptionError:
-        pass
-    try:
-        ItopapiConfig.username = config_parser.get('main', 'username')
-    except ConfigParser.NoOptionError:
-        pass
-    try:
-        ItopapiConfig.password = config_parser.get('main', 'password')
-    except ConfigParser.NoOptionError:
-        pass
-    try:
-        ItopapiConfig.protocol = config_parser.get('main', 'protocol')
-    except ConfigParser.NoOptionError:
-        pass
-    try:
-        ItopapiConfig.base_uri = config_parser.get('main', 'base_uri')
-    except ConfigParser.NoOptionError:
-        pass
-    try:
-        ItopapiConfig.api_version = config_parser.get('main', 'api_version')
-    except ConfigParser.NoOptionError:
-        pass
-    try:
-        ItopapiConfig.api_suffix = config_parser.get('main', 'api_suffix')
-    except ConfigParser.NoOptionError:
-        pass
+    find_instance = None
+    delete_instance = None
 
 
 def load_configuration_cli():
@@ -67,11 +32,11 @@ def load_configuration_cli():
     ##########################
     itop_group = parser.add_argument_group('itop')
     itop_group.add_argument('--hostname', dest='hostname',
-                                  help='hostname of iTop server')
+                            help='hostname of iTop server')
     itop_group.add_argument('--username', dest='username',
-                                  help='username for iTop authentication')
+                            help='username for iTop authentication')
     itop_group.add_argument('--password', dest='password',
-                                  help='password for iTop authentication')
+                            help='password for iTop authentication')
 
     #########################
     # CLI specific argument #
@@ -82,6 +47,12 @@ def load_configuration_cli():
                                 ' (default = %(default)s)')
     cli_group.add_argument('--classes', dest='classes', nargs='*',
                            help='iTop classes to use')
+    cli_group.add_argument('--find', dest='find_instance', nargs=2,
+                           help='Find and display information about'
+                                ' a given class instance given its name and ID')
+    cli_group.add_argument('--delete', dest='delete_instance', nargs=2,
+                           help='Delete an instance given its class name'
+                                ' and instance ID')
     cli_group.add_argument('--organization', dest='organization',
                            help='iTop organization to use')
     cli_group.add_argument('--quattor-profile', dest='quattor_profile',
@@ -94,12 +65,14 @@ def load_configuration_cli():
     ##########################
     ItopcliConfig.file = options.config_file
     ItopcliConfig.classes = options.classes
+    ItopcliConfig.find_instance = options.find_instance
+    ItopcliConfig.delete_instance = options.delete_instance
 
     ###########################
     # Load iTop configuration #
     ###########################
     # From configuration file first
-    load_configuration_file(ItopcliConfig.file)
+    ItopapiConfig.read_config(options.config_file)
     # Else overwrite it with arguments
     if options.hostname is not None:
         ItopapiConfig.hostname = options.hostname

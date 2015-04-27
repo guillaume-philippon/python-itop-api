@@ -6,11 +6,8 @@ class ConsoleView(object):
         pass
 
     def display(self, data):
-        print '*************\n' \
-              'Hostname:     {hostname}\n' \
-              'IP:           {ip}\n' \
-              'CPUS:         {cpu}\n' \
-              'RAM:          {ram}\n' \
-              'Organization: {organization}\n' \
-              'Serial:       {serial}\n' \
-              '*************\n'.format(**data)
+        if isinstance(data, list):
+            for item in data:
+                print item
+        else:
+            print data

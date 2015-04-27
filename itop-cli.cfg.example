@@ -9,3 +9,6 @@ protocol: https
 base_suffix: /
 api_version: 1.0
 api_suffix: /webservices/rest.php
+# If you set this value to true, the api will only pretend deleting objects.
+# Useful only for debugging purposes
+simulate_deletes: False
