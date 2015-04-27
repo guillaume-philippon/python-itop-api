@@ -12,8 +12,6 @@ from itopapi.model import ItopapiRack, ItopapiServer
 from itopapi.view import QuattorJson
 from itopapi.itopapiconfig import ItopapiConfig
 import argparse
-import ConfigParser
-import json
 
 
 def main():
@@ -34,43 +32,16 @@ def main():
                                                                  ' classes')
     parse.add_argument('--get', dest='getInstance', nargs=2, help='Find and display information about'
                                                                  ' a given class instance given its name and ID')
+    parse.add_argument('--delete', dest='deleteInstance', nargs=2, help='Delete an instance given its class name'
+                                                                 ' and instance ID')
     parse.add_argument('--quattor-profile', dest='quattor_profile', help='JSON representation of'
                                                                          ' quattor profile')
     options = parse.parse_args()
 
-    ###########################################
-    # Value overwritten by configuration file #
-    ###########################################
-    config_parser = ConfigParser.ConfigParser()
-    config_parser.read(options.config_file)
-    try:
-        ItopapiConfig.hostname = config_parser.get('main', 'hostname')
-    except ConfigParser.NoOptionError:
-        pass
-    try:
-        ItopapiConfig.username = config_parser.get('main', 'username')
-    except ConfigParser.NoOptionError:
-        pass
-    try:
-        ItopapiConfig.password = config_parser.get('main', 'password')
-    except ConfigParser.NoOptionError:
-        pass
-    try:
-        ItopapiConfig.protocol = config_parser.get('main', 'protocol')
-    except ConfigParser.NoOptionError:
-        pass
-    try:
-        ItopapiConfig.base_suffix = config_parser.get('main', 'base_suffix')
-    except ConfigParser.NoOptionError:
-        pass
-    try:
-        ItopapiConfig.api_version = config_parser.get('main', 'api_version')
-    except ConfigParser.NoOptionError:
-        pass
-    try:
-        ItopapiConfig.api_suffix = config_parser.get('main', 'api_suffix')
-    except ConfigParser.NoOptionError:
-        pass
+    ############################################
+    # Values overwritten by configuration file #
+    ############################################
+    ItopapiConfig.read_config(options.config_file)
 
     #################################
     # Value overwritten by CLI args #
@@ -102,6 +73,7 @@ def main():
               'Cores : {2}\n' \
               'RAM : {3}\n' \
               '*****'.format(quattor.hostname, quattor.ip, quattor.cpu, quattor.ram)
+
     elif options.getInstance is not None:
             c = _getItopClass(options.getInstance[0])
             obj = c.find(options.getInstance[1])
