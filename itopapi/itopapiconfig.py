@@ -18,7 +18,6 @@ class ItopapiConfig(object):
     password = None
     protocol = 'https'
     base_uri = '/'
-    base_suffix = None
     api_version = '1.0'
     api_suffix = '/webservices/rest.php'
     quattor_profile = None
@@ -51,7 +50,7 @@ class ItopapiConfig(object):
         except ConfigParser.NoOptionError:
             pass
         try:
-            ItopapiConfig.base_suffix = config_parser.get('main', 'base_suffix')
+            ItopapiConfig.base_uri = config_parser.get('main', 'base_uri')
         except ConfigParser.NoOptionError:
             pass
         try:
