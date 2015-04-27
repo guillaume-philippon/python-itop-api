@@ -10,5 +10,7 @@ setup(name='python-itop-api',
       description='Set of python script to interact with iTop',
       author='Guillaume Philippon',
       author_email='guillaume.philippon@lal.in2p3.fr',
+      url='https://github.com/guillaume-philippon/python-itop-api',
+      license='FreeBSD License',
       scripts=["itop-cli"],
       packages=['itopapi', 'itopcli'])
