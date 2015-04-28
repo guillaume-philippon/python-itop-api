@@ -34,7 +34,7 @@ class ItopapiConsoleView(object):
         """
         print data
         print "    Hostname: {name}\n" \
-              "    Organization: {org_id_friendlyname}".format(**data.__dict__)
+              "    Organization: {organization_name}".format(**data.__dict__)
 
     @staticmethod
     def display_rack(data):
@@ -44,4 +44,4 @@ class ItopapiConsoleView(object):
         """
         print data
         print "    Rack name: {name}\n" \
-              "    Organization: {org_id_friendlyname}".format(**data.__dict__)
+              "    Organization: {organization_name}".format(**data.__dict__)
