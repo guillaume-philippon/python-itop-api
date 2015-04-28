@@ -1,7 +1,7 @@
 # -*- coding: utf8 -*-fr
 
 
-class ConsoleView(object):
+class ItopapiConsoleView(object):
     def __init__(self):
         pass
 

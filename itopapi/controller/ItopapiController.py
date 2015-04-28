@@ -1,6 +1,6 @@
 # -*- coding: utf8 -*-fr
 
-from itopapi.view import QuattorView, ConsoleView
+from itopapi.view import ItopapiQuattorView, ItopapiConsoleView
 from itopapi.model import ItopapiServer, ItopapiRack, ItopapiOSFamily
 
 
@@ -11,12 +11,12 @@ class UnknownItopClass(Exception):
 class ItopapiController(object):
     def __init__(self):
         self.input_view = None
-        self.output_view = ConsoleView()
+        self.output_view = ItopapiConsoleView()
         self.model = None
         self.data = {}
 
     def load_from_quattor(self, json_quattor):
-        self.input_view = QuattorView(json_quattor)
+        self.input_view = ItopapiQuattorView(json_quattor)
         self.data['hostname'] = self.input_view.hostname
         self.data['ip'] = self.input_view.ip
         self.data['cpu'] = self.input_view.cpu
