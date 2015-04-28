@@ -20,7 +20,8 @@ class ItopapiConfig(object):
     base_uri = '/'
     api_version = '1.0'
     api_suffix = '/webservices/rest.php'
-    quattor_profile = None
+    import_uri = None
+    format = None
     simulate_deletes = False
 
     @staticmethod
