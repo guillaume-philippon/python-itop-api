@@ -38,10 +38,11 @@ def main():
     #####################################
     # Retrieve quattor profile if asked #
     #####################################
-    if ItopapiConfig.quattor_profile is not None:
-        quattor_controller = ItopapiController()
-        quattor_controller.load_from_quattor(ItopapiConfig.quattor_profile)
-        quattor_controller.display()
+    if ItopapiConfig.import_uri is not None:
+        if ItopapiConfig.format == 'quattor':
+            quattor_controller = ItopapiController()
+            quattor_controller.load_from_quattor(ItopapiConfig.import_uri)
+            quattor_controller.display()
 
     #########################
     # Display classes asked #

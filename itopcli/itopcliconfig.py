@@ -48,17 +48,24 @@ def load_configuration_cli():
     cli_group.add_argument('--config', dest='config_file', default='./itop-cli.cfg',
                            help='configuration file CLI must use'
                                 ' (default = %(default)s)')
-    cli_group.add_argument('--classes', dest='classes', nargs='*', metavar='itop-class',
+    cli_group.add_argument('--classes', dest='classes', nargs='*', metavar='ITOP-CLASS',
                            help='iTop classes to use')
-    cli_group.add_argument('--find', dest='find_instance', nargs='+', metavar='name',
+    cli_group.add_argument('--find', dest='find_instance', nargs='+', metavar='INSTANCE',
                            help='Find and display information about a given class instance given'
                                 'its name or ID')
-    cli_group.add_argument('--delete', dest='delete_instance', nargs=2, metavar='instance',
+    cli_group.add_argument('--delete', dest='delete_instance', nargs=2, metavar='INSTANCE',
                            help='Delete an instance given its class name and instance ID')
     cli_group.add_argument('--organization', dest='organization',
                            help='iTop organization to use')
-    cli_group.add_argument('--quattor-profile', dest='quattor_profile',
-                           help='URI of quattor profile')
+
+    ##################################
+    # Import functionality arguments #
+    ##################################
+    import_group = parser.add_argument_group('import')
+    import_group.add_argument('--import', dest='import', metavar='URI',
+                              help='URI of file to import')
+    import_group.add_argument('--format', dest='format',
+                              help='Format of file you want import')
 
     options = parser.parse_args()
 
@@ -70,7 +77,8 @@ def load_configuration_cli():
     if ItopcliConfig.classes is not None:
         ItopcliConfig.find_instance = options.find_instance
     else:
-        raise NeedMoreArgs('--find option need --classes')
+        if ItopcliConfig.find_instance is not None:
+            raise NeedMoreArgs('--find option need --classes')
     ItopcliConfig.delete_instance = options.delete_instance
 
     ###########################
@@ -85,5 +93,10 @@ def load_configuration_cli():
         ItopapiConfig.username = options.username
     if options.password is not None:
         ItopapiConfig.password = options.password
-    if options.quattor_profile is not None:
-        ItopapiConfig.quattor_profile = options.quattor_profile
+    if options.import_uri is not None:
+        if options.format is None:
+            raise NeedMoreArgs('--import option need --format')
+        else:
+            ItopapiConfig.import_uri = options.import_uri
+    if options.format is not None:
+        ItopapiConfig.format = options.format
