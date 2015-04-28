@@ -16,13 +16,11 @@ You can have a look of more option with command --help
     user@machine> itop-cli --help
     
     usage: itop-cli [-h] [--hostname HOSTNAME] [--username USERNAME]
-                [--password PASSWORD] [--config CONFIG_FILE]
-                [--classes [CLASSES [CLASSES ...]]]
-                [--find FIND_INSTANCE [FIND_INSTANCE ...]]
-                [--delete DELETE_INSTANCE DELETE_INSTANCE]
-                [--organization ORGANIZATION]
-                [--quattor-profile QUATTOR_PROFILE]
-
+                    [--password PASSWORD] [--config CONFIG_FILE]
+                    [--classes [ITOP-CLASS [ITOP-CLASS ...]]]
+                    [--find INSTANCE [INSTANCE ...]] [--delete INSTANCE INSTANCE]
+                    [--organization ORGANIZATION] [--import URI] [--format FORMAT]
+    
     python CLI for iTop REST api
     
     optional arguments:
@@ -36,15 +34,17 @@ You can have a look of more option with command --help
     cli:
       --config CONFIG_FILE  configuration file CLI must use (default = ./itop-
                             cli.cfg)
-      --classes [CLASSES [CLASSES ...]]
+      --classes [ITOP-CLASS [ITOP-CLASS ...]]
                             iTop classes to use
-      --find FIND_INSTANCE FIND_INSTANCE
+      --find INSTANCE [INSTANCE ...]
                             Find and display information about a given class
-                            instance given its name and ID
-      --delete DELETE_INSTANCE DELETE_INSTANCE
+                            instance givenits name or ID
+      --delete INSTANCE INSTANCE
                             Delete an instance given its class name and instance
                             ID
       --organization ORGANIZATION
                             iTop organization to use
-      --quattor-profile QUATTOR_PROFILE
-                        URI of quattor profile
+    
+    import:
+      --import URI          URI of file to import
+      --format FORMAT       Format of file you want import
