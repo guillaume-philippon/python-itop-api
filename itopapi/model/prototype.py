@@ -6,7 +6,6 @@ Prototype is an empty class which defines all required methods for child classes
 import urllib2
 import urllib
 import json
-            # update all the object's fields with the following line
 from itopapi.itopapiconfig import ItopapiConfig
 
 __version__ = '1.0'
@@ -26,13 +25,13 @@ class ItopapiPrototype(object):
     """
     def __init__(self):
         self.instance_id = None
-        """Every instance should have an unique ID"""
+        # Every instance should have an unique ID
         self.name = None
-        """Every instance has a common name"""
+        # Every instance has a common name
         self.friendlyname = None
-        """Every instance has a friendlyname"""
+        # Every instance has a friendlyname
         self.finalclass = None
-        """Should be the same asself.itop['name']. Each instance has one"""
+        # Should be the same as self.itop['name']. Each instance has one
 
     @staticmethod
     def _uri_():
@@ -40,10 +39,7 @@ class ItopapiPrototype(object):
         Build a URI to access to rest interface of iTop
         :return: string
         """
-        return '{0}://{1}{2}{3}'.format(ItopapiConfig.protocol,
-                                        ItopapiConfig.hostname,
-                                        ItopapiConfig.base_uri,
-                                        ItopapiConfig.api_suffix)
+        return '{protocol}://{hostname}{base_uri}{api_suffix}'.format(**ItopapiConfig.__dict__)
 
     @staticmethod
     def _params_(json_data):
