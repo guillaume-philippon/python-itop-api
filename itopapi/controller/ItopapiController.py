@@ -2,8 +2,10 @@
 """
 itopacpiController is a controller for itopapi module
 """
-from itopapi.view import ItopapiQuattorView, ItopapiConsoleView
+from itopapi.view import ItopapiConsoleView
 from itopapi.model import ItopapiServer, ItopapiRack, ItopapiOSFamily
+import urllib2
+import json
 
 
 class UnknownItopClass(Exception):
@@ -13,29 +15,47 @@ class UnknownItopClass(Exception):
     pass
 
 
+class UnsupportedImportFormat(Exception):
+    """
+    Exception raised when --format options is not supported
+    """
+    pass
+
 class ItopapiController(object):
     """
     ItopapiController is a controller for itopapi module
     """
     def __init__(self):
-        self.input_view = None
-        self.output_view = ItopapiConsoleView()
-        self.model = None
-        self.data = {}
+        self.view = ItopapiConsoleView()
+        self.data = []
 
-    def load_from_quattor(self, json_quattor):
+    def get_data(self, uri, data_format):
+        """
+        Load self.data according --import / --format arguments
+        :param uri: URI of import file (--import)
+        :param data_format: format of file (--format)
+        """
+        if data_format == 'quattor':
+            self.load_from_quattor(uri)
+        else:
+            raise UnsupportedImportFormat('Format %s not supported' % data_format)
+
+    def load_from_quattor(self, uri):
         """
         Load from quattor profile
-        :param json_quattor: uri
         """
-        # TODO: Need to be redone
-        self.input_view = ItopapiQuattorView(json_quattor)
-        self.data['hostname'] = self.input_view.hostname
-        self.data['ip'] = self.input_view.ip
-        self.data['cpu'] = self.input_view.cpu
-        self.data['ram'] = self.input_view.ram
-        self.data['organization'] = ""
-        self.data['serial'] = self.input_view.serial
+        data = json.loads(urllib2.urlopen(uri).read())
+        hostname = "{0}.{1}".format(data['system']['network']['hostname'],
+                                    data['system']['network']['domainname'])
+        model = ItopapiServer()
+        model.name = hostname
+        model.friendlyname = hostname
+        model.ram = data['hardware']['ram'][0]['size']
+        cores = 0
+        for cpu in data['hardware']['cpu']:
+            cores += int(cpu['cores'])
+        model.cpu = cores
+        self.data.append(model)
 
     def load_all(self, itop_class):
         """
@@ -43,9 +63,9 @@ class ItopapiController(object):
         :param itop_class: iTop class
         :return: []
         """
-        self.model = ItopapiController._get_itop_class(itop_class)
-        if self.model is not None:
-            self.data = self.model.find_all()
+        model = ItopapiController._get_itop_class(itop_class)
+        if model is not None:
+            self.data.extend(model.find_all())
 
     def load_one(self, itop_class, id_instance):
         """
@@ -53,12 +73,12 @@ class ItopapiController(object):
         :param itop_class: iTop class
         :param id_instance: id you want load
         """
-        self.model = ItopapiController._get_itop_class(itop_class)
-        if self.model is not None:
+        model = ItopapiController._get_itop_class(itop_class)
+        if model is not None:
             if id_instance.isdigit():
-                self.data = self.model.find(id_instance)
+                self.data.extend(model.find(id_instance))
             else:
-                self.data = self.model.find_by_name(id_instance)
+                self.data.extend(model.find_by_name(id_instance))
 
     def delete_one(self, itop_class, id_instance):
         """
@@ -67,15 +87,15 @@ class ItopapiController(object):
         :param id_instance: id you want delete
         """
         # TODO: Why not just self.delete() for current objects deletion
-        self.model = ItopapiController._get_itop_class(itop_class)
-        if self.model is not None:
-            self.data = self.model.delete(id_instance)
+        model = ItopapiController._get_itop_class(itop_class)
+        if model is not None:
+            self.data.extend(model.delete(id_instance))
 
     def display(self):
         """
         Display with current view
         """
-        self.output_view.display(self.data)
+        self.view.display(self.data)
 
     @staticmethod
     def _get_itop_class(itop_class):
