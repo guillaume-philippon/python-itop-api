@@ -1,4 +1,4 @@
 # -*- coding: utf8 -*-fr
 
-from itopapi.view.quattorJson import QuattorView
-from itopapi.view.console import ConsoleView
+from itopapi.view.quattor import ItopapiQuattorView
+from itopapi.view.console import ItopapiConsoleView

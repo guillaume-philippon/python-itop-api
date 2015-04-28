@@ -6,7 +6,7 @@ quattorJson will manage all interaction with JSON representation of quattor prof
 import urllib2
 import json
 
-class QuattorView(object):
+class ItopapiQuattorView(object):
     """
     QuattorJson is a class that allow interaction with JSON
     """
