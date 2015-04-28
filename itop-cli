@@ -42,7 +42,7 @@ def main():
     if ItopapiConfig.import_uri is not None:
         try:
             controller.get_data(ItopapiConfig.import_uri, ItopapiConfig.format)
-        except UnsupportedImportFormat(e):
+        except UnsupportedImportFormat as e:
             print 'Error: {}'.format(e.message)
             exit(1)
 
