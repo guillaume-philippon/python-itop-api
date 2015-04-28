@@ -9,5 +9,5 @@ __authors__ = ['Guillaume Philippon <guillaume.philippon@lal.in2p3.fr>']
 
 from itopapi.model import ItopapiRack, ItopapiServer
 from itopapi.itopapiconfig import ItopapiConfig
-from itopapi.view import ConsoleView, QuattorView
+from itopapi.view import ItopapiConsoleView, ItopapiQuattorView
 from itopapi.controller import ItopapiController
