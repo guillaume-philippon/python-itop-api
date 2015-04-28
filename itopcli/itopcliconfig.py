@@ -44,6 +44,8 @@ def load_configuration_cli():
                             help='username for iTop authentication')
     itop_group.add_argument('--password', dest='password',
                             help='password for iTop authentication')
+    itop_group.add_argument('--organization', dest='organization',
+                            help='iTop organization to use')
 
     #########################
     # CLI specific argument #
@@ -59,8 +61,6 @@ def load_configuration_cli():
                                 'its name or ID')
     cli_group.add_argument('--delete', dest='delete_instance', nargs=2, metavar='INSTANCE',
                            help='Delete an instance given its class name and instance ID')
-    cli_group.add_argument('--organization', dest='organization',
-                           help='iTop organization to use')
 
     ##################################
     # Import functionality arguments #
@@ -97,6 +97,8 @@ def load_configuration_cli():
         ItopapiConfig.username = options.username
     if options.password is not None:
         ItopapiConfig.password = options.password
+    if options.organization is not None:
+        ItopapiConfig.organization = options.organization
     if options.import_uri is not None:
         if options.format is None:
             raise NeedMoreArgs('--import option need --format')

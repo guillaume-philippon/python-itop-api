@@ -22,6 +22,7 @@ class ItopapiConfig(object):
     api_suffix = '/webservices/rest.php'
     import_uri = None
     format = None
+    organization = None
     simulate_deletes = False
 
     @staticmethod
@@ -60,6 +61,10 @@ class ItopapiConfig(object):
             pass
         try:
             ItopapiConfig.api_suffix = config_parser.get('main', 'api_suffix')
+        except ConfigParser.NoOptionError:
+            pass
+        try:
+            ItopapiConfig.organization = config_parser.get('main', 'organization')
         except ConfigParser.NoOptionError:
             pass
         try:

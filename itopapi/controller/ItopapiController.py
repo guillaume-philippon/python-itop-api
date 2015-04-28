@@ -4,6 +4,7 @@ itopacpiController is a controller for itopapi module
 """
 from itopapi.view import ItopapiConsoleView
 from itopapi.model import ItopapiServer, ItopapiRack, ItopapiOSFamily
+from itopapi.itopapiconfig import ItopapiConfig
 import urllib2
 import json
 
@@ -55,6 +56,7 @@ class ItopapiController(object):
         for cpu in data['hardware']['cpu']:
             cores += int(cpu['cores'])
         model.cpu = cores
+        model.organization_name = ItopapiConfig.organization
         self.data.append(model)
 
     def load_all(self, itop_class):

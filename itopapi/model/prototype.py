@@ -32,6 +32,7 @@ class ItopapiPrototype(object):
         # Every instance has a friendlyname
         self.finalclass = None
         # Should be the same as self.itop['name']. Each instance has one
+        self.itop = {}
 
     @staticmethod
     def _uri_():
