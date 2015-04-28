@@ -1,5 +1,5 @@
 # -*- coding: utf8 -*-fr
-
+# pylint: disable=too-few-public-methods
 """
 ItopapiConfig holds the configuration for the whole project
 """

@@ -1,10 +1,11 @@
 # -*- coding: utf8 -*-fr
-
+# pylint: disable=invalid-name, too-few-public-methods
 """
 quattorJson will manage all interaction with JSON representation of quattor profile
 """
 import urllib2
 import json
+
 
 class ItopapiQuattorView(object):
     """
@@ -14,7 +15,7 @@ class ItopapiQuattorView(object):
         self.data = json.loads(urllib2.urlopen(uri).read())
         # General system information
         self.hostname = "{0}.{1}".format(self.data['system']['network']['hostname'],
-                                  self.data['system']['network']['domainname'])
+                                         self.data['system']['network']['domainname'])
         self.ip = None
         interfaces = self.data['system']['network']['interfaces']
         for interface in interfaces:

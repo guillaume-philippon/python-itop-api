@@ -1,5 +1,5 @@
 # -*- coding: utf8 -*-fr
-
+# pylint: disable=invalid-name
 """
 ItopapiApplicationSolution is a abstraction of Application Solution representation on iTop
 """

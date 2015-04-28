@@ -1,12 +1,12 @@
 # -*- coding: utf8 -*-fr
-
+# pylint: disable=wildcard-import, no-member, unused-wildcard-import
 """
 Prototype is an empty class which defines all required methods for child classes
 """
 import urllib2
 import urllib
 import json
-from itopapi.model import *
+            # update all the object's fields with the following line
 from itopapi.itopapiconfig import ItopapiConfig
 
 __version__ = '1.0'
@@ -25,7 +25,7 @@ class ItopapiPrototype(object):
     Standard interface with iTop is in ItopapiConfig
     """
     def __init__(self):
-        self.id = None
+        self.instance_id = None
         """Every instance should have an unique ID"""
         self.name = None
         """Every instance has a common name"""
@@ -33,8 +33,6 @@ class ItopapiPrototype(object):
         """Every instance has a friendlyname"""
         self.finalclass = None
         """Should be the same asself.itop['name']. Each instance has one"""
-        self.id = None
-        """Unique id of the instance within the whole application"""
 
     @staticmethod
     def _uri_():
@@ -75,8 +73,11 @@ class ItopapiPrototype(object):
         return json.loads(urllib2.urlopen(uri, params).read())
 
     def __str__(self):
-        """ Formats java-style """
-        return "{0}{{id={1},name={2}}}".format(self.__class__.__name__, self.id, self.name)
+        """
+        Formats java-style
+        :return: string
+        """
+        return "{0}{{id={1},name={2}}}".format(self.__class__.__name__, self.instance_id, self.name)
 
     @staticmethod
     def find_all(itop_class):
@@ -105,19 +106,19 @@ class ItopapiPrototype(object):
         params = ItopapiPrototype._params_(json_data)
         data = json.loads(urllib2.urlopen(uri, params).read())
 
-        """ If there's no object to process, return immediately """
+        # If there's no object to process, return immediately
         if data['objects'] is None:
             return None
 
         objects = []
         for information in data['objects']:
             obj = itop_class()
-            obj.id = data['objects'][information]['key']
-            """ update all the object's fields with the following line """
+            obj.instance_id = data['objects'][information]['key']
+            # update all the object's fields with the following line
             obj.__dict__.update(data['objects'][information]['fields'])
             objects.append(obj)
 
-        """ Return None, as a commodity, if there's 0 result """
+        # Return None, as a commodity, if there's 0 result
         if len(objects) == 0:
             return None
         else:
@@ -125,6 +126,12 @@ class ItopapiPrototype(object):
 
     @staticmethod
     def find_by_name(itop_class, name):
+        """
+        Find specific name entry into all itop_class
+        :param itop_class: string
+        :param name: string
+        :return: Itopapi*
+        """
         return ItopapiPrototype.find(itop_class, {'name': name})
 
     def save(self):
@@ -134,7 +141,7 @@ class ItopapiPrototype(object):
         :return:
         """
         operation = 'core/create'
-        if self.id is not None:
+        if self.instance_id is not None:
             operation = 'core/update'
         # TODO the main problem will be automatically sorting keys that would have to be saved
         # or not. As an example, org_id should be saved, org_id_friendlyname should not
@@ -145,17 +152,18 @@ class ItopapiPrototype(object):
         Deletes the current instance if it exists in itop's database (i.e. the id is set)
         :return:
         """
-        if self.id is not None:
+        if self.instance_id is not None:
             json_data = json.dumps({
                 'operation': 'core/delete',
                 'comment': 'Deleting object from python-itop-api',
                 'class': self.__class__.itop['name'],
-                'key': self.id,
+                'key': self.instance_id,
                 'simulate': ItopapiConfig.simulate_deletes
             })
             uri = ItopapiPrototype._uri_()
             params = ItopapiPrototype._params_(json_data)
             result = json.loads(urllib2.urlopen(uri, params).read())
-            # Reset the id to None to reflect that the instance doesn't exist anymore in the database
-            self.id = None
+            # Reset the id to None to reflect that the instance doesn't exist anymore in the
+            # database
+            self.instance_id = None
             return result
