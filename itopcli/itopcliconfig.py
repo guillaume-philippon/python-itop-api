@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf8 -*-fr
+# pylint: disable=too-few-public-methods
 """
 Module used to load configuration from different type of backend
  load_configuration_file : file configuration
@@ -10,6 +11,9 @@ import argparse
 
 
 class NeedMoreArgs(Exception):
+    """
+    Error trigged when there are not enough arguments
+    """
     pass
 
 
@@ -62,7 +66,7 @@ def load_configuration_cli():
     # Import functionality arguments #
     ##################################
     import_group = parser.add_argument_group('import')
-    import_group.add_argument('--import', dest='import', metavar='URI',
+    import_group.add_argument('--import', dest='import_uri', metavar='URI',
                               help='URI of file to import')
     import_group.add_argument('--format', dest='format',
                               help='Format of file you want import')
