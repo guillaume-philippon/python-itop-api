@@ -17,7 +17,15 @@ class ItopapiServer(ItopapiPrototype):
     """
 
     # Configuration specific to itop
-    itop = {'name': 'Server'}
+    itop = {
+        # Name of the class in Itop
+        'name': 'Server',
+        # Define which fields to save when creating or updating from the python API
+        'save': ['name', 'friendlyname', 'org_id', 'status', 'business_criticity', 'location_id',
+                 'rack_id', 'encosure_id', 'brand_id', 'model_id', 'osfamily_id', 'osversion_id', 'managementip',
+                 'oslicence_id', 'cpu', 'ram', 'nb_u', 'serialnumber', 'asset_number', 'move2production',
+                 'purchase_date', 'end_of_warranty', 'powerA_id', 'powerB_id', 'description'],
+    }
 
     @staticmethod
     def find(key):
@@ -33,7 +41,7 @@ class ItopapiServer(ItopapiPrototype):
         """ Retrieve all instance of Server """
         return ItopapiPrototype.find_all(ItopapiServer)
 
-    def __init__(self, data = None):
+    def __init__(self, data=None):
         super(ItopapiServer, self).__init__(data)
 
         ##################################
@@ -43,7 +51,7 @@ class ItopapiServer(ItopapiPrototype):
         # Server's organization id. Call findOrganization to get the full information or just
         #  use org_id_friendlyname and organization_name
         self.org_id_friendlyname = None
-        # Server's organization id's friendly name. Not sure the difference with organization_name
+        # Server's organization friendly name. Not sure the difference with organization_name
         self.organization_name = None
         # Server's organization name
         self.status = None

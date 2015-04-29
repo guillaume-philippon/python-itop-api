@@ -85,7 +85,7 @@ class ItopapiPrototype(object):
         Formats java-style
         :return: string
         """
-        return "{0}{{id={1},name={2}}}".format(self.__class__.__name__, self.instance_id, self.name)
+        return "{0}{{id={1},name={2}}}".format(self.__class__.__name__, self.instance_id, self.name.encode('ascii', 'ignore'))
 
     @staticmethod
     def find_all(itop_class):
