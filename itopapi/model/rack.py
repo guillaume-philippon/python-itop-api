@@ -16,7 +16,12 @@ class ItopapiRack(ItopapiPrototype):
     """
 
     """ Configuration specific to itop """
-    itop = {'name': 'Rack'}
+    itop = {
+        # Name of the class in Itop
+        'name': 'Rack',
+        # Define which fields to save when creating or updating from the python API
+        'save': ['name'],
+    }
 
     @staticmethod
     def find(key):

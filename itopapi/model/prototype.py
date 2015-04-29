@@ -152,9 +152,29 @@ class ItopapiPrototype(object):
         operation = 'core/create'
         if self.instance_id is not None:
             operation = 'core/update'
-        # TODO the main problem will be automatically sorting keys that would have to be saved
-        # or not. As an example, org_id should be saved, org_id_friendlyname should not
-        raise ItopapiUnimplementedMethod()
+
+        # Define the fields to save
+        fields = {}
+        for field in self.__class__.itop['save']:
+            fields[field] = self.__dict__[field]
+
+        query = {
+            'comment': 'Creating/Updating object from python-itop-api',
+            'class': self.__class__.itop['name'],
+            'fields': fields
+            }
+        if self.instance_id is not None:
+            query['operation'] = 'core/update'
+            query['key'] = self.instance_id
+        else:
+            query['operation'] = 'core/create'
+
+        json_data = json.dumps(query)
+        uri = ItopapiPrototype._uri_()
+        params = ItopapiPrototype._params_(json_data)
+        result = json.loads(urllib2.urlopen(uri, params).read())
+
+        return result
 
     def delete(self):
         """
