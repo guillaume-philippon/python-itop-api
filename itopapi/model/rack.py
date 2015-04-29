@@ -32,8 +32,8 @@ class ItopapiRack(ItopapiPrototype):
         """ Retrieve all instance of Rack """
         return ItopapiPrototype.find_all(ItopapiRack)
 
-    def __init__(self):
-        super(ItopapiRack, self).__init__()
+    def __init__(self, data = None):
+        super(ItopapiRack, self).__init__(data)
 
         ##################################
         #           Properties           #

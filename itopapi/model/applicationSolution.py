@@ -11,12 +11,12 @@ __authors__ = ['Julien Nauroy <julien.nauroy@u-psud.fr>']
 
 """ TODO not completed and tested yet, created as a dependency of TiopapiRack """
 class ItopapiApplicationSolution(ItopapiPrototype):
+
+    # Configuration specific to itop
+    itop = {'name': 'ApplicationSolution'}
+
     """
     ItopapiApplicationSolution is a object that represent an Application Solution from iTop
     """
-    def __init__(self):
-        """
-        Add itop['name'] to use generic ItopapiPrototype method
-        """
-        super(ItopapiApplicationSolution, self).__init__()
-        self.itop['name'] = 'ApplicationSolution'
+    def __init__(self, data = None):
+        super(ApplicationSolution, self).__init__(data)

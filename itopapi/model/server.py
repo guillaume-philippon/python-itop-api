@@ -33,8 +33,8 @@ class ItopapiServer(ItopapiPrototype):
         """ Retrieve all instance of Server """
         return ItopapiPrototype.find_all(ItopapiServer)
 
-    def __init__(self):
-        super(ItopapiServer, self).__init__()
+    def __init__(self, data = None):
+        super(ItopapiServer, self).__init__(data)
 
         ##################################
         # Properties/General Information #

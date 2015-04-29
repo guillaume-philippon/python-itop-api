@@ -12,6 +12,13 @@ __version__ = '1.0'
 __authors__ = ['Guillaume Philippon <guillaume.philippon@lal.in2p3.fr>']
 
 
+class UnknownItopClass(Exception):
+    """
+    Error raised if ItopClass is not supported
+    """
+    pass
+
+
 class ItopapiUnimplementedMethod(Exception):
     """
     Exception raised when a method is not implemented on child class but cannot be generic
@@ -23,7 +30,7 @@ class ItopapiPrototype(object):
     """
     Standard interface with iTop is in ItopapiConfig
     """
-    def __init__(self):
+    def __init__(self, dict = None):
         self.instance_id = None
         # Every instance should have an unique ID
         self.name = None
@@ -32,7 +39,11 @@ class ItopapiPrototype(object):
         # Every instance has a friendlyname
         self.finalclass = None
         # Should be the same as self.itop['name']. Each instance has one
-        self.itop = {}
+
+        # If default data was passed as an argument, load it and then resolve sublists
+        if dict is not None:
+            self.__dict__.update(dict)
+            self.__process_lists()
 
     @staticmethod
     def _uri_():
@@ -85,6 +96,16 @@ class ItopapiPrototype(object):
         return ItopapiPrototype.find(itop_class, 'SELECT {0}'.format(itop_class.itop['name']))
 
     @staticmethod
+    def find_by_name(itop_class, name):
+        """
+        Find specific name entry into all itop_class
+        :param itop_class: string
+        :param name: string
+        :return: Itopapi*
+        """
+        return ItopapiPrototype.find(itop_class, {'name': name})
+
+    @staticmethod
     def find(itop_class, key):
         """
         Find a list of objects given its id or some criteria passed as a dictionary
@@ -109,10 +130,11 @@ class ItopapiPrototype(object):
 
         objects = []
         for information in data['objects']:
-            obj = itop_class()
+            obj = itop_class({})
             obj.instance_id = data['objects'][information]['key']
             # update all the object's fields with the following line
             obj.__dict__.update(data['objects'][information]['fields'])
+            obj.__process_lists()
             objects.append(obj)
 
         # Return None, as a commodity, if there's 0 result
@@ -120,16 +142,6 @@ class ItopapiPrototype(object):
             return None
         else:
             return objects
-
-    @staticmethod
-    def find_by_name(itop_class, name):
-        """
-        Find specific name entry into all itop_class
-        :param itop_class: string
-        :param name: string
-        :return: Itopapi*
-        """
-        return ItopapiPrototype.find(itop_class, {'name': name})
 
     def save(self):
         """
@@ -164,3 +176,44 @@ class ItopapiPrototype(object):
             # database
             self.instance_id = None
             return result
+
+    def __process_lists(self):
+        """
+        Process all sublists of an instance and instantiate regular Itopapi classes where dictionaries
+        are fetched using the Itop API.
+        :return:
+        """
+        ItopapiPrototype.__subclasses__()
+        for key, value in self.__dict__.iteritems():
+            if isinstance(value, list):
+                newList = []
+                # For each element, find its type given by the "finalclass" attribute
+                # and instantiate the corresponding object
+                for element in value:
+                    element_class = ItopapiPrototype.get_itop_class(element["finalclass"])
+                    obj = element_class(element)
+                    newList.append(obj)
+
+                self.__dict__[key] = newList
+
+    # __classes contains the list of ItopapiPrototype's subclasses
+    __classes = {}
+    @staticmethod
+    def get_itop_class(itop_class):
+        """
+        Associate the string passed as an argument to the corresponding Itop class
+        Maybe move it to ItopapiPrototype someday
+        :param itop_class: iTop class
+        """
+        itop_class = itop_class.lower()
+        # Populate the list of classes if need be
+        if len(ItopapiPrototype.__classes) == 0:
+            for c in ItopapiPrototype.__subclasses__():
+                ItopapiPrototype.__classes[c.itop["name"].lower()] = c
+
+        # Retrieve the proper class depending on the name
+        c = ItopapiPrototype.__classes[itop_class]
+        if c is not None:
+            return c
+        else:
+            raise UnknownItopClass()

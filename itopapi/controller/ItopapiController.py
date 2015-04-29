@@ -3,17 +3,10 @@
 itopacpiController is a controller for itopapi module
 """
 from itopapi.view import ItopapiConsoleView
-from itopapi.model import ItopapiServer, ItopapiRack, ItopapiOSFamily
+from itopapi.model import ItopapiPrototype, ItopapiServer
 from itopapi.itopapiconfig import ItopapiConfig
 import urllib2
 import json
-
-
-class UnknownItopClass(Exception):
-    """
-    Error raised if ItopClass is not supported
-    """
-    pass
 
 
 class UnsupportedImportFormat(Exception):
@@ -65,7 +58,7 @@ class ItopapiController(object):
         :param itop_class: iTop class
         :return: []
         """
-        model = ItopapiController._get_itop_class(itop_class)
+        model = ItopapiPrototype.get_itop_class(itop_class)
         if model is not None:
             self.data.extend(model.find_all())
 
@@ -75,12 +68,14 @@ class ItopapiController(object):
         :param itop_class: iTop class
         :param id_instance: id you want load
         """
-        model = ItopapiController._get_itop_class(itop_class)
+        model = ItopapiPrototype.get_itop_class(itop_class)
         if model is not None:
             if id_instance.isdigit():
-                self.data.extend(model.find(id_instance))
+                instance = model.find(id_instance)
             else:
-                self.data.extend(model.find_by_name(id_instance))
+                instance = model.find(model.find_by_name(id_instance))
+            if instance is not None:
+                self.data.extend(instance)
 
     def delete_one(self, itop_class, id_instance):
         """
@@ -89,7 +84,7 @@ class ItopapiController(object):
         :param id_instance: id you want delete
         """
         # TODO: Why not just self.delete() for current objects deletion
-        model = ItopapiController._get_itop_class(itop_class)
+        model = ItopapiPrototype.get_itop_class(itop_class)
         if model is not None:
             self.data.extend(model.delete(id_instance))
 
@@ -98,19 +93,3 @@ class ItopapiController(object):
         Display with current view
         """
         self.view.display(self.data)
-
-    @staticmethod
-    def _get_itop_class(itop_class):
-        """
-        Associate the string passed as an argument to the corresponding Itop class
-        Maybe move it to ItopapiPrototype someday
-        :param itop_class: iTop class
-        """
-        if itop_class == "rack":
-            return ItopapiRack
-        elif itop_class == "server":
-            return ItopapiServer
-        elif itop_class == "osfamily":
-            return ItopapiOSFamily
-        else:
-            raise UnknownItopClass()
