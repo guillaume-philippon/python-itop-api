@@ -158,7 +158,8 @@ class ItopapiPrototype(object):
         # Define the fields to save
         fields = {}
         for field in self.__class__.itop['save']:
-            fields[field] = self.__dict__[field]
+            value = self.__dict__[field]
+            fields[field] = value if value is not None else ''
 
         query = {
             'comment': 'Creating/Updating object from python-itop-api',

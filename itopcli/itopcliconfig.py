@@ -12,7 +12,7 @@ import argparse
 
 class NeedMoreArgs(Exception):
     """
-    Error trigged when there are not enough arguments
+    Error triggered when there are not enough arguments
     """
     pass
 
@@ -25,6 +25,7 @@ class ItopcliConfig(object):
     classes = []
     find_instance = None
     delete_instance = None
+    save = None
 
 
 def load_configuration_cli():
@@ -70,6 +71,9 @@ def load_configuration_cli():
                               help='URI of file to import')
     import_group.add_argument('--format', dest='format',
                               help='Format of file you want import')
+    cli_group.add_argument('--save', dest='save', action='store_true',
+                           help='Save the instances loaded through import')
+    cli_group.set_defaults(save=False)
 
     options = parser.parse_args()
 
@@ -84,6 +88,7 @@ def load_configuration_cli():
         if ItopcliConfig.find_instance is not None:
             raise NeedMoreArgs('--find option need --classes')
     ItopcliConfig.delete_instance = options.delete_instance
+    ItopcliConfig.save = options.save
 
     ###########################
     # Load iTop configuration #
@@ -99,9 +104,12 @@ def load_configuration_cli():
         ItopapiConfig.password = options.password
     if options.organization is not None:
         ItopapiConfig.organization = options.organization
+    if options.save:
+        if options.import_uri is None:
+            raise NeedMoreArgs('--save option needs --import-uri')
     if options.import_uri is not None:
         if options.format is None:
-            raise NeedMoreArgs('--import option need --format')
+            raise NeedMoreArgs('--import option needs --format')
         else:
             ItopapiConfig.import_uri = options.import_uri
     if options.format is not None:

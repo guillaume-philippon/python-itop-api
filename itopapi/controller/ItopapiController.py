@@ -89,6 +89,13 @@ class ItopapiController(object):
         if model is not None:
             self.data.extend(model.delete(id_instance))
 
+    def save(self):
+        """
+        Save all currently-loaded elements
+        """
+        for obj in self.data:
+            obj.save()
+
     def display(self):
         """
         Display with current view

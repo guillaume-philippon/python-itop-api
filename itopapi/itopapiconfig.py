@@ -22,6 +22,7 @@ class ItopapiConfig(object):
     api_version = '1.0'
     api_suffix = '/webservices/rest.php'
     import_uri = None
+    save = None
     format = None
     organization = None
     simulate_deletes = False

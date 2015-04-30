@@ -61,7 +61,14 @@ def main():
         controller.delete_one(ItopcliConfig.delete_instance[0],
                               ItopcliConfig.delete_instance[1])
 
-    controller.display()
+    ###############################
+    # Save data previously loaded #
+    ###############################
+    if ItopcliConfig.save:
+       controller.save()
+    else:
+        controller.display()
+
 
 if __name__ == "__main__":
     main()

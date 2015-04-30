@@ -22,7 +22,7 @@ class ItopapiServer(ItopapiPrototype):
         'name': 'Server',
         # Define which fields to save when creating or updating from the python API
         'save': ['name', 'friendlyname', 'org_id', 'status', 'business_criticity', 'location_id',
-                 'rack_id', 'encosure_id', 'brand_id', 'model_id', 'osfamily_id', 'osversion_id', 'managementip',
+                 'rack_id', 'enclosure_id', 'brand_id', 'model_id', 'osfamily_id', 'osversion_id', 'managementip',
                  'oslicence_id', 'cpu', 'ram', 'nb_u', 'serialnumber', 'asset_number', 'move2production',
                  'purchase_date', 'end_of_warranty', 'powerA_id', 'powerB_id', 'description'],
     }
