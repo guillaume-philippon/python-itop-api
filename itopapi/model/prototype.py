@@ -30,7 +30,11 @@ class ItopapiPrototype(object):
     """
     Standard interface with iTop is in ItopapiConfig
     """
-    def __init__(self, dict = None):
+
+# Configuration specific to itop, not relevant to Prototype
+    itop = {'name': '', 'save': []}
+
+    def __init__(self, data=None):
         self.instance_id = None
         # Every instance should have an unique ID
         self.name = None
@@ -40,9 +44,9 @@ class ItopapiPrototype(object):
         self.finalclass = None
         # Should be the same as self.itop['name']. Each instance has one
 
-        # If default data was passed as an argument, load it and then resolve sublists
-        if dict is not None:
-            self.__dict__.update(dict)
+        # If default data was passed as an argument, load it and then resolve sub-lists
+        if data is not None:
+            self.__dict__.update(data)
             self.__process_lists()
 
     @staticmethod
@@ -85,7 +89,8 @@ class ItopapiPrototype(object):
         Formats java-style
         :return: string
         """
-        return "{0}{{id={1},name={2}}}".format(self.__class__.__name__, self.instance_id, self.name.encode('ascii', 'ignore'))
+        return "{0}{{id={1},name={2}}}".format(self.__class__.__name__, self.instance_id, self.name.encode(
+            'ascii', 'ignore'))
 
     @staticmethod
     def find_all(itop_class):
@@ -149,9 +154,6 @@ class ItopapiPrototype(object):
         or creates a new one
         :return:
         """
-        operation = 'core/create'
-        if self.instance_id is not None:
-            operation = 'core/update'
 
         # Define the fields to save
         fields = {}
@@ -199,25 +201,26 @@ class ItopapiPrototype(object):
 
     def __process_lists(self):
         """
-        Process all sublists of an instance and instantiate regular Itopapi classes where dictionaries
+        Process all sub-lists of an instance and instantiate regular Itopapi classes where dictionaries
         are fetched using the Itop API.
         :return:
         """
         ItopapiPrototype.__subclasses__()
         for key, value in self.__dict__.iteritems():
             if isinstance(value, list):
-                newList = []
+                new_list = []
                 # For each element, find its type given by the "finalclass" attribute
                 # and instantiate the corresponding object
                 for element in value:
                     element_class = ItopapiPrototype.get_itop_class(element["finalclass"])
                     obj = element_class(element)
-                    newList.append(obj)
+                    new_list.append(obj)
 
-                self.__dict__[key] = newList
+                self.__dict__[key] = new_list
 
     # __classes contains the list of ItopapiPrototype's subclasses
     __classes = {}
+
     @staticmethod
     def get_itop_class(itop_class):
         """

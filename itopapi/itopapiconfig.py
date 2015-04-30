@@ -9,6 +9,7 @@ __authors__ = ['Julien Nauroy <julien.nauroy@u-psud.fr>']
 
 import ConfigParser
 
+
 class ItopapiConfig(object):
     """
     static variables
@@ -30,7 +31,7 @@ class ItopapiConfig(object):
         """
         Read the configuration file given the file name given as an argument
         and update the configuration accordingly
-        :param options:
+        :param config_file: Configuration file to read
         :return:
         """
         config_parser = ConfigParser.ConfigParser()
