@@ -17,6 +17,13 @@ class NeedMoreArgs(Exception):
     pass
 
 
+class IncompatibleArgs(Exception):
+    """
+    Error triggered when there are not enough arguments
+    """
+    pass
+
+
 class ItopcliConfig(object):
     """
     ItopcliConfig represent configuration for itop-cli
@@ -107,13 +114,12 @@ def load_configuration_cli():
         ItopapiConfig.password = options.password
     if options.organization is not None:
         ItopapiConfig.organization = options.organization
-    if options.save:
-        if options.import_uri is None:
-            raise NeedMoreArgs('--save option needs --import-uri')
-    if options.import_uri is not None:
-        if options.format is None:
+    if options.save and options.delete_instances:
+        raise IncompatibleArgs('--save and --delete are mutually exclusive')
+    if options.save and (options.import_uri is None):
+        raise NeedMoreArgs('--save option needs --import-uri')
+    if (options.import_uri is not None) and (options.format is None):
             raise NeedMoreArgs('--import option needs --format')
-        else:
-            ItopapiConfig.import_uri = options.import_uri
+    ItopapiConfig.import_uri = options.import_uri
     if options.format is not None:
         ItopapiConfig.format = options.format
