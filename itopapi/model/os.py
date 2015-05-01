@@ -18,6 +18,7 @@ class ItopapiOSFamily(ItopapiPrototype):
         'name': 'OSFamily',
         # Define which fields to save when creating or updating from the python API
         'save': ['name', 'friendlyname'],
+        'foreign_keys': []
     }
 
     @staticmethod

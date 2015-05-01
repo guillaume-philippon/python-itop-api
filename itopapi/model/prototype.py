@@ -32,7 +32,7 @@ class ItopapiPrototype(object):
     """
 
 # Configuration specific to itop, not relevant to Prototype
-    itop = {'name': '', 'save': []}
+    itop = {'name': '', 'save': [], 'foreign_keys': []}
 
     def __init__(self, data=None):
         self.instance_id = None
@@ -161,8 +161,18 @@ class ItopapiPrototype(object):
             value = self.__dict__[field]
             if value is not None:
                 fields[field] = value
+        # Add the foreign keys. The rule is: if there's an id, then use it, else use the name as a subquery
+        for field in self.__class__.itop['foreign_keys']:
+            field_id = field['id']
+            field_name = field['name']
+            field_id_value = self.__dict__[field_id]
+            field_name_value = self.__dict__[field_name]
+            if field_id_value is not None:
+                fields[field_id] = field_id_value
+            elif field_name_value is not None:
+                fields[field_id] = 'SELECT {0} WHERE name = "{1}"'.format(field['table'], field_name_value)
 
-        # print json.dumps(fields, sort_keys=True, indent=4, separators=(',', ': '))
+        print json.dumps(fields, sort_keys=True, indent=4, separators=(',', ': '))
 
         query = {
             'comment': 'Creating/Updating object from python-itop-api',
@@ -174,11 +184,17 @@ class ItopapiPrototype(object):
             query['key'] = self.instance_id
         else:
             query['operation'] = 'core/create'
+            query['output_fields'] = self.instance_id
+            query['output_fields'] = 'id, friendlyname',
 
         json_data = json.dumps(query)
         uri = ItopapiPrototype._uri_()
         params = ItopapiPrototype._params_(json_data)
         result = json.loads(urllib2.urlopen(uri, params).read())
+        # In case of a save, update the ID
+        if (result['code'] == '0') and (self.instance_id is None):
+            objects = result['objects']
+            self.instance_id = objects[objects.keys()[0]].id
 
         return result
 
