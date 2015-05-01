@@ -78,16 +78,12 @@ class ItopapiController(object):
             if instance is not None:
                 self.data.extend(instance)
 
-    def delete_one(self, itop_class, id_instance):
+    def delete(self):
         """
-        Delete a specific id_instance
-        :param itop_class: iTop class
-        :param id_instance: id you want delete
+        Delete all currently-loaded instance
         """
-        # TODO: Why not just self.delete() for current objects deletion
-        model = ItopapiPrototype.get_itop_class(itop_class)
-        if model is not None:
-            self.data.extend(model.delete(id_instance))
+        for obj in self.data:
+            obj.delete()
 
     def save(self):
         """

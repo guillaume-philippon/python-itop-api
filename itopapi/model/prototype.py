@@ -159,7 +159,10 @@ class ItopapiPrototype(object):
         fields = {}
         for field in self.__class__.itop['save']:
             value = self.__dict__[field]
-            fields[field] = value if value is not None else ''
+            if value is not None:
+                fields[field] = value
+
+        # print json.dumps(fields, sort_keys=True, indent=4, separators=(',', ': '))
 
         query = {
             'comment': 'Creating/Updating object from python-itop-api',
@@ -184,21 +187,30 @@ class ItopapiPrototype(object):
         Deletes the current instance if it exists in itop's database (i.e. the id is set)
         :return:
         """
+        data = {
+            'operation': 'core/delete',
+            'comment': 'Deleting object from python-itop-api',
+            'class': self.__class__.itop['name'],
+            'simulate': ItopapiConfig.simulate_deletes
+            }
         if self.instance_id is not None:
-            json_data = json.dumps({
-                'operation': 'core/delete',
-                'comment': 'Deleting object from python-itop-api',
-                'class': self.__class__.itop['name'],
-                'key': self.instance_id,
-                'simulate': ItopapiConfig.simulate_deletes
-            })
-            uri = ItopapiPrototype._uri_()
-            params = ItopapiPrototype._params_(json_data)
-            result = json.loads(urllib2.urlopen(uri, params).read())
-            # Reset the id to None to reflect that the instance doesn't exist anymore in the
-            # database
-            self.instance_id = None
-            return result
+            data['key'] = self.instance_id
+        elif self.name is not None:
+            # Attempt at deleting an object with the same name
+            data['key'] = {'name': self.name}
+        else:
+            print "Error: neither instance_id nor name is set for the following object:"
+            print self
+            exit(1)
+
+        json_data = json.dumps(data)
+        uri = ItopapiPrototype._uri_()
+        params = ItopapiPrototype._params_(json_data)
+        result = json.loads(urllib2.urlopen(uri, params).read())
+        # Reset the id to None to reflect that the instance doesn't exist anymore in the
+        # database
+        self.instance_id = None
+        return result
 
     def __process_lists(self):
         """

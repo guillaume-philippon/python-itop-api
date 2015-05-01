@@ -24,7 +24,7 @@ class ItopcliConfig(object):
     file = None
     classes = []
     find_instance = None
-    delete_instance = None
+    delete_instances = None
     save = None
 
 
@@ -60,8 +60,8 @@ def load_configuration_cli():
     cli_group.add_argument('--find', dest='find_instance', nargs='+', metavar='INSTANCE',
                            help='Find and display information about a given class instance given'
                                 'its name or ID')
-    cli_group.add_argument('--delete', dest='delete_instance', nargs=2, metavar='INSTANCE',
-                           help='Delete an instance given its class name and instance ID')
+    cli_group.add_argument('--delete', dest='delete_instances', action='store_true',
+                           help='Delete all instances previously loaded')
 
     ##################################
     # Import functionality arguments #
@@ -87,7 +87,10 @@ def load_configuration_cli():
     else:
         if ItopcliConfig.find_instance is not None:
             raise NeedMoreArgs('--find option need --classes')
-    ItopcliConfig.delete_instance = options.delete_instance
+    if ItopcliConfig.delete_instances is not None:
+        if (ItopcliConfig.find_instance is None) or (ItopapiConfig.import_uri is None):
+            raise NeedMoreArgs('--delete option needs either --classes or --import')
+    ItopcliConfig.delete_instances = options.delete_instances
     ItopcliConfig.save = options.save
 
     ###########################
