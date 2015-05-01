@@ -80,6 +80,9 @@ def load_configuration_cli():
                               help='Format of file you want import')
     cli_group.add_argument('--save', dest='save', action='store_true',
                            help='Save the instances loaded through import')
+    cli_group.add_argument('--prevent-duplicates', dest='prevent_duplicates', action='store_true',
+                           help='Check if objects with the same name already exist before saving'
+                                'and don\'t save in this case')
     cli_group.set_defaults(save=False)
 
     options = parser.parse_args()
@@ -105,7 +108,7 @@ def load_configuration_cli():
     ###########################
     # From configuration file first
     ItopapiConfig.read_config(options.config_file)
-    # Else overwrite it with arguments
+    # Then overwrite it with arguments
     if options.hostname is not None:
         ItopapiConfig.hostname = options.hostname
     if options.username is not None:
@@ -121,5 +124,8 @@ def load_configuration_cli():
     if (options.import_uri is not None) and (options.format is None):
             raise NeedMoreArgs('--import option needs --format')
     ItopapiConfig.import_uri = options.import_uri
+    if options.prevent_duplicates and not options.save:
+        raise NeedMoreArgs('--prevent-duplicates option needs --save')
+    ItopapiConfig.prevent_duplicates = options.prevent_duplicates
     if options.format is not None:
         ItopapiConfig.format = options.format

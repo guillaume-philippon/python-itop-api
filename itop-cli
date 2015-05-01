@@ -61,7 +61,7 @@ def main():
     # Save or delete data previously loaded #
     #########################################
     if ItopcliConfig.save:
-        controller.save()
+        controller.save(ItopapiConfig.prevent_duplicates)
     elif ItopcliConfig.delete_instances:
         controller.delete()
     else:

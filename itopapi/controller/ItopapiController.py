@@ -85,12 +85,19 @@ class ItopapiController(object):
         for obj in self.data:
             obj.delete()
 
-    def save(self):
+    def save(self, prevent_duplicates):
         """
         Save all currently-loaded elements
+        :param prevent_duplicates: Update the original object when a duplicate is found
         """
         for obj in self.data:
-            obj.save()
+            has_duplicate = False
+            if prevent_duplicates:
+                duplicate = obj.__class__.find_by_name(obj.name)
+                if duplicate is not None:
+                    has_duplicate = True
+            if not has_duplicate:
+                obj.save()
 
     def display(self):
         """

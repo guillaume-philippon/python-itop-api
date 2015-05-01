@@ -25,7 +25,10 @@ class ItopapiConfig(object):
     save = None
     format = None
     organization = None
+    # Do not really delete, only check if the deletion would occur
     simulate_deletes = False
+    # Prevent duplicate names when adding new items
+    prevent_duplicates = False
 
     @staticmethod
     def read_config(config_file):
@@ -73,5 +76,11 @@ class ItopapiConfig(object):
             simulate_deletes = config_parser.get('main', 'simulate_deletes')
             if simulate_deletes.lower() == "true":
                 ItopapiConfig.simulate_deletes = True
+        except ConfigParser.NoOptionError:
+            pass
+        try:
+            prevent_duplicates = config_parser.get('main', 'prevent_duplicates')
+            if prevent_duplicates.lower() == "true":
+                ItopapiConfig.prevent_duplicates = True
         except ConfigParser.NoOptionError:
             pass

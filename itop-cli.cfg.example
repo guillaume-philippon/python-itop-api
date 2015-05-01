@@ -12,3 +12,6 @@ api_suffix: /webservices/rest.php
 # If you set this value to true, the api will only pretend deleting objects.
 # Useful only for debugging purposes
 simulate_deletes: False
+# If you set this value to true, the api will check if an object with the same name already exists before saving.
+# Checks can take some time because the itop rest api is slow
+prevent_duplicates: False
