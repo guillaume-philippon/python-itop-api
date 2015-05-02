@@ -17,7 +17,25 @@ class ItopapiServer(ItopapiPrototype):
     """
 
     # Configuration specific to itop
-    itop = {'name': 'Server'}
+    itop = {
+        # Name of the class in Itop
+        'name': 'Server',
+        # Define which fields to save when creating or updating from the python API
+        'save': ['name', 'friendlyname', 'status', 'business_criticity',
+                 'rack_id', 'enclosure_id', 'brand_id', 'model_id', 'managementip',
+                 'oslicence_id', 'cpu', 'ram', 'nb_u', 'serialnumber', 'asset_number', 'move2production',
+                 'purchase_date', 'end_of_warranty', 'description'],
+        'foreign_keys': [
+            {'id': 'org_id', 'name': 'organization_name', 'table': 'Organization'},
+            {'id': 'location_id', 'name': 'location_name', 'table': 'Localization'},
+            {'id': 'osfamily_id', 'name': 'osfamily_name', 'table': 'OSFamily'},
+            {'id': 'osversion_id', 'name': 'osversion_name', 'table': 'OSVersion'},
+            {'id': 'oslicence_id', 'name': 'oslicence_name', 'table': 'OSLicence'},
+            # TODO which is the relevant table?
+            {'id': 'powerA_id', 'name': 'powerA_name', 'table': 'TODO'},
+            {'id': 'powerB_id', 'name': 'powerB_name', 'table': 'TODO'},
+        ]
+    }
 
     @staticmethod
     def find(key):
@@ -33,8 +51,8 @@ class ItopapiServer(ItopapiPrototype):
         """ Retrieve all instance of Server """
         return ItopapiPrototype.find_all(ItopapiServer)
 
-    def __init__(self):
-        super(ItopapiServer, self).__init__()
+    def __init__(self, data=None):
+        super(ItopapiServer, self).__init__(data)
 
         ##################################
         # Properties/General Information #
@@ -43,7 +61,7 @@ class ItopapiServer(ItopapiPrototype):
         # Server's organization id. Call findOrganization to get the full information or just
         #  use org_id_friendlyname and organization_name
         self.org_id_friendlyname = None
-        # Server's organization id's friendly name. Not sure the difference with organization_name
+        # Server's organization friendly name. Not sure the difference with organization_name
         self.organization_name = None
         # Server's organization name
         self.status = None

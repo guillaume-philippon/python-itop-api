@@ -11,12 +11,64 @@ __authors__ = ['Julien Nauroy <julien.nauroy@u-psud.fr>']
 
 """ TODO not completed and tested yet, created as a dependency of TiopapiRack """
 class ItopapiApplicationSolution(ItopapiPrototype):
+
+    # Configuration specific to itop
+    itop = {
+        # Name of the class in Itop
+        'name': 'ApplicationSolution',
+        # Define which fields to save when creating or updating from the python API
+        'save': ['name', 'friendlyname', 'status', 'business_criticity', 'move2production', 'description'],
+        'foreign_keys': [
+            {'id': 'org_id', 'name': 'organization_name', 'table': 'Organization'},
+        ]
+    }
+
+    @staticmethod
+    def find(key):
+        """ Retrieve one or more instance of ApplicationSolution with the given key or criteria """
+        return ItopapiPrototype.find(ItopapiApplicationSolution, key)
+
+    @staticmethod
+    def find_by_name(name):
+        return ItopapiPrototype.find_by_name(ItopapiApplicationSolution, name)
+
+    @staticmethod
+    def find_all():
+        """ Retrieve all instance of OSFamily """
+        return ItopapiPrototype.find_all(ItopapiApplicationSolution)
+
     """
     ItopapiApplicationSolution is a object that represent an Application Solution from iTop
     """
-    def __init__(self):
-        """
-        Add itop['name'] to use generic ItopapiPrototype method
-        """
-        super(ItopapiApplicationSolution, self).__init__()
-        self.itop['name'] = 'ApplicationSolution'
+    def __init__(self, data=None):
+        super(ItopapiApplicationSolution, self).__init__(data)
+        ##################################
+        #           Properties           #
+        ##################################
+        self.org_id = None
+        # Application Solution's organization id. Call findOrganization to get the full information or just use
+        #  org_id_friendlyname and organization_name
+        self.org_id_friendlyname = None
+        # Application Solution's organization friendly name. Not sure the difference with organization_name
+        self.organization_name = None
+        # Application Solution's organization name
+        self.status = None
+        # Application Solution's status. Values within [inactive, active]
+        self.business_criticity = None
+        # Application Solution's business criticity. Values within [high, medium, low]
+        self.move2production = None
+        # Application Solution's move to production date
+        self.description = None
+        # Application Solution's description, as a free text
+        ##################################
+        #             Lists              #
+        ##################################
+        self.functionalcis_list = None
+        self.documents_list = None
+        self.softwares_list = None
+        self.applicationsolution_list = None
+        self.tickets_list = None
+        self.businessprocess_list = None
+        self.services_list = None
+        self.contacts_list = None
+        self.providercontracts_list = None

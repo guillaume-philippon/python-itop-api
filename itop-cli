@@ -57,11 +57,16 @@ def main():
                 for find in ItopcliConfig.find_instance:
                     controller.load_one(itop_class, find)
 
-    if ItopcliConfig.delete_instance is not None:
-        controller.delete_one(ItopcliConfig.delete_instance[0],
-                              ItopcliConfig.delete_instance[1])
+    #########################################
+    # Save or delete data previously loaded #
+    #########################################
+    if ItopcliConfig.save:
+        controller.save(ItopapiConfig.prevent_duplicates)
+    elif ItopcliConfig.delete_instances:
+        controller.delete()
+    else:
+        controller.display()
 
-    controller.display()
 
 if __name__ == "__main__":
     main()

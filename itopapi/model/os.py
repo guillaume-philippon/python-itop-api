@@ -11,12 +11,32 @@ __authors__ = ['Guillaume Philippon <guillaume.philippon@lal.in2p3.fr>']
 
 
 class ItopapiOSFamily(ItopapiPrototype):
+
+    # Configuration specific to itop
+    itop = {
+        # Name of the class in Itop
+        'name': 'OSFamily',
+        # Define which fields to save when creating or updating from the python API
+        'save': ['name', 'friendlyname'],
+        'foreign_keys': []
+    }
+
+    @staticmethod
+    def find(key):
+        """ Retrieve one or more instance of OSFamily with the given key or criteria """
+        return ItopapiPrototype.find(ItopapiOSFamily, key)
+
+    @staticmethod
+    def find_by_name(name):
+        return ItopapiPrototype.find_by_name(ItopapiOSFamily, name)
+
+    @staticmethod
+    def find_all():
+        """ Retrieve all instance of OSFamily """
+        return ItopapiPrototype.find_all(ItopapiOSFamily)
+
     """
-    ItopapiRack is a object that represent a Rack from iTop
+    ItopapiOSFamily is an object that represent an OS Family from iTop
     """
-    def __init__(self):
-        """
-        Add itop['name'] to use generic ItopapiPrototype method
-        """
-        super(ItopapiOSFamily, self).__init__()
-        self.itop['name'] = 'OSFamily'
+    def __init__(self, data=None):
+        super(ItopapiOSFamily, self).__init__(data)

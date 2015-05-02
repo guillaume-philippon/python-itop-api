@@ -9,6 +9,7 @@ __authors__ = ['Julien Nauroy <julien.nauroy@u-psud.fr>']
 
 import ConfigParser
 
+
 class ItopapiConfig(object):
     """
     static variables
@@ -21,16 +22,20 @@ class ItopapiConfig(object):
     api_version = '1.0'
     api_suffix = '/webservices/rest.php'
     import_uri = None
+    save = None
     format = None
     organization = None
+    # Do not really delete, only check if the deletion would occur
     simulate_deletes = False
+    # Prevent duplicate names when adding new items
+    prevent_duplicates = False
 
     @staticmethod
     def read_config(config_file):
         """
         Read the configuration file given the file name given as an argument
         and update the configuration accordingly
-        :param options:
+        :param config_file: Configuration file to read
         :return:
         """
         config_parser = ConfigParser.ConfigParser()
@@ -71,5 +76,11 @@ class ItopapiConfig(object):
             simulate_deletes = config_parser.get('main', 'simulate_deletes')
             if simulate_deletes.lower() == "true":
                 ItopapiConfig.simulate_deletes = True
+        except ConfigParser.NoOptionError:
+            pass
+        try:
+            prevent_duplicates = config_parser.get('main', 'prevent_duplicates')
+            if prevent_duplicates.lower() == "true":
+                ItopapiConfig.prevent_duplicates = True
         except ConfigParser.NoOptionError:
             pass

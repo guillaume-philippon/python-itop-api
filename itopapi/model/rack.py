@@ -16,7 +16,17 @@ class ItopapiRack(ItopapiPrototype):
     """
 
     """ Configuration specific to itop """
-    itop = {'name': 'Rack'}
+    itop = {
+        # Name of the class in Itop
+        'name': 'Rack',
+        # Define which fields to save when creating or updating from the python API
+        'save': ['name', 'friendlyname', 'status', 'business_criticity', 'nb_u',
+                 'serialnumber', 'asset_number', 'move2production', 'purchase_date', 'end_of_warranty', 'description'],
+        'foreign_keys': [
+            {'id': 'org_id', 'name': 'organization_name', 'table': 'Organization'},
+            {'id': 'location_id', 'name': 'location_name', 'table': 'Localization'},
+        ]
+    }
 
     @staticmethod
     def find(key):
@@ -32,8 +42,8 @@ class ItopapiRack(ItopapiPrototype):
         """ Retrieve all instance of Rack """
         return ItopapiPrototype.find_all(ItopapiRack)
 
-    def __init__(self):
-        super(ItopapiRack, self).__init__()
+    def __init__(self, data=None):
+        super(ItopapiRack, self).__init__(data)
 
         ##################################
         #           Properties           #
@@ -42,7 +52,7 @@ class ItopapiRack(ItopapiPrototype):
         # Rack's organization id. Call findOrganization to get the full information or just use
         #  org_id_friendlyname and organization_name
         self.org_id_friendlyname = None
-        # Rack's organization id's friendly name. Not sure the difference with organization_name
+        # Rack's organization friendly name. Not sure the difference with organization_name
         self.organization_name = None
         # Rack's organization name
         self.status = None
