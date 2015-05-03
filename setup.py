@@ -13,5 +13,6 @@ setup(name='python-itop-api',
       author_email='guillaume.philippon@lal.in2p3.fr',
       url='https://github.com/guillaume-philippon/python-itop-api',
       license='FreeBSD License',
+      data_files=['/usr/share/itop-cli', ['itop-cli.cfg.example']],
       scripts=["itop-cli"],
       packages=find_packages())
