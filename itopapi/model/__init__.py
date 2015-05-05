@@ -11,4 +11,7 @@ from itopapi.model.prototype import ItopapiPrototype, ItopapiUnimplementedMethod
 from itopapi.model.rack import ItopapiRack
 from itopapi.model.server import ItopapiServer
 from itopapi.model.os import ItopapiOSFamily
+from itopapi.model.vlan import ItopapiVLAN
+from itopapi.model.subnet import ItopapiSubnet
+from itopapi.model.physicalInterface import ItopapiPhysicalInterface
 from itopapi.model.applicationSolution import ItopapiApplicationSolution
