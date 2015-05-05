@@ -126,12 +126,12 @@ class ItopapiServer(ItopapiPrototype):
         ##################################
         #        Properties/Date         #
         ##################################
-        self.move2production = None
         # Server's move to production date
-        self.purchase_date = None
+        self.move2production = None
         # Server's purchase date
-        self.end_of_warranty = None
+        self.purchase_date = None
         # Server's end of warranty date
+        self.end_of_warranty = None
 
         ##################################
         #  Properties/Other Information  #
@@ -144,8 +144,8 @@ class ItopapiServer(ItopapiPrototype):
         self.powerB_id_finalclass_recall = None
         self.powerB_id_friendlyname = None
         self.powerB_name = None
-        self.description = None
         # Server's description, as a free text
+        self.description = None
 
         ##################################
         #           Softwares            #
