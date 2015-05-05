@@ -89,7 +89,7 @@ class ItopapiPrototype(object):
         Formats java-style
         :return: string
         """
-        return "{0}{{id={1},friendlyname={2}}}".format(self.__class__.__name__, self.instance_id, self.friendlyname.encode(
+        return "{0}{{id={1},friendlyname=\"{2}\"}}".format(self.__class__.__name__, self.instance_id, self.friendlyname.encode(
             'ascii', 'ignore'))
 
     @staticmethod
