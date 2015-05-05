@@ -32,7 +32,7 @@ class ItopapiPrototype(object):
     """
 
 # Configuration specific to itop, not relevant to Prototype
-    itop = {'name': '', 'save': [], 'foreign_keys': []}
+    itop = {'name': '', 'save': [], 'foreign_keys': [], 'list_types': {}}
 
     def __init__(self, data=None):
         self.instance_id = None
@@ -89,7 +89,7 @@ class ItopapiPrototype(object):
         Formats java-style
         :return: string
         """
-        return "{0}{{id={1},name={2}}}".format(self.__class__.__name__, self.instance_id, self.name.encode(
+        return "{0}{{id={1},friendlyname={2}}}".format(self.__class__.__name__, self.instance_id, self.friendlyname.encode(
             'ascii', 'ignore'))
 
     @staticmethod
@@ -239,9 +239,13 @@ class ItopapiPrototype(object):
             if isinstance(value, list):
                 new_list = []
                 # For each element, find its type given by the "finalclass" attribute
-                # and instantiate the corresponding object
+                # and instantiate the corresponding object. In case there's no "finalclass", the class should provide
+                # the type in itop["list_types"]
                 for element in value:
-                    element_class = ItopapiPrototype.get_itop_class(element["finalclass"])
+                    if "finalclass" in element:
+                        element_class = ItopapiPrototype.get_itop_class(element["finalclass"])
+                    else:
+                        element_class = ItopapiPrototype.get_itop_class(self.__class__.itop["list_types"][key])
                     obj = element_class(element)
                     new_list.append(obj)
 
