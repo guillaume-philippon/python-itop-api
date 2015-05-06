@@ -245,9 +245,17 @@ class ItopapiPrototype(object):
                     if "finalclass" in element:
                         element_class = ItopapiPrototype.get_itop_class(element["finalclass"])
                     else:
-                        element_class = ItopapiPrototype.get_itop_class(self.__class__.itop["list_types"][key])
-                    obj = element_class(element)
-                    new_list.append(obj)
+                        class_name = self.__class__.itop["list_types"][key]
+                        if class_name is not None:
+                            element_class = ItopapiPrototype.get_itop_class(class_name)
+                        else:
+                            element_class = None
+                    if element_class is not None:
+                        obj = element_class(element)
+                        new_list.append(obj)
+                    else:
+                        # Reset the item as is. These lists should be accessed by proper find_xxx() methods
+                        new_list.append(element)
 
                 self.__dict__[key] = new_list
 
