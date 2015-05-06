@@ -17,7 +17,7 @@ class ItopapiPhysicalInterface(ItopapiPrototype):
         # Name of the class in Itop
         'name': 'PhysicalInterface',
         # Define which fields to save when creating or updating from the python API
-        'save': ['name', 'friendlyname', 'ipaddress', 'macaddress', 'comment', 'ipgateway', 'ipmask', 'speed'],
+        'save': ['name', 'ipaddress', 'macaddress', 'comment', 'ipgateway', 'ipmask', 'speed'],
         'foreign_keys': [
             # TODO the table is not necessarily a server, it is defined by connectableci_id_finalclass_recall
             {'id': 'connectableci_id', 'name': 'connectableci_name', 'table': 'Server'},

@@ -18,7 +18,7 @@ class ItopapiVLAN(ItopapiPrototype):
         # Name of the class in Itop
         'name': 'VLAN',
         # Define which fields to save when creating or updating from the python API
-        'save': ['friendlyname', 'vlan_tag', 'description'],
+        'save': ['vlan_tag', 'description'],
         'foreign_keys': [
             {'id': 'org_id', 'name': 'organization_name', 'table': 'Organization'},
         ],

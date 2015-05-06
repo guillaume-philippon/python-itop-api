@@ -17,7 +17,7 @@ class ItopapiApplicationSolution(ItopapiPrototype):
         # Name of the class in Itop
         'name': 'ApplicationSolution',
         # Define which fields to save when creating or updating from the python API
-        'save': ['name', 'friendlyname', 'status', 'business_criticity', 'move2production', 'description'],
+        'save': ['name', 'status', 'business_criticity', 'move2production', 'description'],
         'foreign_keys': [
             {'id': 'org_id', 'name': 'organization_name', 'table': 'Organization'},
         ]

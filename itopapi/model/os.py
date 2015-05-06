@@ -17,7 +17,7 @@ class ItopapiOSFamily(ItopapiPrototype):
         # Name of the class in Itop
         'name': 'OSFamily',
         # Define which fields to save when creating or updating from the python API
-        'save': ['name', 'friendlyname'],
+        'save': ['name'],
         'foreign_keys': []
     }
 

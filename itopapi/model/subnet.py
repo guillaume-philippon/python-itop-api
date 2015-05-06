@@ -17,7 +17,7 @@ class ItopapiSubnet(ItopapiPrototype):
         # Name of the class in Itop
         'name': 'Subnet',
         # Define which fields to save when creating or updating from the python API
-        'save': ['friendlyname', 'ip', 'ip_mask', 'subnet_name', 'description'],
+        'save': ['ip', 'ip_mask', 'subnet_name', 'description'],
         'foreign_keys': [
             {'id': 'org_id', 'name': 'organization_name', 'table': 'Organization'},
         ],

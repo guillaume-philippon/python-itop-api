@@ -20,7 +20,7 @@ class ItopapiRack(ItopapiPrototype):
         # Name of the class in Itop
         'name': 'Rack',
         # Define which fields to save when creating or updating from the python API
-        'save': ['name', 'friendlyname', 'status', 'business_criticity', 'nb_u',
+        'save': ['name', 'status', 'business_criticity', 'nb_u',
                  'serialnumber', 'asset_number', 'move2production', 'purchase_date', 'end_of_warranty', 'description'],
         'foreign_keys': [
             {'id': 'org_id', 'name': 'organization_name', 'table': 'Organization'},

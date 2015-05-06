@@ -16,7 +16,7 @@ class ItopapiVirtualMachine(ItopapiPrototype):
     itop = {
         # Name of the class in Itop
         'name': 'VirtualMachine',
-        'save': ['name', 'friendlyname', 'status', 'business_criticity',
+        'save': ['name', 'status', 'business_criticity',
                  'managementip', 'oslicence_id', 'cpu', 'ram', 'move2production',
                  'description'],
         'foreign_keys': [

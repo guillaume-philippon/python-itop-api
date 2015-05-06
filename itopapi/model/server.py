@@ -21,7 +21,7 @@ class ItopapiServer(ItopapiPrototype):
         # Name of the class in Itop
         'name': 'Server',
         # Define which fields to save when creating or updating from the python API
-        'save': ['name', 'friendlyname', 'status', 'business_criticity',
+        'save': ['name', 'status', 'business_criticity',
                  'rack_id', 'enclosure_id', 'brand_id', 'model_id', 'managementip',
                  'cpu', 'ram', 'nb_u', 'serialnumber', 'asset_number', 'move2production',
                  'purchase_date', 'end_of_warranty', 'description'],
