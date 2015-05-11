@@ -20,6 +20,7 @@ class ItopapiVirtualMachine(ItopapiPrototype):
                  'managementip', 'oslicence_id', 'cpu', 'ram', 'move2production',
                  'description'],
         'foreign_keys': [
+            {'id': 'virtualhost_id', 'name': 'virtualhost_name', 'table': 'VirtualHost'},
             {'id': 'org_id', 'name': 'organization_name', 'table': 'Organization'},
             {'id': 'osfamily_id', 'name': 'osfamily_name', 'table': 'OSFamily'},
             {'id': 'osversion_id', 'name': 'osversion_name', 'table': 'OSVersion'},

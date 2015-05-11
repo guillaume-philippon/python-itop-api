@@ -52,8 +52,10 @@ def load_configuration_cli():
                             help='username for iTop authentication')
     itop_group.add_argument('--password', dest='password',
                             help='password for iTop authentication')
-    itop_group.add_argument('--organization', dest='organization',
+    itop_group.add_argument('--organization', dest='organization', metavar='ORGANIZATION-NAME',
                             help='iTop organization to use')
+    itop_group.add_argument('--virtualhost', dest='virtualhost', metavar='VIRTUAL-HOSTNAME',
+                            help='Itop\'s virtual host name for VMs')
 
     #########################
     # CLI specific argument #
@@ -74,8 +76,10 @@ def load_configuration_cli():
     # Import functionality arguments #
     ##################################
     import_group = parser.add_argument_group('import')
-    import_group.add_argument('--import', dest='import_uri', metavar='URI',
+    import_group.add_argument('--import-uri', dest='import_uri', metavar='URI',
                               help='URI of file to import')
+    import_group.add_argument('--import-stdin', dest='import_stdin', action='store_true',
+                              help='import data from STDIN')
     import_group.add_argument('--format', dest='format',
                               help='Format of file you want import')
     cli_group.add_argument('--save', dest='save', action='store_true',
@@ -98,8 +102,9 @@ def load_configuration_cli():
         if ItopcliConfig.find_instance is not None:
             raise NeedMoreArgs('--find option need --classes')
     if ItopcliConfig.delete_instances is not None:
-        if (ItopcliConfig.find_instance is None) or (ItopapiConfig.import_uri is None):
-            raise NeedMoreArgs('--delete option needs either --classes or --import')
+        if (ItopcliConfig.find_instance is None) or (
+                        ItopapiConfig.import_uri is None and ItopapiConfig.import_stdin is None):
+            raise NeedMoreArgs('--delete option needs a fetch function such as --classes or --import-* ')
     ItopcliConfig.delete_instances = options.delete_instances
     ItopcliConfig.save = options.save
 
@@ -117,13 +122,18 @@ def load_configuration_cli():
         ItopapiConfig.password = options.password
     if options.organization is not None:
         ItopapiConfig.organization = options.organization
+    if options.virtualhost is not None:
+        ItopapiConfig.virtualhost = options.virtualhost
     if options.save and options.delete_instances:
         raise IncompatibleArgs('--save and --delete are mutually exclusive')
-    if options.save and (options.import_uri is None):
-        raise NeedMoreArgs('--save option needs --import-uri')
+    if options.save and (options.import_uri and None or options.import_stdin is None):
+        raise NeedMoreArgs('--save option needs --import-uri or --import-stdin')
     if (options.import_uri is not None) and (options.format is None):
-            raise NeedMoreArgs('--import option needs --format')
+        raise NeedMoreArgs('--import-uri option needs --format')
     ItopapiConfig.import_uri = options.import_uri
+    if options.import_stdin and (options.format is None):
+        raise NeedMoreArgs('--import-stdin option needs --format')
+    ItopapiConfig.import_stdin = options.import_stdin
     if options.prevent_duplicates and not options.save:
         raise NeedMoreArgs('--prevent-duplicates option needs --save')
     ItopapiConfig.prevent_duplicates = options.prevent_duplicates

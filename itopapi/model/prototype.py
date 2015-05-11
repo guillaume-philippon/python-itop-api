@@ -89,8 +89,12 @@ class ItopapiPrototype(object):
         Formats java-style
         :return: string
         """
-        return "{0}{{id={1},friendlyname=\"{2}\"}}".format(self.__class__.__name__, self.instance_id, self.friendlyname.encode(
-            'ascii', 'ignore'))
+        if hasattr(self, 'friendlyname') and self.friendlyname is not None:
+            return "{0}{{id={1},friendlyname=\"{2}\"}}".format(self.__class__.__name__, self.instance_id, self.friendlyname.encode(
+             'ascii', 'ignore'))
+        else:
+            return "{0}{{id={1},name=\"{2}\"}}".format(self.__class__.__name__, self.instance_id, self.name.encode(
+             'ascii', 'ignore'))
 
     @staticmethod
     def find_all(itop_class):
@@ -133,6 +137,8 @@ class ItopapiPrototype(object):
         if data['objects'] is None:
             return None
 
+        ItopapiPrototype.parse_data(data)
+
         objects = []
         for information in data['objects']:
             obj = itop_class({})
@@ -172,7 +178,7 @@ class ItopapiPrototype(object):
             elif field_name_value is not None:
                 fields[field_id] = 'SELECT {0} WHERE name = "{1}"'.format(field['table'], field_name_value)
 
-        print json.dumps(fields, sort_keys=True, indent=4, separators=(',', ': '))
+        # print json.dumps(fields, sort_keys=True, indent=4, separators=(',', ': '))
 
         query = {
             'comment': 'Creating/Updating object from python-itop-api',

@@ -22,9 +22,11 @@ class ItopapiConfig(object):
     api_version = '1.0'
     api_suffix = '/webservices/rest.php'
     import_uri = None
+    import_stdin = False
     save = None
     format = None
     organization = None
+    virtualhost = None
     # Do not really delete, only check if the deletion would occur
     simulate_deletes = False
     # Prevent duplicate names when adding new items
@@ -70,6 +72,10 @@ class ItopapiConfig(object):
             pass
         try:
             ItopapiConfig.organization = config_parser.get('main', 'organization')
+        except ConfigParser.NoOptionError:
+            pass
+        try:
+            ItopapiConfig.virtualhost = config_parser.get('main', 'virtualhost')
         except ConfigParser.NoOptionError:
             pass
         try:

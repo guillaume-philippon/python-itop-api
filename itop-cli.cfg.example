@@ -15,3 +15,7 @@ simulate_deletes: False
 # If you set this value to true, the api will check if an object with the same name already exists before saving.
 # Checks can take some time because the itop rest api is slow
 prevent_duplicates: False
+# Default organization when adding servers or VMs
+organization:
+# Default virtualhost when adding VMs
+virtualhost:
