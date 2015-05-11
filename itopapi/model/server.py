@@ -21,9 +21,9 @@ class ItopapiServer(ItopapiPrototype):
         # Name of the class in Itop
         'name': 'Server',
         # Define which fields to save when creating or updating from the python API
-        'save': ['name', 'friendlyname', 'status', 'business_criticity',
+        'save': ['name', 'status', 'business_criticity',
                  'rack_id', 'enclosure_id', 'brand_id', 'model_id', 'managementip',
-                 'oslicence_id', 'cpu', 'ram', 'nb_u', 'serialnumber', 'asset_number', 'move2production',
+                 'cpu', 'ram', 'nb_u', 'serialnumber', 'asset_number', 'move2production',
                  'purchase_date', 'end_of_warranty', 'description'],
         'foreign_keys': [
             {'id': 'org_id', 'name': 'organization_name', 'table': 'Organization'},
@@ -57,38 +57,38 @@ class ItopapiServer(ItopapiPrototype):
         ##################################
         # Properties/General Information #
         ##################################
-        self.org_id = None
         # Server's organization id. Call findOrganization to get the full information or just
         #  use org_id_friendlyname and organization_name
-        self.org_id_friendlyname = None
+        self.org_id = None
         # Server's organization friendly name. Not sure the difference with organization_name
-        self.organization_name = None
+        self.org_id_friendlyname = None
         # Server's organization name
-        self.status = None
+        self.organization_name = None
         # Server's status. Values within [implementation, obsolete, production, stock]
-        self.business_criticity = None
+        self.status = None
         # Server's business criticity. Values within [high, medium, low]
-        self.location_id = None
+        self.business_criticity = None
         # Server's location id. Call findLocation to get the full information or just use
         # location_id_friendlyname and location_name
-        self.location_id_friendlyname = None
+        self.location_id = None
         # Server's location id's friendly name. Not sure the difference with location_name
-        self.location_name = None
+        self.location_id_friendlyname = None
         # Server's location name
-        self.rack_id = None
+        self.location_name = None
         # Server's rack id. Call findRack to get the full information or just use rack_id
         # friendlyname and rack_name
-        self.rack_id_friendlyname = None
+        self.rack_id = None
         # Server's rack id's friendly name. Not sure the difference with rack_name
-        self.rack_name = None
+        self.rack_id_friendlyname = None
         # Server's rack name"""
-        self.enclosure_id = None
+        self.rack_name = None
         # Server's enclosure (chassis) id. Call findEnclosure to get the full information or just
         # use enclosure_id_friendlyname and enclosure_name
-        self.enclosure_id_friendlyname = None
+        self.enclosure_id = None
         # Server's enclosure id's friendly name. Not sure the difference with enclosure_name
-        self.enclosure_name = None
+        self.enclosure_id_friendlyname = None
         # Server's enclosure name
+        self.enclosure_name = None
 
         ##################################
         #  Properties/More Information   #
@@ -126,12 +126,12 @@ class ItopapiServer(ItopapiPrototype):
         ##################################
         #        Properties/Date         #
         ##################################
-        self.move2production = None
         # Server's move to production date
-        self.purchase_date = None
+        self.move2production = None
         # Server's purchase date
-        self.end_of_warranty = None
+        self.purchase_date = None
         # Server's end of warranty date
+        self.end_of_warranty = None
 
         ##################################
         #  Properties/Other Information  #
@@ -144,80 +144,80 @@ class ItopapiServer(ItopapiPrototype):
         self.powerB_id_finalclass_recall = None
         self.powerB_id_friendlyname = None
         self.powerB_name = None
-        self.description = None
         # Server's description, as a free text
+        self.description = None
 
         ##################################
         #           Softwares            #
         ##################################
-        self.softwares_list = {}
         # Server's softwares list
+        self.softwares_list = {}
 
         ##################################
         #            Contacts            #
         ##################################
-        self.contacts_list = {}
         # Server's contacts list
+        self.contacts_list = {}
 
         ##################################
         #           Documents            #
         ##################################
-        self.documents_list = {}
         # Server's documents list
+        self.documents_list = {}
 
         ##################################
         #            Tickets             #
         ##################################
-        self.tickets_list = {}
         # Server's tickets list
+        self.tickets_list = {}
 
         ##################################
         #     Application solutions      #
         ##################################
-        self.applicationsolution_list = {}
         # Server's application solutions list
+        self.applicationsolution_list = {}
 
         ##################################
         #       Network interfaces       #
         ##################################
-        self.physicalinterface_list = {}
         # Server's network interfaces list
+        self.physicalinterface_list = {}
 
         ##################################
         #            FC ports            #
         ##################################
-        self.fiberinterfacelist_list = {}
         # Server's FC ports list
+        self.fiberinterfacelist_list = {}
 
         ##################################
         #        Network devices         #
         ##################################
-        self.networkdevice_list = {}
         # Server's network devices list
+        self.networkdevice_list = {}
 
         ##################################
         #              SANs              #
         ##################################
-        self.san_list = {}
         # Server's SANs list
+        self.san_list = {}
 
         ##################################
         #        Logical volumes         #
         ##################################
-        self.logicalvolumes_list = {}
         # Server's logical volumes list
+        self.logicalvolumes_list = {}
 
         ##################################
         #       Provider contracts       #
         ##################################
-        self.providercontracts_list = {}
         # Server's provider contracts list
+        self.providercontracts_list = {}
 
         ##################################
         #            Services            #
         ##################################
-        self.services_list = {}
         # Server's services list
+        self.services_list = {}
 
     def load_from_json_quattor(self, json_quattor):
         """

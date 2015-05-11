@@ -32,7 +32,7 @@ class ItopapiPrototype(object):
     """
 
 # Configuration specific to itop, not relevant to Prototype
-    itop = {'name': '', 'save': [], 'foreign_keys': []}
+    itop = {'name': '', 'save': [], 'foreign_keys': [], 'list_types': {}}
 
     def __init__(self, data=None):
         self.instance_id = None
@@ -89,8 +89,12 @@ class ItopapiPrototype(object):
         Formats java-style
         :return: string
         """
-        return "{0}{{id={1},name={2}}}".format(self.__class__.__name__, self.instance_id, self.name.encode(
-            'ascii', 'ignore'))
+        if hasattr(self, 'friendlyname') and self.friendlyname is not None:
+            return "{0}{{id={1},friendlyname=\"{2}\"}}".format(self.__class__.__name__, self.instance_id, self.friendlyname.encode(
+             'ascii', 'ignore'))
+        else:
+            return "{0}{{id={1},name=\"{2}\"}}".format(self.__class__.__name__, self.instance_id, self.name.encode(
+             'ascii', 'ignore'))
 
     @staticmethod
     def find_all(itop_class):
@@ -133,6 +137,8 @@ class ItopapiPrototype(object):
         if data['objects'] is None:
             return None
 
+        ItopapiPrototype.parse_data(data)
+
         objects = []
         for information in data['objects']:
             obj = itop_class({})
@@ -172,7 +178,7 @@ class ItopapiPrototype(object):
             elif field_name_value is not None:
                 fields[field_id] = 'SELECT {0} WHERE name = "{1}"'.format(field['table'], field_name_value)
 
-        print json.dumps(fields, sort_keys=True, indent=4, separators=(',', ': '))
+        # print json.dumps(fields, sort_keys=True, indent=4, separators=(',', ': '))
 
         query = {
             'comment': 'Creating/Updating object from python-itop-api',
@@ -239,11 +245,23 @@ class ItopapiPrototype(object):
             if isinstance(value, list):
                 new_list = []
                 # For each element, find its type given by the "finalclass" attribute
-                # and instantiate the corresponding object
+                # and instantiate the corresponding object. In case there's no "finalclass", the class should provide
+                # the type in itop["list_types"]
                 for element in value:
-                    element_class = ItopapiPrototype.get_itop_class(element["finalclass"])
-                    obj = element_class(element)
-                    new_list.append(obj)
+                    if "finalclass" in element:
+                        element_class = ItopapiPrototype.get_itop_class(element["finalclass"])
+                    else:
+                        class_name = self.__class__.itop["list_types"][key]
+                        if class_name is not None:
+                            element_class = ItopapiPrototype.get_itop_class(class_name)
+                        else:
+                            element_class = None
+                    if element_class is not None:
+                        obj = element_class(element)
+                        new_list.append(obj)
+                    else:
+                        # Reset the item as is. These lists should be accessed by proper find_xxx() methods
+                        new_list.append(element)
 
                 self.__dict__[key] = new_list
 

@@ -36,12 +36,22 @@ def main():
         exit(1)
 
     controller = ItopapiController()
-    #####################################
-    # Retrieve quattor profile if asked #
-    #####################################
+    ######################################
+    # Retrieve profile from URI if asked #
+    ######################################
     if ItopapiConfig.import_uri is not None:
         try:
-            controller.get_data(ItopapiConfig.import_uri, ItopapiConfig.format)
+            controller.get_data_from_uri(ItopapiConfig.import_uri, ItopapiConfig.format)
+        except UnsupportedImportFormat as e:
+            print 'Error: {}'.format(e.message)
+            exit(1)
+
+    ######################################
+    # Retrieve profile from stdin if asked #
+    ######################################
+    if ItopapiConfig.import_stdin:
+        try:
+            controller.get_data_from_stdin(ItopapiConfig.format)
         except UnsupportedImportFormat as e:
             print 'Error: {}'.format(e.message)
             exit(1)

@@ -20,7 +20,7 @@ class ItopapiRack(ItopapiPrototype):
         # Name of the class in Itop
         'name': 'Rack',
         # Define which fields to save when creating or updating from the python API
-        'save': ['name', 'friendlyname', 'status', 'business_criticity', 'nb_u',
+        'save': ['name', 'status', 'business_criticity', 'nb_u',
                  'serialnumber', 'asset_number', 'move2production', 'purchase_date', 'end_of_warranty', 'description'],
         'foreign_keys': [
             {'id': 'org_id', 'name': 'organization_name', 'table': 'Organization'},
@@ -48,80 +48,80 @@ class ItopapiRack(ItopapiPrototype):
         ##################################
         #           Properties           #
         ##################################
-        self.org_id = None
         # Rack's organization id. Call findOrganization to get the full information or just use
-        #  org_id_friendlyname and organization_name
-        self.org_id_friendlyname = None
+        # org_id_friendlyname and organization_name
+        self.org_id = None
         # Rack's organization friendly name. Not sure the difference with organization_name
-        self.organization_name = None
+        self.org_id_friendlyname = None
         # Rack's organization name
-        self.status = None
+        self.organization_name = None
         # Rack's status. Values within [implementation, obsolete, production, stock]
-        self.business_criticity = None
+        self.status = None
         # Rack's business criticity. Values within [high, medium, low]
-        self.location_id = None
+        self.business_criticity = None
         # Rack's location id. Call findLocation to get the full information or just use location_id
         # _friendlyname and location_name
-        self.location_id_friendlyname = None
+        self.location_id = None
         # Rack's location id's friendly name. Not sure the difference with location_name
-        self.location_name = None
+        self.location_id_friendlyname = None
         # Rack's location name
-        self.nb_u = None
+        self.location_name = None
         # Rack's height in "rack units"
-        self.serialnumber = None
+        self.nb_u = None
         # Rack's serial number
-        self.asset_number = None
+        self.serialnumber = None
         # Rack's asset number
-        self.move2production = None
+        self.asset_number = None
         # Rack's move to production date
-        self.purchase_date = None
+        self.move2production = None
         # Rack's purchase date
-        self.end_of_warranty = None
+        self.purchase_date = None
         # Rack's end of warranty date
-        self.description = None
+        self.end_of_warranty = None
         # Rack's description, as a free text
+        self.description = None
 
         ##################################
         #            Contacts            #
         ##################################
-        self.contacts_list = {}
         # Rack's contacts list
+        self.contacts_list = {}
 
         ##################################
         #            Documents           #
         ##################################
-        self.documents_list = {}
         # Rack's documents list
+        self.documents_list = {}
 
         ##################################
         #             Tickets            #
         ##################################
-        self.tickets_list = {}
         # Rack's tickets list
+        self.tickets_list = {}
 
         ##################################
         #           Enclosures           #
         ##################################
-        self.enclosure_list = {}
         # Rack's enclosures list
+        self.enclosure_list = {}
 
         ##################################
         #            Devices             #
         ##################################
-        self.device_list = {}
         # Rack's devices list
+        self.device_list = {}
 
         ##################################
         #       Provider contracts       #
         ##################################
-        self.providercontracts_list = {}
         # Rack's provider contracts list
+        self.providercontracts_list = {}
 
         ##################################
         #            Services            #
         ##################################
-        self.services_list = {}
         # Rack's services list
+        self.services_list = {}
 
         # TODO WTF is this doing here?!?
         self.applicationsolution_list = None
