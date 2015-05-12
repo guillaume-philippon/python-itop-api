@@ -8,12 +8,12 @@ from itopapi.model.prototype import ItopapiPrototype, ItopapiUnimplementedMethod
 from itopapi.model.rack import ItopapiRack
 
 __version__ = '1.0'
-__authors__ = ['Guillaume Philippon <guillaume.philippon@lal.in2p3.fr>']
+__authors__ = ['Julien Nauroy <julien.nauroy@u-psud.fr>']
 
 
 class ItopapiWebServer(ItopapiPrototype):
     """
-    ItopapiWebServer is a object that represent a WebServer from iTop
+    ItopapiWebServer is a object that represents a WebServer from iTop
     """
 
     # Configuration specific to itop
@@ -50,7 +50,7 @@ class ItopapiWebServer(ItopapiPrototype):
         ##################################
         # Properties/General Information #
         ##################################
-        # WebServer's organization id. Call findOrganization to get the full information or just
+        # WebServer's organization id. Call find_organization to get the full information or just
         #  use org_id_friendlyname and organization_name
         self.org_id = None
         # WebServer's organization friendly name. Not sure the difference with organization_name

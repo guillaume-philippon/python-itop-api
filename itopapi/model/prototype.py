@@ -120,7 +120,7 @@ class ItopapiPrototype(object):
         Find a list of objects given its id or some criteria passed as a dictionary
         :param itop_class:
         :param key:
-        :return: array or None if there is no object
+        :return: array
         """
         json_data = json.dumps({
             'operation': 'core/get',
@@ -135,7 +135,7 @@ class ItopapiPrototype(object):
 
         # If there's no object to process, return immediately
         if data['objects'] is None:
-            return None
+            return []
 
         objects = []
         for information in data['objects']:
@@ -145,6 +145,8 @@ class ItopapiPrototype(object):
             obj.__dict__.update(data['objects'][information]['fields'])
             obj.__process_lists()
             objects.append(obj)
+            print obj.__dict__
+            exit(0)
 
         # Return None, as a commodity, if there's 0 result
         if len(objects) == 0:

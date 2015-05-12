@@ -37,7 +37,7 @@ class ItopapiDeliveryModel(ItopapiPrototype):
         return ItopapiPrototype.find_all(ItopapiDeliveryModel)
 
     """
-    ItopapiDeliveryModel is a object that represent an Application Solution from iTop
+    ItopapiDeliveryModel is a object that represents an Application Solution from iTop
     """
     def __init__(self, data=None):
         super(ItopapiDeliveryModel, self).__init__(data)

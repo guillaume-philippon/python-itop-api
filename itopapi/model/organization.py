@@ -39,7 +39,7 @@ class ItopapiOrganization(ItopapiPrototype):
         return ItopapiPrototype.find_all(ItopapiOrganization)
 
     """
-    ItopapiOrganization is a object that represent an Application Solution from iTop
+    ItopapiOrganization is a object that represents an Application Solution from iTop
     """
     def __init__(self, data=None):
         super(ItopapiOrganization, self).__init__(data)

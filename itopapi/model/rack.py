@@ -12,7 +12,7 @@ __authors__ = ['Guillaume Philippon <guillaume.philippon@lal.in2p3.fr>']
 
 class ItopapiRack(ItopapiPrototype):
     """
-    ItopapiRack is a object that represent a Rack from iTop
+    ItopapiRack is a object that represents a Rack from iTop
     """
 
     """ Configuration specific to itop """
@@ -48,7 +48,7 @@ class ItopapiRack(ItopapiPrototype):
         ##################################
         #           Properties           #
         ##################################
-        # Rack's organization id. Call findOrganization to get the full information or just use
+        # Rack's organization id. Call find_organization to get the full information or just use
         # org_id_friendlyname and organization_name
         self.org_id = None
         # Rack's organization friendly name. Not sure the difference with organization_name
@@ -59,7 +59,7 @@ class ItopapiRack(ItopapiPrototype):
         self.status = None
         # Rack's business criticity. Values within [high, medium, low]
         self.business_criticity = None
-        # Rack's location id. Call findLocation to get the full information or just use location_id
+        # Rack's location id. Call find_location to get the full information or just use location_id
         # _friendlyname and location_name
         self.location_id = None
         # Rack's location id's friendly name. Not sure the difference with location_name
@@ -134,4 +134,12 @@ class ItopapiRack(ItopapiPrototype):
         """
         if self.org_id is not None:
             ItopapiPrototype.get_itop_class('Organization').find(self.org_id)
+        return None
+
+    def find_location(self):
+        """
+        Retrieve the ItopapiLocation related to this instance
+        """
+        if self.location_id is not None:
+            ItopapiPrototype.get_itop_class('Location').find(self.location_id)
         return None

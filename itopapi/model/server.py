@@ -7,12 +7,12 @@ ItopapiServers is a abstraction of Rack representation on iTop
 from itopapi.model.prototype import ItopapiPrototype, ItopapiUnimplementedMethod
 
 __version__ = '1.0'
-__authors__ = ['Guillaume Philippon <guillaume.philippon@lal.in2p3.fr>']
+__authors__ = ['Julien Nauroy <julien.nauroy@u-psud.fr>']
 
 
 class ItopapiServer(ItopapiPrototype):
     """
-    ItopapiServers is a object that represent a Servers from iTop
+    ItopapiServers is a object that represents a Servers from iTop
     """
 
     # Configuration specific to itop
@@ -20,17 +20,19 @@ class ItopapiServer(ItopapiPrototype):
         # Name of the class in Itop
         'name': 'Server',
         # Define which fields to save when creating or updating from the python API
-        'save': ['name', 'status', 'business_criticity',
-                 'rack_id', 'enclosure_id', 'brand_id', 'model_id', 'managementip',
+        'save': ['name', 'status', 'business_criticity', 'managementip',
                  'cpu', 'ram', 'nb_u', 'serialnumber', 'asset_number', 'move2production',
                  'purchase_date', 'end_of_warranty', 'description'],
         'foreign_keys': [
             {'id': 'org_id', 'name': 'organization_name', 'table': 'Organization'},
             {'id': 'location_id', 'name': 'location_name', 'table': 'Localization'},
+            {'id': 'rack_id', 'name': 'rack_name', 'table': 'Rack'},
+            {'id': 'enclosure_id', 'name': 'enclosure_name', 'table': 'Enclosure'},
+            {'id': 'brand_id', 'name': 'brand_name', 'table': 'Brand'},
+            {'id': 'model_id', 'name': 'model_name', 'table': 'Model'},
             {'id': 'osfamily_id', 'name': 'osfamily_name', 'table': 'OSFamily'},
             {'id': 'osversion_id', 'name': 'osversion_name', 'table': 'OSVersion'},
             {'id': 'oslicence_id', 'name': 'oslicence_name', 'table': 'OSLicence'},
-            # TODO which is the relevant table?
             {'id': 'powerA_id', 'name': 'powerA_name', 'table': 'TODO'},
             {'id': 'powerB_id', 'name': 'powerB_name', 'table': 'TODO'},
         ]
@@ -56,7 +58,7 @@ class ItopapiServer(ItopapiPrototype):
         ##################################
         # Properties/General Information #
         ##################################
-        # Server's organization id. Call findOrganization to get the full information or just
+        # Server's organization id. Call find_organization to get the full information or just
         #  use org_id_friendlyname and organization_name
         self.org_id = None
         # Server's organization friendly name. Not sure the difference with organization_name
@@ -67,7 +69,7 @@ class ItopapiServer(ItopapiPrototype):
         self.status = None
         # Server's business criticity. Values within [high, medium, low]
         self.business_criticity = None
-        # Server's location id. Call findLocation to get the full information or just use
+        # Server's location id. Call find_location to get the full information or just use
         # location_id_friendlyname and location_name
         self.location_id = None
         # Server's location id's friendly name. Not sure the difference with location_name
@@ -79,7 +81,7 @@ class ItopapiServer(ItopapiPrototype):
         self.rack_id = None
         # Server's rack id's friendly name. Not sure the difference with rack_name
         self.rack_id_friendlyname = None
-        # Server's rack name"""
+        # Server's rack name
         self.rack_name = None
         # Server's enclosure (chassis) id. Call findEnclosure to get the full information or just
         # use enclosure_id_friendlyname and enclosure_name
@@ -118,6 +120,7 @@ class ItopapiServer(ItopapiPrototype):
         self.ram = None
         # Rack units
         self.nb_u = None
+        # Server's serial number
         self.serialnumber = None
         # Server's asset number
         self.asset_number = None
@@ -246,8 +249,7 @@ class ItopapiServer(ItopapiPrototype):
         Retrieve the ItopapiLocation related to this instance
         """
         if self.location_id is not None:
-            # TODO define ItopapiLocation return ItopapiLocation.find(self.location_id)
-            raise ItopapiUnimplementedMethod()
+            ItopapiPrototype.get_itop_class('Location').find(self.location_id)
         return None
 
     def find_enclosure(self):
@@ -255,8 +257,7 @@ class ItopapiServer(ItopapiPrototype):
         Retrieve the ItopapiEnclosure corresponding to this server
         """
         if self.enclosure_id is not None:
-            # TODO define ItopapiEnclosure return ItopapiEnclosure.find(self.enclosure_id)
-            raise ItopapiUnimplementedMethod()
+            ItopapiPrototype.get_itop_class('Enclosure').find(self.enclosure_id)
         return None
 
     def find_brand(self):

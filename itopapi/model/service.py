@@ -39,7 +39,7 @@ class ItopapiService(ItopapiPrototype):
         return ItopapiPrototype.find_all(ItopapiService)
 
     """
-    ItopapiPhysicalInterface is an object that represent a PhysicalInterface from iTop
+    ItopapiPhysicalInterface is an object that represents a PhysicalInterface from iTop
     """
     def __init__(self, data=None):
         super(ItopapiService, self).__init__(data)
@@ -60,4 +60,4 @@ class ItopapiService(ItopapiPrototype):
         self.providercontracts_list = None
         self.functionalcis_list = None
 
-    # TODO findOrganization method, based on Server
+    # TODO find_organization method, based on Server

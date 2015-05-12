@@ -19,4 +19,6 @@ from itopapi.model.webServer import ItopapiWebServer
 from itopapi.model.webApplication import ItopapiWebApplication
 from itopapi.model.service import ItopapiService
 from itopapi.model.organization import ItopapiOrganization
+from itopapi.model.location import ItopapiLocation
+from itopapi.model.enclosure import ItopapiEnclosure
 from itopapi.model.applicationSolution import ItopapiApplicationSolution

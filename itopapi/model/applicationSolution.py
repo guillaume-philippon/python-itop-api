@@ -38,14 +38,14 @@ class ItopapiApplicationSolution(ItopapiPrototype):
         return ItopapiPrototype.find_all(ItopapiApplicationSolution)
 
     """
-    ItopapiApplicationSolution is a object that represent an Application Solution from iTop
+    ItopapiApplicationSolution is a object that represents an Application Solution from iTop
     """
     def __init__(self, data=None):
         super(ItopapiApplicationSolution, self).__init__(data)
         ##################################
         #           Properties           #
         ##################################
-        # Application Solution's organization id. Call findOrganization to get the full information or just use
+        # Application Solution's organization id. Call find_organization to get the full information or just use
         #  org_id_friendlyname and organization_name
         self.org_id = None
         # Application Solution's organization friendly name. Not sure the difference with organization_name

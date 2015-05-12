@@ -43,7 +43,7 @@ class ItopapiVirtualMachine(ItopapiPrototype):
         return ItopapiPrototype.find_all(ItopapiVirtualMachine)
 
     """
-    ItopapiPhysicalInterface is an object that represent a PhysicalInterface from iTop
+    ItopapiPhysicalInterface is an object that represents a PhysicalInterface from iTop
     """
     def __init__(self, data=None):
         super(ItopapiVirtualMachine, self).__init__(data)
@@ -51,7 +51,7 @@ class ItopapiVirtualMachine(ItopapiPrototype):
         ##################################
         # Properties/General Information #
         ##################################
-        # VirtualMachine's organization id. Call findOrganization to get the full information or just
+        # VirtualMachine's organization id. Call find_organization to get the full information or just
         #  use org_id_friendlyname and organization_name
         self.org_id = None
         # VirtualMachine's organization friendly name. Not sure the difference with organization_name

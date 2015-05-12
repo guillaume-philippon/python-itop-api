@@ -39,7 +39,7 @@ class ItopapiSubnet(ItopapiPrototype):
         return ItopapiPrototype.find_all(ItopapiSubnet)
 
     """
-    ItopapiPhysicalInterface is an object that represent a PhysicalInterface from iTop
+    ItopapiPhysicalInterface is an object that represents a PhysicalInterface from iTop
     """
     def __init__(self, data=None):
         super(ItopapiSubnet, self).__init__(data)
@@ -49,7 +49,7 @@ class ItopapiSubnet(ItopapiPrototype):
         self.ip_mask = None
         # Subnet name
         self.subnet_name = None
-        # Subnet's organization id. Call findOrganization to get the full information or just use
+        # Subnet's organization id. Call find_organization to get the full information or just use
         # org_id_friendlyname and organization_name
         self.org_id = None
         # Subnet's organization friendly name. Not sure the difference with organization_name
