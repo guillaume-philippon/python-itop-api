@@ -113,3 +113,11 @@ class ItopapiEnclosure(ItopapiPrototype):
         if self.rack_id is not None:
             ItopapiPrototype.get_itop_class('Rack').find(self.rack_id)
         return None
+
+    def find_brand(self):
+        """
+        Retrieve the ItopapiBrand corresponding to this server
+        """
+        if self.brand_id is not None:
+            ItopapiPrototype.get_itop_class('Brand').find(self.brand_id)
+        return None
