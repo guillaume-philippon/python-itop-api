@@ -145,8 +145,6 @@ class ItopapiPrototype(object):
             obj.__dict__.update(data['objects'][information]['fields'])
             obj.__process_lists()
             objects.append(obj)
-            print obj.__dict__
-            exit(0)
 
         # Return None, as a commodity, if there's 0 result
         if len(objects) == 0:
