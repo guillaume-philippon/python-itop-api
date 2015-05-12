@@ -116,8 +116,17 @@ class ItopapiEnclosure(ItopapiPrototype):
 
     def find_brand(self):
         """
-        Retrieve the ItopapiBrand corresponding to this server
+        Retrieve the ItopapiBrand corresponding to this instance
         """
         if self.brand_id is not None:
             ItopapiPrototype.get_itop_class('Brand').find(self.brand_id)
+        return None
+
+    def find_model(self):
+        """
+        Retrieve the ItopapiModel corresponding to this instance
+        """
+        if self.model_id is not None:
+            ItopapiPrototype.get_itop_class('Model').find(self.model_id)
+            raise ItopapiUnimplementedMethod()
         return None

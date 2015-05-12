@@ -273,7 +273,7 @@ class ItopapiServer(ItopapiPrototype):
         Retrieve the ItopapiModel corresponding to this server
         """
         if self.model_id is not None:
-            # TODO define ItopapiModel return ItopapiModel.find(self.model_id)
+            ItopapiPrototype.get_itop_class('Model').find(self.model_id)
             raise ItopapiUnimplementedMethod()
         return None
 
