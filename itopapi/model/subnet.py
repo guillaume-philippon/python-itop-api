@@ -61,4 +61,11 @@ class ItopapiSubnet(ItopapiPrototype):
         # VLANs associated with this Subnet
         self.vlans_list = None
 
-    # TODO findOrganization method, based on Server
+
+    def find_organization(self):
+        """
+        Retrieve the ItopapiOrganization related to this instance
+        """
+        if self.org_id is not None:
+            ItopapiPrototype.get_itop_class('Organization').find(self.org_id)
+        return None

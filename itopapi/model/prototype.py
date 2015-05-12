@@ -137,8 +137,6 @@ class ItopapiPrototype(object):
         if data['objects'] is None:
             return None
 
-        ItopapiPrototype.parse_data(data)
-
         objects = []
         for information in data['objects']:
             obj = itop_class({})

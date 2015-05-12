@@ -5,7 +5,6 @@ ItopapiServers is a abstraction of Rack representation on iTop
 """
 
 from itopapi.model.prototype import ItopapiPrototype, ItopapiUnimplementedMethod
-from itopapi.model.rack import ItopapiRack
 
 __version__ = '1.0'
 __authors__ = ['Guillaume Philippon <guillaume.philippon@lal.in2p3.fr>']
@@ -231,7 +230,7 @@ class ItopapiServer(ItopapiPrototype):
         Retrieve the ItopapiRack corresponding to this server
         """
         if self.rack_id is not None:
-            return ItopapiRack.find(self.rack_id)
+            ItopapiPrototype.get_itop_class('Rack').find(self.rack_id)
         return None
 
     def find_organization(self):
@@ -239,13 +238,12 @@ class ItopapiServer(ItopapiPrototype):
         Retrieve the ItopapiOrganization corresponding to this server
         """
         if self.org_id is not None:
-            # TODO define ItopapiOrganization return ItopapiOrganization.find(self.org_id)
-            raise ItopapiUnimplementedMethod()
+            ItopapiPrototype.get_itop_class('Organization').find(self.org_id)
         return None
 
     def find_location(self):
         """
-        Retrieve the ItopapiLocation corresponding to this server
+        Retrieve the ItopapiLocation related to this instance
         """
         if self.location_id is not None:
             # TODO define ItopapiLocation return ItopapiLocation.find(self.location_id)

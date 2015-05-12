@@ -115,18 +115,16 @@ class ItopapiWebApplication(ItopapiPrototype):
 
     def find_organization(self):
         """
-        Retrieve the ItopapiOrganization corresponding to this WebApplication
+        Retrieve the ItopapiOrganization related to this instance
         """
         if self.org_id is not None:
-            # TODO define ItopapiOrganization return ItopapiOrganization.find(self.org_id)
-            raise ItopapiUnimplementedMethod()
+            ItopapiPrototype.get_itop_class('Organization').find(self.org_id)
         return None
 
     def find_web_server(self):
         """
-        Retrieve the ItopapiOrganization corresponding to this WebApplication
+        Retrieve the ItopapiWebServer corresponding to this WebApplication
         """
         if self.webserver_id is not None:
-            # TODO define ItopapiOrganization return ItopapiOrganization.find(self.org_id)
-            raise ItopapiUnimplementedMethod()
+            ItopapiPrototype.get_itop_class('WebServer').find(self.webserver_id)
         return None

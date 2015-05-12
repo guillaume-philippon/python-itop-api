@@ -166,11 +166,10 @@ class ItopapiVirtualMachine(ItopapiPrototype):
 
     def find_organization(self):
         """
-        Retrieve the ItopapiOrganization corresponding to this VirtualMachine
+        Retrieve the ItopapiOrganization related to this instance
         """
         if self.org_id is not None:
-            # TODO define ItopapiOrganization return ItopapiOrganization.find(self.org_id)
-            raise ItopapiUnimplementedMethod()
+            ItopapiPrototype.get_itop_class('Organization').find(self.org_id)
         return None
 
     def find_os_family(self):

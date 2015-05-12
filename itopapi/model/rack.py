@@ -123,7 +123,15 @@ class ItopapiRack(ItopapiPrototype):
         # Rack's services list
         self.services_list = {}
 
-        # TODO WTF is this doing here?!?
+        # Other lists
         self.applicationsolution_list = None
         self.softwares_list = None
         self.logicalvolumes_list = None
+
+    def find_organization(self):
+        """
+        Retrieve the ItopapiOrganization related to this instance
+        """
+        if self.org_id is not None:
+            ItopapiPrototype.get_itop_class('Organization').find(self.org_id)
+        return None
