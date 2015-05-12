@@ -34,7 +34,7 @@ class ItopapiApplicationSolution(ItopapiPrototype):
 
     @staticmethod
     def find_all():
-        """ Retrieve all instance of OSFamily """
+        """ Retrieve all instance of ApplicationSolution """
         return ItopapiPrototype.find_all(ItopapiApplicationSolution)
 
     """
