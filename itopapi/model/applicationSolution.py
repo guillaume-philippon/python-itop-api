@@ -45,21 +45,21 @@ class ItopapiApplicationSolution(ItopapiPrototype):
         ##################################
         #           Properties           #
         ##################################
-        self.org_id = None
         # Application Solution's organization id. Call findOrganization to get the full information or just use
         #  org_id_friendlyname and organization_name
-        self.org_id_friendlyname = None
+        self.org_id = None
         # Application Solution's organization friendly name. Not sure the difference with organization_name
-        self.organization_name = None
+        self.org_id_friendlyname = None
         # Application Solution's organization name
-        self.status = None
+        self.organization_name = None
         # Application Solution's status. Values within [inactive, active]
-        self.business_criticity = None
+        self.status = None
         # Application Solution's business criticity. Values within [high, medium, low]
-        self.move2production = None
+        self.business_criticity = None
         # Application Solution's move to production date
-        self.description = None
+        self.move2production = None
         # Application Solution's description, as a free text
+        self.description = None
         ##################################
         #             Lists              #
         ##################################
