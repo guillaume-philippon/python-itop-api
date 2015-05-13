@@ -274,7 +274,6 @@ class ItopapiServer(ItopapiPrototype):
         """
         if self.model_id is not None:
             ItopapiPrototype.get_itop_class('Model').find(self.model_id)
-            raise ItopapiUnimplementedMethod()
         return None
 
     def find_os_family(self):
@@ -282,8 +281,7 @@ class ItopapiServer(ItopapiPrototype):
         Retrieve the ItopapiOSFamily corresponding to this server
         """
         if self.osfamily_id is not None:
-            # TODO define ItopapiOSFamily return ItopapiOSFamily.find(self.osfamily_id)
-            raise ItopapiUnimplementedMethod()
+            ItopapiPrototype.get_itop_class('OSFamily').find(self.osfamily_id)
         return None
 
     def find_os_version(self):

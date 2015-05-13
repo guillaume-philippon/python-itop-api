@@ -177,8 +177,7 @@ class ItopapiVirtualMachine(ItopapiPrototype):
         Retrieve the ItopapiOSFamily corresponding to this VirtualMachine
         """
         if self.osfamily_id is not None:
-            # TODO define ItopapiOSFamily return ItopapiOSFamily.find(self.osfamily_id)
-            raise ItopapiUnimplementedMethod()
+            ItopapiPrototype.get_itop_class('OSFamily').find(self.osfamily_id)
         return None
 
     def find_os_version(self):
