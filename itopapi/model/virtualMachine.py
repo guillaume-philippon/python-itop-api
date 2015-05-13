@@ -182,11 +182,10 @@ class ItopapiVirtualMachine(ItopapiPrototype):
 
     def find_os_version(self):
         """
-        Retrieve the ItopapiOSVersion corresponding to this VirtualMachine
+        Retrieve the ItopapiOSVersion corresponding to this server
         """
         if self.osversion_id is not None:
-            # TODO define ItopapiOSVersion return ItopapiOSVersion.find(self.osversion_id)
-            raise ItopapiUnimplementedMethod()
+            ItopapiPrototype.get_itop_class('OSVersion').find(self.osfamily_id)
         return None
 
     def find_os_licence(self):
