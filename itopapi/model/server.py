@@ -297,8 +297,7 @@ class ItopapiServer(ItopapiPrototype):
         Retrieve the ItopapiOSLicence corresponding to this server
         """
         if self.oslicence_id is not None:
-            # TODO define ItopapiOSLicence return ItopapiOSLicence.find(self.oslicence_id)
-            raise ItopapiUnimplementedMethod()
+            ItopapiPrototype.get_itop_class('OSLicence').find(self.osfamily_id)
         return None
 
     def find_power_a(self):

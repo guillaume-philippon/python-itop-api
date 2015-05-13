@@ -12,6 +12,7 @@ from itopapi.model.rack import ItopapiRack
 from itopapi.model.server import ItopapiServer
 from itopapi.model.osFamily import ItopapiOSFamily
 from itopapi.model.osVersion import ItopapiOSVersion
+from itopapi.model.osLicence import ItopapiOSLicence
 from itopapi.model.vlan import ItopapiVLAN
 from itopapi.model.subnet import ItopapiSubnet
 from itopapi.model.physicalInterface import ItopapiPhysicalInterface

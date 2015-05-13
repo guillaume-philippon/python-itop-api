@@ -190,9 +190,8 @@ class ItopapiVirtualMachine(ItopapiPrototype):
 
     def find_os_licence(self):
         """
-        Retrieve the ItopapiOSLicence corresponding to this VirtualMachine
+        Retrieve the ItopapiOSLicence corresponding to this server
         """
         if self.oslicence_id is not None:
-            # TODO define ItopapiOSLicence return ItopapiOSLicence.find(self.oslicence_id)
-            raise ItopapiUnimplementedMethod()
+            ItopapiPrototype.get_itop_class('OSLicence').find(self.osfamily_id)
         return None
