@@ -83,12 +83,7 @@ class ItopapiController(object):
                 raise UnsupportedImportFormat('data must have a finalclass element defined')
             if element_class is not None:
                 obj = element_class(element)
-                # Add the organization only if needed
-                if hasattr(obj, 'organization_name'):
-                    obj.organization_name = ItopapiConfig.organization
-                # Add the virtualhost only if needed
-                if hasattr(obj, 'virtualhost_name'):
-                    obj.virtualhost_name = ItopapiConfig.virtualhost
+                ItopapiController.apply_setters(obj)
                 self.data.append(obj)
             else:
                 raise UnsupportedImportFormat('data has an invalid or unsupported finalclass: %s'.format(element["finalclass"]))
@@ -102,6 +97,7 @@ class ItopapiController(object):
         model = ItopapiPrototype.get_itop_class(itop_class)
         if model is not None:
             self.data.extend(model.find_all())
+            map(ItopapiController.apply_setters, self.data)
 
     def load_one(self, itop_class, id_instance):
         """
@@ -144,3 +140,25 @@ class ItopapiController(object):
         Display with current view
         """
         self.view.display(self.data)
+
+    @staticmethod
+    def apply_setters(obj):
+        """
+        Apply the setters given as command-line arguments or from the configuration file
+        :param obj:
+        :return:
+        """
+        for setter in ItopapiConfig.set_fields:
+            setter_name = setter[0]
+            setter_value = setter[1]
+            if hasattr(obj, setter_name):
+                obj.__dict__[setter_name] = setter_value
+
+        # Organization and Virtualhost are used only when loading from external sources (Quattor, VMWare, ...)
+        # Thus they are only set when no value exists.
+        if(hasattr(obj, 'organization_name') and obj.organization_name is not None
+           and ItopapiConfig.organization is not None and ItopapiConfig.organization != ""):
+            obj.organization_name = ItopapiConfig.organization
+        if(hasattr(obj, 'virtualhost_name') and obj.virtualhost_name is not None
+           and ItopapiConfig.virtualhost is not None and ItopapiConfig.virtualhost != ""):
+            obj.virtualhost_name = ItopapiConfig.virtualhost
