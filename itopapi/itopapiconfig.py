@@ -31,6 +31,8 @@ class ItopapiConfig(object):
     simulate_deletes = False
     # Prevent duplicate names when adding new items
     prevent_duplicates = False
+    # Set fields to values after being loaded
+    set_fields = []
 
     @staticmethod
     def read_config(config_file):
