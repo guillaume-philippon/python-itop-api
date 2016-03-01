@@ -7,7 +7,7 @@ ItopapiOSFamily is a abstraction of Rack representation on iTop
 from itopapi.model.prototype import ItopapiPrototype
 
 __version__ = '1.0'
-__authors__ = ['Guillaume Philippon <guillaume.philippon@lal.in2p3.fr>']
+__authors__ = ['Julien Nauroy <julien.nauroy@u-psud.fr>']
 
 
 class ItopapiOSFamily(ItopapiPrototype):
@@ -36,7 +36,7 @@ class ItopapiOSFamily(ItopapiPrototype):
         return ItopapiPrototype.find_all(ItopapiOSFamily)
 
     """
-    ItopapiOSFamily is an object that represent an OS Family from iTop
+    ItopapiOSFamily is an object that represents an OS Family from iTop
     """
     def __init__(self, data=None):
         super(ItopapiOSFamily, self).__init__(data)

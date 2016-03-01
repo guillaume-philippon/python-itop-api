@@ -20,6 +20,7 @@ class ItopapiService(ItopapiPrototype):
         'save': ['name', 'description', 'status'],
         'foreign_keys': [
             {'id': 'servicefamily_id', 'name': 'servicefamily_name', 'table': 'ServiceFamily'},
+            {'id': 'org_id', 'name': 'organization_name', 'table': 'Organization'},
         ],
         'list_types': {'functionalcis_list': None},
     }
@@ -39,11 +40,14 @@ class ItopapiService(ItopapiPrototype):
         return ItopapiPrototype.find_all(ItopapiService)
 
     """
-    ItopapiPhysicalInterface is an object that represent a PhysicalInterface from iTop
+    ItopapiService is an object that represents a Service from iTop
     """
     def __init__(self, data=None):
         super(ItopapiService, self).__init__(data)
-        # TODO provider not returned ?!?
+        # Note: the Organization is called "Provider" for Services
+        self.org_id = None
+        self.org_id_friendlyname = None
+        self.organization_name = None
         # Service Family
         self.servicefamily_id = None
         self.servicefamily_id_friendlyname = None
@@ -60,4 +64,10 @@ class ItopapiService(ItopapiPrototype):
         self.providercontracts_list = None
         self.functionalcis_list = None
 
-    # TODO findOrganization method, based on Server
+    def find_organization(self):
+        """
+        Retrieve the ItopapiOrganization corresponding to this server
+        """
+        if self.org_id is not None:
+            ItopapiPrototype.get_itop_class('Organization').find(self.org_id)
+        return None

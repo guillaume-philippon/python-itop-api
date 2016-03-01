@@ -43,7 +43,7 @@ class ItopapiPhysicalInterface(ItopapiPrototype):
         return ItopapiPrototype.find_all(ItopapiPhysicalInterface)
 
     """
-    ItopapiPhysicalInterface is an object that represent a PhysicalInterface from iTop
+    ItopapiPhysicalInterface is an object that represents a PhysicalInterface from iTop
     """
     def __init__(self, data=None):
         super(ItopapiPhysicalInterface, self).__init__(data)

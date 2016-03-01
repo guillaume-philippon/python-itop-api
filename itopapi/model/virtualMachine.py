@@ -43,7 +43,7 @@ class ItopapiVirtualMachine(ItopapiPrototype):
         return ItopapiPrototype.find_all(ItopapiVirtualMachine)
 
     """
-    ItopapiPhysicalInterface is an object that represent a PhysicalInterface from iTop
+    ItopapiPhysicalInterface is an object that represents a PhysicalInterface from iTop
     """
     def __init__(self, data=None):
         super(ItopapiVirtualMachine, self).__init__(data)
@@ -51,7 +51,7 @@ class ItopapiVirtualMachine(ItopapiPrototype):
         ##################################
         # Properties/General Information #
         ##################################
-        # VirtualMachine's organization id. Call findOrganization to get the full information or just
+        # VirtualMachine's organization id. Call find_organization to get the full information or just
         #  use org_id_friendlyname and organization_name
         self.org_id = None
         # VirtualMachine's organization friendly name. Not sure the difference with organization_name
@@ -166,11 +166,10 @@ class ItopapiVirtualMachine(ItopapiPrototype):
 
     def find_organization(self):
         """
-        Retrieve the ItopapiOrganization corresponding to this VirtualMachine
+        Retrieve the ItopapiOrganization related to this instance
         """
         if self.org_id is not None:
-            # TODO define ItopapiOrganization return ItopapiOrganization.find(self.org_id)
-            raise ItopapiUnimplementedMethod()
+            ItopapiPrototype.get_itop_class('Organization').find(self.org_id)
         return None
 
     def find_os_family(self):
@@ -178,24 +177,21 @@ class ItopapiVirtualMachine(ItopapiPrototype):
         Retrieve the ItopapiOSFamily corresponding to this VirtualMachine
         """
         if self.osfamily_id is not None:
-            # TODO define ItopapiOSFamily return ItopapiOSFamily.find(self.osfamily_id)
-            raise ItopapiUnimplementedMethod()
+            ItopapiPrototype.get_itop_class('OSFamily').find(self.osfamily_id)
         return None
 
     def find_os_version(self):
         """
-        Retrieve the ItopapiOSVersion corresponding to this VirtualMachine
+        Retrieve the ItopapiOSVersion corresponding to this server
         """
         if self.osversion_id is not None:
-            # TODO define ItopapiOSVersion return ItopapiOSVersion.find(self.osversion_id)
-            raise ItopapiUnimplementedMethod()
+            ItopapiPrototype.get_itop_class('OSVersion').find(self.osfamily_id)
         return None
 
     def find_os_licence(self):
         """
-        Retrieve the ItopapiOSLicence corresponding to this VirtualMachine
+        Retrieve the ItopapiOSLicence corresponding to this server
         """
         if self.oslicence_id is not None:
-            # TODO define ItopapiOSLicence return ItopapiOSLicence.find(self.oslicence_id)
-            raise ItopapiUnimplementedMethod()
+            ItopapiPrototype.get_itop_class('OSLicence').find(self.osfamily_id)
         return None

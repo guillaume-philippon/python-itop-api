@@ -8,12 +8,12 @@ from itopapi.model.prototype import ItopapiPrototype, ItopapiUnimplementedMethod
 from itopapi.model.rack import ItopapiRack
 
 __version__ = '1.0'
-__authors__ = ['Guillaume Philippon <guillaume.philippon@lal.in2p3.fr>']
+__authors__ = ['Julien Nauroy <julien.nauroy@u-psud.fr>']
 
 
 class ItopapiWebServer(ItopapiPrototype):
     """
-    ItopapiWebServer is a object that represent a WebServer from iTop
+    ItopapiWebServer is a object that represents a WebServer from iTop
     """
 
     # Configuration specific to itop
@@ -50,7 +50,7 @@ class ItopapiWebServer(ItopapiPrototype):
         ##################################
         # Properties/General Information #
         ##################################
-        # WebServer's organization id. Call findOrganization to get the full information or just
+        # WebServer's organization id. Call find_organization to get the full information or just
         #  use org_id_friendlyname and organization_name
         self.org_id = None
         # WebServer's organization friendly name. Not sure the difference with organization_name
@@ -162,16 +162,15 @@ class ItopapiWebServer(ItopapiPrototype):
 
     def find_organization(self):
         """
-        Retrieve the ItopapiOrganization corresponding to this WebServer
+        Retrieve the ItopapiOrganization related to this instance
         """
         if self.org_id is not None:
-            # TODO define ItopapiOrganization return ItopapiOrganization.find(self.org_id)
-            raise ItopapiUnimplementedMethod()
+            ItopapiPrototype.get_itop_class('Organization').find(self.org_id)
         return None
 
     def find_system(self):
         """
-        Retrieve the ItopapiPowerB corresponding to this WebServer
+        Retrieve the System (Server or VirtualMachine) corresponding to this WebServer
         """
         if self.system_id is not None:
             # TODO
@@ -180,7 +179,7 @@ class ItopapiWebServer(ItopapiPrototype):
 
     def find_software(self):
         """
-        Retrieve the ItopapiPowerB corresponding to this WebServer
+        Retrieve the Software corresponding to this WebServer
         """
         if self.software_id is not None:
             # TODO
@@ -189,7 +188,7 @@ class ItopapiWebServer(ItopapiPrototype):
 
     def find_software_licence(self):
         """
-        Retrieve the ItopapiPowerB corresponding to this WebServer
+        Retrieve the Software Licence corresponding to this WebServer
         """
         if self.software_licence_id is not None:
             # TODO

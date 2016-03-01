@@ -40,13 +40,13 @@ class ItopapiVLAN(ItopapiPrototype):
         return ItopapiPrototype.find_all(ItopapiVLAN)
 
     """
-    ItopapiPhysicalInterface is an object that represent a PhysicalInterface from iTop
+    ItopapiPhysicalInterface is an object that represents a PhysicalInterface from iTop
     """
     def __init__(self, data=None):
         super(ItopapiVLAN, self).__init__(data)
         # VLAN tag, replaces the "name" value for other classes
         self.vlan_tag = None
-        # VLAN's organization id. Call findOrganization to get the full information or just use
+        # VLAN's organization id. Call find_organization to get the full information or just use
         # org_id_friendlyname and organization_name
         self.org_id = None
         # VLAN's organization friendly name. Not sure the difference with organization_name
@@ -60,4 +60,10 @@ class ItopapiVLAN(ItopapiPrototype):
         # subnets
         self.subnets_list = None
 
-    # TODO findOrganization method, based on Server
+    def find_organization(self):
+        """
+        Retrieve the ItopapiOrganization related to this instance
+        """
+        if self.org_id is not None:
+            ItopapiPrototype.get_itop_class('Organization').find(self.org_id)
+        return None

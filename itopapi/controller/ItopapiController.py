@@ -114,7 +114,7 @@ class ItopapiController(object):
             if id_instance.isdigit():
                 instance = model.find(id_instance)
             else:
-                instance = model.find(model.find_by_name(id_instance))
+                instance = model.find_by_name(id_instance)
             if instance is not None:
                 self.data.extend(instance)
 

@@ -8,12 +8,12 @@ from itopapi.model.prototype import ItopapiPrototype, ItopapiUnimplementedMethod
 from itopapi.model.rack import ItopapiRack
 
 __version__ = '1.0'
-__authors__ = ['Guillaume Philippon <guillaume.philippon@lal.in2p3.fr>']
+__authors__ = ['Julien Nauroy <julien.nauroy@u-psud.fr>']
 
 
 class ItopapiWebApplication(ItopapiPrototype):
     """
-    ItopapiWebApplication is a object that represent a WebApplication from iTop
+    ItopapiWebApplication is a object that represents a WebApplication from iTop
     """
 
     # Configuration specific to itop
@@ -50,7 +50,7 @@ class ItopapiWebApplication(ItopapiPrototype):
         ##################################
         # Properties/General Information #
         ##################################
-        # WebApplication's organization id. Call findOrganization to get the full information or just
+        # WebApplication's organization id. Call find_organization to get the full information or just
         #  use org_id_friendlyname and organization_name
         self.org_id = None
         # WebApplication's organization friendly name. Not sure the difference with organization_name
@@ -115,18 +115,16 @@ class ItopapiWebApplication(ItopapiPrototype):
 
     def find_organization(self):
         """
-        Retrieve the ItopapiOrganization corresponding to this WebApplication
+        Retrieve the ItopapiOrganization related to this instance
         """
         if self.org_id is not None:
-            # TODO define ItopapiOrganization return ItopapiOrganization.find(self.org_id)
-            raise ItopapiUnimplementedMethod()
+            ItopapiPrototype.get_itop_class('Organization').find(self.org_id)
         return None
 
     def find_web_server(self):
         """
-        Retrieve the ItopapiOrganization corresponding to this WebApplication
+        Retrieve the ItopapiWebServer corresponding to this WebApplication
         """
         if self.webserver_id is not None:
-            # TODO define ItopapiOrganization return ItopapiOrganization.find(self.org_id)
-            raise ItopapiUnimplementedMethod()
+            ItopapiPrototype.get_itop_class('WebServer').find(self.webserver_id)
         return None
